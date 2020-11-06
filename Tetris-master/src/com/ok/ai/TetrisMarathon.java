@@ -26,8 +26,11 @@ public class TetrisMarathon extends Tetris
 	}
 	public void firmDrop()
 	{	
-		if(ty < 5) {
+		if(1 <= ty && ty < 5) {
 			score += (20 - (ty * 4));
+		}
+		else if(0 >= ty) {
+			score += 20;
 		}
 		int oldy = ty;
 		while (pieceLegal() == LEGAL)
