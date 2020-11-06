@@ -24,6 +24,22 @@ public class TetrisMarathon extends Tetris
 	{
 		super(gen);
 	}
+	public void firmDrop()
+	{	
+		if(ty < 5) {
+			score += (20 - (ty * 4));
+		}
+		int oldy = ty;
+		while (pieceLegal() == LEGAL)
+			ty++;
+		ty--;
+		if (oldy != ty)
+		{
+			lastMoveRotate = false;
+			delays = 0;
+		}
+
+	}
 	
 	public void onLinesCleared(int cleared)
 	{
