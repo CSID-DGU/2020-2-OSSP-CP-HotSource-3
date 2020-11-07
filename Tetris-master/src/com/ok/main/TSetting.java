@@ -47,6 +47,7 @@ public class TSetting extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setok.setBounds(1000, 300, 100, 30);
+		BGM sound_bgm = new BGM();
 		
 		menuBar.setBounds(0, 0, 1280, 30);
 		exitButton.setBounds(1245, 0, 30, 30);
@@ -56,28 +57,29 @@ public class TSetting extends JFrame {
 		exitButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				exitButton.setIcon(exitButtonEnteredImage); // ¸¶¿ì½º°¡ exit ¹öÆ°¿¡ ¿Ã¶ó°¡¸é ÀÌ¹ÌÁö¸¦ ¹Ù²ãÁÜ.
-				exitButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ¸¶¿ì½º°¡ ¿Ã¶ó°¡¸é ¼Õ°¡¶ô ¸ð¾çÀ¸·Î¹Ù²Þ
+				exitButton.setIcon(exitButtonEnteredImage); // ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ exit ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Ã¶ó°¡¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½.
+				exitButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½Ã¶ó°¡¸ï¿½ ï¿½Õ°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¹Ù²ï¿½
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				exitButton.setIcon(exitButtonBasicImage);
-				exitButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); // ¸¶¿ì½º¸¦ ¶¼¸é ´Ù½Ã µðÆúÆ® ¸ð¾çÀ¸·Î ¹Ù²Þ
+				exitButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); // ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
 				dispose();
+				sound_bgm.stop();
 			}
 		});
 		
-		viewleft.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
-		viewright.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
-		viewrotate.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
-		viewdown.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
-		viewdrop.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
-		viewhold.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
+		viewleft.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½", Font.BOLD, 13));
+		viewright.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½", Font.BOLD, 13));
+		viewrotate.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½", Font.BOLD, 13));
+		viewdown.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½", Font.BOLD, 13));
+		viewdrop.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½", Font.BOLD, 13));
+		viewhold.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½", Font.BOLD, 13));
 		
 		viewleft.setBounds(200, 100, 100, 40);
 		viewright.setBounds(400, 100, 100, 40);

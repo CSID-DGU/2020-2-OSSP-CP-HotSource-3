@@ -7,6 +7,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 
 public class BGM {
+	Clip clip;
     public void abc() {
         File bgm;
         AudioInputStream stream;
@@ -15,7 +16,6 @@ public class BGM {
 
         bgm = new File("../../Sound/bgm_TheFatRat.wav");
 
-        Clip clip;
 
         try {
             stream = AudioSystem.getAudioInputStream(bgm);
@@ -27,5 +27,8 @@ public class BGM {
         } catch (Exception e) {
             System.out.println("err : " + e);
         }
+    }
+    public void stop() {
+    	clip.stop();
     }
 }
