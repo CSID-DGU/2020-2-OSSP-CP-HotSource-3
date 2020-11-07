@@ -29,12 +29,17 @@ public class ScoreFrame extends JFrame{
 		ArrayList<UserList> rank = new ArrayList<UserList>();
 		
 		String id = name;
+		//if id == null, "user"
+		id = id.trim();
+		if(id.equals("")) {
+			id = "user";
+		}
 		sc = marathon.finalScore;
 		int length = 0;
 		
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(new FileWriter("../../score.txt", true));
+			pw = new PrintWriter(new FileWriter("../../score.txt",true));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,15 +51,19 @@ public class ScoreFrame extends JFrame{
 			file = new Scanner(new File("../../score.txt"));
 			String line;
 			while (file.hasNext()) {
-				line = file.nextLine();
-				Scanner lineScan = new Scanner(line);
-				String id1 = lineScan.next();
-				int num  = lineScan.nextInt();
-				rank.add(new UserList(id1, num));
-				length++;
-				lineScan.close();
-			}
-		} catch (Exception ex) {
+				try {
+					line = file.nextLine();
+					Scanner lineScan = new Scanner(line);
+					String id1 = lineScan.next();
+					int num  = lineScan.nextInt();
+					rank.add(new UserList(id1, num));
+					length++;
+					lineScan.close();
+					
+				}
+				catch(Exception ex) {}
+			} 
+		}catch (Exception ex) {
 			System.out.println("파일을 여는데 문제가 생겼습니다");
 		}
 		
@@ -68,16 +77,10 @@ public class ScoreFrame extends JFrame{
 		JLabel label2;
 		JLabel label3;
 		
-		label1 = new JLabel("ID : " + name +", " +"MY SCORE : " + sc);
-
-		
 		label1 = new JLabel("                                                                  ");
 		label1.setForeground(Color.white);
 		label1.setFont(new Font("소야곧은10", Font.BOLD, 50));
 		j[0] = label1;
-		
-		label2 = new JLabel("---------------------------");
-		label2.setForeground(Color.white);
 
 		label2 = new JLabel("ID : " + name +",   MY SCORE : " + sc);
 		label2.setForeground(Color.yellow);
@@ -96,7 +99,7 @@ public class ScoreFrame extends JFrame{
 				
 
 		}
-		for(int i = 0; i<12; i++){
+		for(int i = 0; i<Math.min(12,length); i++){
 		add(j[i]);
 		}
 		
@@ -115,13 +118,15 @@ public class ScoreFrame extends JFrame{
 			file = new Scanner(new File("../../score.txt"));
 			String line;
 			while (file.hasNext()) {
-				line = file.nextLine();
-				Scanner lineScan = new Scanner(line);
-				String id1 = lineScan.next();
-				int num  = lineScan.nextInt();
-				rank.add(new UserList(id1, num));
-				length++;
-				lineScan.close();
+				try {
+					line = file.nextLine();
+					Scanner lineScan = new Scanner(line);
+					String id1 = lineScan.next();
+					int num  = lineScan.nextInt();
+					rank.add(new UserList(id1, num));
+					length++;
+					lineScan.close();
+				}catch(Exception ex) {}
 			}
 		} catch (Exception ex) {
 			System.out.println("파일을 여는데 문제가 생겼습니다");
@@ -132,17 +137,32 @@ public class ScoreFrame extends JFrame{
 				Collections.sort(rank);
 			}
 		}
+		JLabel label1;
+		JLabel label2;
+		JLabel label3;
+
 		
-		j[0] = new JLabel("점 수 확 인 ");
-		j[1] = new JLabel("-------------------------------------------");
-		
+		label1 = new JLabel("                                                                  ");
+		label1.setForeground(Color.yellow);
+		label1.setFont(new Font("소야곧은10", Font.BOLD, 50));
+		j[0] = label1;
+
+		label2 = new JLabel("                       점수확인                        ");
+		label2.setForeground(Color.yellow);
+		label2.setFont(new Font("소야곧은10", Font.BOLD, 50));
+		j[1] = label2;
+		       
 		for(int i=0; i<10; i++){
 			if(length<=i)
 				break;
 			else
-				j[i+2] = new JLabel((i+1)+"등!  ID : " + rank.get(i).getID() + ", SCORE : " + rank.get(i).getScore());
 
+				label3 = new JLabel("          " +(i+1)+"등!  ID : " + rank.get(i).getID() + ", SCORE : " + rank.get(i).getScore()+"          ");
+				label3.setForeground(Color.white);
+				label3.setFont(new Font("소야곧은10", Font.BOLD, 37));
+				j[i+2] = label3;
 		}
+		
 		for(int i = 0; i<12; i++){
 			add(j[i]);
 		}
@@ -151,7 +171,6 @@ public class ScoreFrame extends JFrame{
 		setBounds(35, 5, 1295, 725);
 		setLayout(new FlowLayout());
 		setVisible(true);	
-		setVisible(true);
 	}	
 	
 }
