@@ -143,7 +143,7 @@ public class TMain extends JFrame {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				dispose();
+				System.exit(0);
 			}
 		});
 		add(exitButton);
@@ -212,10 +212,7 @@ public class TMain extends JFrame {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// �̱� ��� ���� �̺�Ʈó�� �κ�
-				String str="";
-				int score=0;
-				ScoreFrame sf = new ScoreFrame(str,score);
+				ScoreFrame sf = new ScoreFrame();
 			}
 		});
 		add(rankBtn);
