@@ -110,10 +110,25 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		frame.setFocusable(true);
 				
 		frame.getContentPane().add(this);
-					
-		keyButton.addActionListener(this);
-		newButton.addActionListener(this);
-		homeButton.addActionListener(this);
+		
+		// Add Click actionEvent
+		keyButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				launchKeyDialog();
+			}
+		});
+		newButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				launchNewGameDialog();
+			}
+		});
+		homeButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				game.die();
+				frame.dispose();
+				main = new TMain();
+			}
+		});
 		
 		try {
 				ClassLoader loader = Thread.currentThread().getContextClassLoader();
