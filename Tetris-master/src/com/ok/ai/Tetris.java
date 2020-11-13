@@ -563,33 +563,35 @@ public int level=1;
 	}
 	
 	protected void countdown() {
+		countdown_number = 3;
 			
-			// 게임 멈추기
-			paused = true; // stop game
-			Timer paused_timer = new Timer();
-			TimerTask paused_task = new TimerTask() {
-	
-				@Override
-				public void run() {
-					paused = false; // game start!
-				}};
-			paused_timer.schedule(paused_task, 1200*4); //run after 4s
-			
-			
-			// 카운트 다운
-			Timer count_timer = new Timer();
-			TimerTask count_task = new TimerTask() {
-				@Override
-				public void run() {
-					if (countdown_number>=0) {
-						countdown_number--;
-					}
-					else {
-						count_timer.cancel();
-					}
-				}};
-			count_timer.schedule(count_task, 1200, 1200); 
-		}
+		// 게임 멈추기
+		paused = true; // stop game
+		Timer paused_timer = new Timer();
+		TimerTask paused_task = new TimerTask() {
+
+			@Override
+			public void run() {
+				paused = false; // game start!
+			}};
+		paused_timer.schedule(paused_task, 1200*4); //run after 4s
+		
+		
+		// 카운트 다운
+		Timer count_timer = new Timer();
+		TimerTask count_task = new TimerTask() {
+			@Override
+			public void run() {
+				if (countdown_number>=0 && dead==false) {
+					countdown_number--;
+				}
+				else {
+					countdown_number = -1;
+					count_timer.cancel();
+				}
+			}};
+		count_timer.schedule(count_task, 1200, 1200); 
+	}
 	protected void onLinesCleared(int cleared) {}
 	protected void onTSpin(int cleared, int x, int y, int rotation)
 	{
@@ -1082,41 +1084,7 @@ public int level=1;
 		g.setColor (Color.WHITE);
 		g.drawRoundRect(x, y-84, SQR_W*10, DSP_W, 20, 20); //보드판 크기 리사이징
 		
-		if (countdown_number>0) {
-			g.setColor(new Color(0, 0, 0, 80));
-			g.fillRect(x, y, FIELD_W, FIELD_H);
-
-			g.setFont(F_PAUSE);
-			FontMetrics m = g.getFontMetrics();
-			int wid = m.stringWidth("aaa");
-			
-			g.setColor(new Color(0, 0, 0, 120));
-			RoundRectangle2D rect = new RoundRectangle2D.Float(x + FIELD_W / 2 - wid / 2 - 15, y - 5 - 28 + FIELD_H / 2, wid + (int)(SQR_W*1.5), (int)(SQR_W*2.5), 10, 5);
-			g.fill(rect);
-			g.setColor(Color.WHITE);
-			g.draw(rect);
-			
-			g.setColor(C_NOTICE);
-			drawCentered(g, countdown_number+"", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
-		}
-		else if (countdown_number==0) {
-			g.setColor(new Color(0, 0, 0, 80));
-			g.fillRect(x, y, FIELD_W, FIELD_H);
-
-			g.setFont(F_PAUSE);
-			FontMetrics m = g.getFontMetrics();
-			int wid = m.stringWidth("aaa");
-			
-			g.setColor(new Color(0, 0, 0, 120));
-			RoundRectangle2D rect = new RoundRectangle2D.Float(x + FIELD_W / 2 - wid / 2 - 15, y - 5 - 28 + FIELD_H / 2, wid + (int)(SQR_W*1.5), (int)(SQR_W*2.5), 10, 5);
-			g.fill(rect);
-			g.setColor(Color.WHITE);
-			g.draw(rect);
-			
-			g.setColor(C_NOTICE);
-			drawCentered(g, "GO!", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
-		}
-		else if (dead)
+		if (dead)
 		{ 
 			g.setColor(new Color(0, 0, 0, 80));
 			g.fillRect(x, y, FIELD_W, FIELD_H);
@@ -1135,9 +1103,40 @@ public int level=1;
 			if(isIDFrame == false) {
 				isIDFrame = true;
 				IDFrame sf = new IDFrame(TetrisMarathon.finalScore);
-			}
+			}	
+		}
+		else if (countdown_number>0 && dead==false) {
+			g.setColor(new Color(0, 0, 0, 80));
+			g.fillRect(x, y, FIELD_W, FIELD_H);
+
+			g.setFont(F_PAUSE);
+			FontMetrics m = g.getFontMetrics();
+			int wid = m.stringWidth("aaa");
 			
+			g.setColor(new Color(0, 0, 0, 120));
+			RoundRectangle2D rect = new RoundRectangle2D.Float(x + FIELD_W / 2 - wid / 2 - 15, y - 5 - 28 + FIELD_H / 2, wid + (int)(SQR_W*1.5), (int)(SQR_W*2.5), 10, 5);
+			g.fill(rect);
+			g.setColor(Color.WHITE);
+			g.draw(rect);
 			
+			g.setColor(C_NOTICE);
+			drawCentered(g, countdown_number+"", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
+		}
+		else if (countdown_number==0 && dead==false) {
+			g.setColor(new Color(0, 0, 0, 80));
+			g.fillRect(x, y, FIELD_W, FIELD_H);
+			g.setFont(F_PAUSE);
+			FontMetrics m = g.getFontMetrics();
+			int wid = m.stringWidth("aaa");
+			
+			g.setColor(new Color(0, 0, 0, 120));
+			RoundRectangle2D rect = new RoundRectangle2D.Float(x + FIELD_W / 2 - wid / 2 - 15, y - 5 - 28 + FIELD_H / 2, wid + (int)(SQR_W*1.5), (int)(SQR_W*2.5), 10, 5);
+			g.fill(rect);
+			g.setColor(Color.WHITE);
+			g.draw(rect);
+			
+			g.setColor(C_NOTICE);
+			drawCentered(g, "GO!", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
 		}
 		else if (paused && !isOver())
 		{
