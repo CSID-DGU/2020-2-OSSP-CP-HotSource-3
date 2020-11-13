@@ -23,6 +23,7 @@ public class TetrisMarathon extends Tetris
 	TetrisMarathon(PieceGenerator gen)
 	{
 		super(gen);
+		countdown(); // start count down
 	}
 	public void firmDrop()
 	{	
