@@ -7,7 +7,7 @@ public class DBInsert extends MyDB{
     public static void insert(String name, int score) throws ClassNotFoundException{
         try{
             // 1. Load Driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
             // 2. Connect          
             conn = DriverManager.getConnection(url,DB_ID,DB_PW);
