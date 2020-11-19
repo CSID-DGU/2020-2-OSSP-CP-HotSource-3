@@ -230,6 +230,7 @@ public class Tetris
 	public int linesCleared;
 	private boolean dead; //private
 	private int countdown_number = 3;
+	private int countdown_delay = 1500;
 	public long[] flash;
 	private boolean paused;
 	public int tickCount;
@@ -574,7 +575,7 @@ public int level=1;
 			public void run() {
 				paused = false; // game start!
 			}};
-		paused_timer.schedule(paused_task, 1200*4); //run after 4s
+		paused_timer.schedule(paused_task, countdown_delay*(4)); //run after 4s
 		
 		
 		// 카운트 다운
@@ -590,7 +591,7 @@ public int level=1;
 					count_timer.cancel();
 				}
 			}};
-		count_timer.schedule(count_task, 1200, 1200); 
+		count_timer.schedule(count_task, countdown_delay, countdown_delay); 
 	}
 	protected void onLinesCleared(int cleared) {}
 	protected void onTSpin(int cleared, int x, int y, int rotation)
@@ -1114,11 +1115,6 @@ public int level=1;
 			int wid = m.stringWidth("aaa");
 			
 			g.setColor(new Color(0, 0, 0, 120));
-			RoundRectangle2D rect = new RoundRectangle2D.Float(x + FIELD_W / 2 - wid / 2 - 15, y - 5 - 28 + FIELD_H / 2, wid + (int)(SQR_W*1.5), (int)(SQR_W*2.5), 10, 5);
-			g.fill(rect);
-			g.setColor(Color.WHITE);
-			g.draw(rect);
-			
 			g.setColor(C_NOTICE);
 			drawCentered(g, countdown_number+"", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
 		}
@@ -1130,11 +1126,6 @@ public int level=1;
 			int wid = m.stringWidth("aaa");
 			
 			g.setColor(new Color(0, 0, 0, 120));
-			RoundRectangle2D rect = new RoundRectangle2D.Float(x + FIELD_W / 2 - wid / 2 - 15, y - 5 - 28 + FIELD_H / 2, wid + (int)(SQR_W*1.5), (int)(SQR_W*2.5), 10, 5);
-			g.fill(rect);
-			g.setColor(Color.WHITE);
-			g.draw(rect);
-			
 			g.setColor(C_NOTICE);
 			drawCentered(g, "GO!", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
 		}
