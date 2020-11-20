@@ -14,8 +14,7 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import com.ok.gameDB.DBInsert;
-import com.ok.gameDB.DBSelect;
+import com.ok.gamedb.*;
 
 
 public class ScoreFrame extends JFrame{

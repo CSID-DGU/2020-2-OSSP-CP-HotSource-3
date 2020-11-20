@@ -1,4 +1,4 @@
-package com.ok.gameDB;
+package com.ok.gamedb;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

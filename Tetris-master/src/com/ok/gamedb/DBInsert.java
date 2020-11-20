@@ -1,4 +1,4 @@
-package com.ok.gameDB;
+package com.ok.gamedb;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package com.ok.gameDB;
+package com.ok.gamedb;
 
 import java.io.BufferedWriter;
 import java.io.File;
