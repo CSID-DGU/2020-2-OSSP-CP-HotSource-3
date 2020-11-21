@@ -14,8 +14,8 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-
 import com.ok.gamedb.*;
+
 
 public class ScoreFrame extends JFrame{
 	public static final long serialVersionUID = 1L;
@@ -39,16 +39,31 @@ public class ScoreFrame extends JFrame{
 		sc = marathon.finalScore;
 		int length = 0;
 		
-		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(new FileWriter("../../score.txt",true));
-		} catch (IOException e) {
+			//DB에 쓰기
+			DBInsert.insert(name, sc); 
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+			// DB 연결 실패한 경우, 직접 쓰기
+			PrintWriter pw = null;
+			try {
+				pw = new PrintWriter(new FileWriter("../../score.txt",true));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			pw.append(id +" "+ sc);
+			pw.println();
+			pw.flush();
+		}
+		
+		try {
+			// DB에서 로컬저장소로 가져오기
+			DBSelect.select();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		pw.append(id +" "+ sc);
-		pw.println();
-		pw.flush();
 		
+		// 로컬저장소에서 가져오기
 		try {
 			file = new Scanner(new File("../../score.txt"));
 			String line;
@@ -101,8 +116,9 @@ public class ScoreFrame extends JFrame{
 				
 
 		}
-		for(int i = 0; i<Math.min(12,length); i++){
-		add(j[i]);
+		for(int i = 0; i<12; i++){
+			if(length<i-1) break;
+			add(j[i]);
 		}
 		
 		getContentPane().setBackground(Color.black);
@@ -116,6 +132,14 @@ public class ScoreFrame extends JFrame{
 		ArrayList<UserList> rank = new ArrayList<UserList>();
 		int length = 0;
 		
+		try {
+			// DB에서 로컬저장소로 가져오기
+			DBSelect.select();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		// 로컬저장소에서 가져오기
 		try {
 			file = new Scanner(new File("../../score.txt"));
 			String line;
@@ -166,6 +190,7 @@ public class ScoreFrame extends JFrame{
 		}
 		
 		for(int i = 0; i<12; i++){
+			if(length<i-1) break;
 			add(j[i]);
 		}
 		
