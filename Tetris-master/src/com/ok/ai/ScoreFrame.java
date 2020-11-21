@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 
+import com.ok.gamedb.*;
+
 public class ScoreFrame extends JFrame{
 	public static final long serialVersionUID = 1L;
 
