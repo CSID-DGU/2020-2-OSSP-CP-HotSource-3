@@ -7,15 +7,12 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 
 public class BGM {
-	Clip clip;
-    public void abc() {
-        File bgm;
+	private Clip clip;
+    public BGM() {
+        File bgm = new File("../../Sound/bgm_TheFatRat.wav");
         AudioInputStream stream;
         AudioFormat format;
         DataLine.Info info;
-
-        bgm = new File("../../Sound/bgm_TheFatRat.wav");
-
 
         try {
             stream = AudioSystem.getAudioInputStream(bgm);
@@ -23,10 +20,13 @@ public class BGM {
             info = new DataLine.Info(Clip.class, format);
             clip = (Clip)AudioSystem.getLine(info);
             clip.open(stream);
-            clip.start();
         } catch (Exception e) {
             System.out.println("err : " + e);
         }
+    }
+    public void play() {
+    	clip.setFramePosition(0);
+    	clip.start();
     }
     public void stop() {
     	clip.stop();
