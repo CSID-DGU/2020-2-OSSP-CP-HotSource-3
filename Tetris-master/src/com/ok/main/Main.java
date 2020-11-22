@@ -21,16 +21,6 @@ public class Main {
 		SCREEN_HEIGHT = d.height;
 		
 		new TMain();
-		
-		BGM sound_bgm = new BGM();
-		while(true) {
-			try {
-				sound_bgm.abc();
-				Thread.sleep(192000); // replay
-			} catch(Exception e) {
-
-			}
-		}
 	}
 	
 
