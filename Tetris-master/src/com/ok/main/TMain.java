@@ -101,6 +101,8 @@ public class TMain extends JFrame {
 	
 	// ���콺 �̺�Ʈ�� Ȱ���ϱ� ���� ���콺 x, y ��ǥ
 	private int mouseX, mouseY;
+	
+	private BGM bgm_sound = new BGM();
 
 	public TMain(int[] key)
 	{
@@ -110,7 +112,7 @@ public class TMain extends JFrame {
 	
 	public TMain() {
 		
-		
+		bgm_sound.play();
 		setUndecorated(true); // �⺻ �޴��ٰ� ������ ����. -> ���ο� menuBar�� �ֱ� ���� �۾�
 		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		setResizable(false); // ȭ�� ũ�� ���� �Ұ���
@@ -187,6 +189,7 @@ public class TMain extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// �̱� ��� ���� �̺�Ʈó�� �κ�
+				bgm_sound.stop();
 				normalModeScreen();
 			}
 		});
