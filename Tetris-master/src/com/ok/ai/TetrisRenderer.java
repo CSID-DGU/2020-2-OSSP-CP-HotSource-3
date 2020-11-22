@@ -6,18 +6,29 @@ copy, or redistribute it in any way you wish, but you must
 provide credit to me if you use it in your own program.
 
 */
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.Timer;
-
-import com.ok.main.Main;
-import com.ok.main.TMain;
-
-import java.util.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
-import javax.imageio.*;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+
+import com.ok.main.BGM;
+import com.ok.main.Main;
+import com.ok.main.TMain;
 
 @SuppressWarnings("serial")
 public class TetrisRenderer extends Component implements KeyListener, ActionListener
@@ -30,6 +41,8 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 	public static JButton keyButton;
 	public static JButton newButton;
 	public static JButton homeButton;
+	public static JButton muteButton;
+	public static JButton soundButton;
 	
 	private static final int W = -180;
 	private static final int H = Tetris.PIXEL_H + 100;
@@ -42,6 +55,8 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 	private Timer timer;
 	private Timer painter;
 	public TMain main;
+	public BGM bgm_sound;
+	private boolean soundplay = true;
 	
 	private Object aiLock = new Object();
 
@@ -66,6 +81,8 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 	}
 	public TetrisRenderer()
 	{
+		bgm_sound = new BGM();
+		bgm_sound.play();
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(true);
@@ -82,9 +99,6 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		frame.getContentPane().add(newButton);
 		newButton.setBackground(Color.WHITE);
 		
-		
-				
-				
 		keyButton =new JButton (new ImageIcon(Main.class.getResource("../images/button-help.png")));
 		keyButton.setBorderPainted(false);
 		keyButton.setContentAreaFilled(false);
@@ -104,6 +118,26 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		homeButton.setFocusable(false);
 		frame.getContentPane().add(homeButton);
 		homeButton.setBackground(Color.WHITE);
+		
+		muteButton =new JButton (new ImageIcon(Main.class.getResource("../images/soundButton.png")));
+		muteButton.setBorderPainted(false);
+		muteButton.setContentAreaFilled(false);
+		muteButton.setFocusPainted(false);
+		muteButton.setSize(muteButton.getPreferredSize());
+		muteButton.setLocation(W / 2 - muteButton.getWidth() / 2 + 1020 , 50);
+		muteButton.setFocusable(false);
+		frame.getContentPane().add(muteButton);
+		muteButton.setBackground(Color.WHITE);
+		
+		soundButton =new JButton (new ImageIcon(Main.class.getResource("../images/muteButton.png")));
+		soundButton.setBorderPainted(false);
+		soundButton.setContentAreaFilled(false);
+		soundButton.setSize(soundButton.getPreferredSize());
+		soundButton.setLocation(W / 2 - soundButton.getWidth() / 2 + 1020 , 50);
+		soundButton.setFocusable(false);
+		frame.getContentPane().add(soundButton);
+		soundButton.setBackground(Color.WHITE);
+		soundButton.setVisible(false);
 				
 
 		frame.addKeyListener(this);
@@ -119,14 +153,33 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		});
 		newButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				bgm_sound.stop();
 				launchNewGameDialog();
+				bgm_sound.play();
 			}
 		});
 		homeButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				bgm_sound.stop();
 				game.die();
 				frame.dispose();
 				main = new TMain();
+			}
+		});
+		muteButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				mute();
+				muteButton.setVisible(false);
+				soundButton.setVisible(true);
+				
+				
+			}
+		});
+		soundButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				mute();
+				soundButton.setVisible(false);
+				muteButton.setVisible(true);
 			}
 		});
 		
@@ -207,9 +260,13 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 			newButton.setSize(frame.getSize().width/8,frame.getSize().width/16);
 			keyButton.setSize(frame.getSize().width/18,frame.getSize().width/19);
 			homeButton.setSize(frame.getSize().width/8,frame.getSize().width/19);
+			muteButton.setSize(frame.getSize().width/4,frame.getSize().width/9);
+			soundButton.setSize(frame.getSize().width/4,frame.getSize().width/9);
 			newButton.setLocation(W/2-newButton.getWidth()/2+Tetris.SQR_W*28,Tetris.SQR_W*20);
 			keyButton.setLocation(W/2-keyButton.getWidth()/2+Tetris.SQR_W*27,(int)(Tetris.SQR_W*2.5));
 			homeButton.setLocation(W/2-homeButton.getWidth()/2+Tetris.SQR_W*30,(int)(Tetris.SQR_W*2.5));
+			muteButton.setLocation(W/2-homeButton.getWidth()/2+Tetris.SQR_W*26,(int)(Tetris.SQR_W*14));
+			soundButton.setLocation(W/2-homeButton.getWidth()/2+Tetris.SQR_W*26,(int)(Tetris.SQR_W*14));
 		
 
 			}
@@ -302,6 +359,15 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 					Preferences prefs = Preferences.userNodeForPackage(TetrisRenderer.class);
 					prefs.putInt(GAME_TYPE_SETTING, choice);
 				}
+			}
+		}
+		private void mute() {
+			if(soundplay) {
+				bgm_sound.stop();
+				soundplay = false;
+			}else {
+				bgm_sound.play();
+				soundplay = true;
 			}
 		}
 			
