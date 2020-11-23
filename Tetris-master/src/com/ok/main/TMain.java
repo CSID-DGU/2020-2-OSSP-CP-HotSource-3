@@ -28,7 +28,6 @@ public class TMain extends JFrame {
 	public static int SCREEN_HEIGHT = 0;
 
 	//private Tetris uc;
-	private TSetting setkey;
 	private TetrisRenderer ai;
 
 	
@@ -297,7 +296,6 @@ public class TMain extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				// Settingâ ȭ������ �Ѿ��
 				SettingsDialog.showDialog(TMain.this, key_setting);
-				//setkey = new TSetting(TMain.this);
 			}
 		});
 		add(settingBtn);
