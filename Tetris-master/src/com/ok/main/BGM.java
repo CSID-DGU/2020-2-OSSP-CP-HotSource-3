@@ -8,6 +8,7 @@ import javax.sound.sampled.DataLine;
 
 public class BGM {
 	private Clip clip;
+	private boolean availableFile = true;
     public BGM() {
         File bgm = new File("../../Sound/bgm_TheFatRat.wav");
         AudioInputStream stream;
@@ -20,15 +21,19 @@ public class BGM {
             info = new DataLine.Info(Clip.class, format);
             clip = (Clip)AudioSystem.getLine(info);
             clip.open(stream);
+            availableFile = true;
         } catch (Exception e) {
             System.out.println("err : " + e);
+            availableFile = false;
         }
     }
     public void play() {
+    	if (availableFile==false) return;
     	clip.setFramePosition(0);
     	clip.start();
     }
     public void stop() {
+    	if (availableFile==false) return;
     	clip.stop();
     }
 }

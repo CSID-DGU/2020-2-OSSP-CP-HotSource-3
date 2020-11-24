@@ -32,8 +32,8 @@ public class DBInsert extends MyDB{
                 answercode = true;
             }
         }
-        catch( SQLException e){
-            System.out.println("에러 " + e);
+        catch( Exception e){
+            System.out.println("err:  " + e);
         }
         finally{
             try{

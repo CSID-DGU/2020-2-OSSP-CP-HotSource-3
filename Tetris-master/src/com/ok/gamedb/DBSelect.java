@@ -45,9 +45,9 @@ public class DBSelect extends MyDB {
 			}
 			
 		}
-		catch(SQLException e) {
-			System.out.println("에러 : " + e);
-		}
+        catch( Exception e){
+            System.out.println("err:  " + e);
+        }
 		finally {
 			try {
 				if(conn != null && !conn.isClosed()) {
