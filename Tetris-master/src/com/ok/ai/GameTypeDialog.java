@@ -19,52 +19,59 @@ public class GameTypeDialog implements ActionListener
 	
 	private JDialog dialog;
 	
-	private ButtonGroup group;
-	private JRadioButton marathonButton;
+	private JRadioButton radioBtn_marathon;
 	
 	private JButton okButton;
 	private JButton cancelButton;
 	
+	private String dialog_string = "New Game";
+	private String button_string = "NEW GAME";
+	
+	private int dialog_width;
+	private int dialog_height;
+	private int dialog_margin;
+	private int radioButton_margin;
+	
+	private void setDialogSize(JFrame frame) {
+		dialog_width = frame.getWidth()/2;
+		dialog_height = frame.getHeight()/3;
+		dialog_margin = frame.getHeight()/10;
+		radioButton_margin = frame.getHeight()/20;
+	}
+	
 	private GameTypeDialog(JFrame frame, int def)
-	{
-		dialog = new JDialog(frame, "New Game", true);
+	{	
+		setDialogSize(frame);
+		
+		dialog = new JDialog(frame, dialog_string, true);
 		Container pane = dialog.getContentPane();
 		pane.setLayout(null);
-		
-		group = new ButtonGroup();
-		
-		JRadioButton button;
-		
-		button = new JRadioButton("NEW GAME");
-		button.setSize(button.getPreferredSize());
-		button.setLocation(40, 20);
-		button.addActionListener(this);
-		button.setVisible(true);
-		group.add(button);
-		pane.add(button);
-		marathonButton = button;
+		radioBtn_marathon = new JRadioButton(button_string);
+		radioBtn_marathon.setSize(radioBtn_marathon.getPreferredSize());
+		radioBtn_marathon.setLocation(radioButton_margin, radioButton_margin);
+		radioBtn_marathon.addActionListener(this);
+		radioBtn_marathon.setVisible(true);
+		pane.add(radioBtn_marathon);
 
 		choice = def;
 		
 		okButton = new JButton(okString);
 		okButton.setSize(okButton.getPreferredSize());
-		okButton.setLocation(95, 145);
+		okButton.setLocation(dialog_width*1/4, dialog_height-okButton.getHeight()-dialog_margin);
 		okButton.addActionListener(this);
 		okButton.setVisible(true);
 		dialog.getRootPane().setDefaultButton(okButton);
-		group.add(okButton);
 		pane.add(okButton);
 		
 		cancelButton = new JButton(cancelString);
 		cancelButton.setSize(cancelButton.getPreferredSize());
-		cancelButton.setLocation(160, 145);
+		cancelButton.setLocation(dialog_width*2/4, dialog_height-cancelButton.getHeight()-dialog_margin);
 		cancelButton.addActionListener(this);
 		cancelButton.setVisible(true);
-		group.add(cancelButton);
 		pane.add(cancelButton);
 
 		dialog.setResizable(false);
-		dialog.setSize(340, 220);
+		dialog.setSize(dialog_width, dialog_height);
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);
 	}
@@ -73,11 +80,12 @@ public class GameTypeDialog implements ActionListener
 	{
 		Object source = e.getSource();
 		
-		if (source == marathonButton)
+		if (source == radioBtn_marathon)
 			choice = TetrisRenderer.MARATHON;
 
 		if (source == okButton)
 			dialog.setVisible(false);
+		
 		if (source == cancelButton)
 		{
 			choice = 0;
