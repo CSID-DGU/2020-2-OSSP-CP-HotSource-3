@@ -224,7 +224,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		painter.start();
 				
 		settings = new int[SettingsDialog.LEN];
-		for (int i = 0; i < settings.length; i++)
+		for (int i = 0; i < settings.length; i++) 
 			settings[i] = SettingsDialog.LOADED[i];
 
 		down = false;
@@ -232,7 +232,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		right = false;
 
 		thread = new Thread(new Runnable() {
-			public void run() { }
+			public void run(){ }
 		});
 		thread.setDaemon(true);
 		thread.start();
@@ -240,6 +240,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		background.setBorderPainted(false);
 		background.setContentAreaFilled(false);
 		background.setFocusPainted(false);
+		background.setFocusable(false);
 		background.setVisible(true);
 		frame.add(background); //add game play screen background image
 		frame.setLocationRelativeTo(null);
