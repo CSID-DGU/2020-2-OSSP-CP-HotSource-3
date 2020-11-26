@@ -33,12 +33,14 @@ public class Tetris
 
 	protected static int SQR_W = 20;
 	public static int DSP_W = 70;
+	public static int DSP_H = 60;
 	public static int FIELD_W = W * SQR_W;
 	public static int FIELD_H = H * SQR_W;
 	protected static Font F_LINES = new Font("digital-7", Font.BOLD, (int)(SQR_W*1.2));
 	protected static Font F_TIME = new Font(Font.SANS_SERIF, Font.BOLD, (int)(SQR_W*0.7));
 	protected static Font F_UI = new Font("digital-7", Font.BOLD, (int)(SQR_W*0.7));
 	protected static Font F_PAUSE = new Font("digital-7", Font.BOLD, (int)(SQR_W*1.8));
+	protected static Font F_COUNTDOWN = new Font("digital-7", Font.BOLD, (int)(SQR_W*1.8));
 	protected static Font F_GAMEOVER = new Font("digital-7", Font.BOLD, (int)(SQR_W*2.4));
 	public void setSQR_W(int sqr_W) {
 		this.SQR_W=sqr_W;
@@ -61,7 +63,7 @@ public class Tetris
 		return DSP_W;
 	}
 	public static int PIXEL_W = FIELD_W + DSP_W * 2;
-	public static int PIXEL_H = FIELD_H + 60;
+	public static int PIXEL_H = FIELD_H + DSP_H;
 	public static boolean isIDFrame = false;
 	
 	protected static final int TSPIN_ANIMATION_TICKS = 3;
@@ -296,9 +298,11 @@ public int level=1;
 			fMoves[i] = gen.nextPiece();
 		putPiece();
 	}
+	
+	private static int preview_number = 3;
 	Tetris(PieceGenerator gen)
 	{
-		this(gen, 3);
+		this(gen, preview_number);
 	}
 	Tetris()
 	{
@@ -563,8 +567,12 @@ public int level=1;
 		paused = false;
 	}
 	
+	protected int getCountDownNumber() {
+		int mycountdown = 3;
+		return mycountdown;
+	}
 	protected void countdown() {
-		countdown_number = 3;
+		countdown_number = getCountDownNumber();
 			
 		// 게임 멈추기
 		paused = true; // stop game
@@ -575,7 +583,7 @@ public int level=1;
 			public void run() {
 				paused = false; // game start!
 			}};
-		paused_timer.schedule(paused_task, countdown_delay*(4)); //run after 4s
+		paused_timer.schedule(paused_task, countdown_delay*(getCountDownNumber()+1)); //run after 4s
 		
 		
 		// 카운트 다운
@@ -587,7 +595,7 @@ public int level=1;
 					countdown_number--;
 				}
 				else {
-					countdown_number = -1;
+					countdown_number = -1; // stop countdown
 					count_timer.cancel();
 				}
 			}};
@@ -854,9 +862,10 @@ public int level=1;
 		}
 
 		int h = height();
+		int h_limit = 15;
 		ans -= h * 10;
 		
-		if (h >= 15)
+		if (h >= h_limit)
 			ans -= 1000000 * h;
 		
 		if (stored == 1)
@@ -879,12 +888,13 @@ public int level=1;
 	public int fallDistance()
 	{
 		byte[][] arr = piece[rotation];
+		int size = 4;
 		
 		int max = 0;
 		mainloop:
-		for (int j = 3; j >= 0; j--)
+		for (int j = size-1; j >= 0; j--)
 		{
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < size; i++)
 			{
 				if (arr[i][j] != 0)
 				{
@@ -910,9 +920,10 @@ public int level=1;
 	
 	public void drawTo(Graphics2D g, int x, int y)
 	{
+		int size = 4;
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		y += 60;
+		y += DSP_H;
 
 		g.setColor(C_BACKGROUND); //배경색 대입
 		g.fillRect(x, y, FIELD_W, FIELD_H); //게임 창 구성
@@ -931,9 +942,9 @@ public int level=1;
 			ghost.ty--;
 			
 			byte[][] arr = ghost.piece[ghost.rotation];
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < size; i++)
 			{
-				for (int j = 0; j < 4; j++)
+				for (int j = 0; j < size; j++)
 				{
 					if (arr[i][j] == 0)
 						continue;
@@ -978,9 +989,9 @@ public int level=1;
 		if (!dead)
 		{
 			g.setColor(COLORS[pieceID]);
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < piece[rotation].length; i++)
 			{
-				for (int j = 0; j < 4; j++)
+				for (int j = 0; j < piece[rotation][i].length; j++)
 				{
 					if (piece[rotation][i][j] == 0)
 						continue;
@@ -1011,14 +1022,15 @@ public int level=1;
 				g.drawRect(x + i * SQR_W, y + j * SQR_W, SQR_W, SQR_W);
 		}
 		
+		final double FLASH_TIME = (long) 500;
 		long time = System.currentTimeMillis();
 		for (int i = 0; i < H; i++)
 		{
 			long diff = time - flash[i];
-			if (diff < 0 || diff >= 500)
+			if (diff < 0 || diff >= FLASH_TIME )
 				continue;
 			
-			float alpha = (float) ((500 - diff) / 500.0);
+			float alpha = (float) ((FLASH_TIME  - diff) / FLASH_TIME );
 			alpha *= alpha * alpha;
 			g.setColor(new Color(1.0f, 1.0f, 1.0f, alpha));
 			g.fillRect(x + 1, y + i * SQR_W + 1, FIELD_W - 1, SQR_W - 1);
@@ -1058,35 +1070,39 @@ public int level=1;
 			}
 		}
 
+		int yoffset = SQR_W;
+		int xoffset = SQR_W/2;
+		int boxsize = (int)(SQR_W*2.5);
+		int blocksize = (int)(SQR_W/2);
+		
 		g.setColor(Color.WHITE);//hold글씨, 박스 색상
 		g.setFont(F_UI);
-		drawCentered(g, "Hold", x - DSP_W / 2, y + 10);
-		g.drawRect(x - DSP_W + DSP_W/7, y + 20, (int)(SQR_W*2.5), (int)(SQR_W*2.5));
+		drawCentered(g, "Hold", x - xoffset - boxsize/2, y + g.getFont().getSize());
+		g.drawRect(x - xoffset - boxsize, y + yoffset, boxsize, boxsize);
 
 		if (stored != -1)
-			drawTetrimino(g, stored, x - DSP_W / 2, y + 45, 10);
-
+			drawTetrimino(g, stored, x - xoffset - boxsize/2, y + yoffset + boxsize/2, blocksize); // holdBox안의 테트리스 그리기
+		
 		g.setColor(Color.WHITE);
-		drawCentered(g, "Next", x + FIELD_W + DSP_W / 2, y + 10);
+		drawCentered(g, "Next", x + FIELD_W + xoffset + boxsize/2, y + g.getFont().getSize());
 
 		for (int i = 0; i < AHEAD; i++)
 		{
 			g.setColor(Color.WHITE);
-			int yoffset = i * 50 + (i > 0 ? 8 : 0);
-			
-			g.drawRect(x + FIELD_W + 10, y + 20 + yoffset, (int)(SQR_W*2.5), (int)(SQR_W*2.5)); //Next의 네모칸들
-			drawTetrimino(g, fMoves[i], x + FIELD_W + DSP_W / 2, y + (int)(SQR_W*2.5) + yoffset, (int)(SQR_W/2));
+			g.drawRect(x + FIELD_W + xoffset, y + boxsize*i+ yoffset, boxsize, boxsize); //Next의 네모칸들
+			drawTetrimino(g, fMoves[i], x + FIELD_W + xoffset+ boxsize/2, y + boxsize*i+ boxsize/2 + yoffset, blocksize); // NEXT칸의 블록들
 		}
-		g.setColor(Color.WHITE);
-
-
-		g.setColor(Color.WHITE);
-
+		//g.setColor(Color.WHITE);
+		//g.setColor(Color.WHITE);
+		
 		g.setColor (Color.WHITE);
-		g.drawRoundRect(x, y-84, SQR_W*10, DSP_W, 20, 20); //보드판 크기 리사이징
+		//g.drawRoundRect(x, y-84, SQR_W*10, DSP_W, 20, 20); //보드판 크기 리사이징
+		int boardRound = 20;
+		g.drawRoundRect(x, y-DSP_W-yoffset/2, SQR_W*10, DSP_W, boardRound, boardRound);
 		
 		if (dead)
 		{ 
+			/*
 			g.setColor(new Color(0, 0, 0, 80));
 			g.fillRect(x, y, FIELD_W, FIELD_H);
 			
@@ -1094,11 +1110,11 @@ public int level=1;
 			RoundRectangle2D rect = new RoundRectangle2D.Float(x + 15, y - 80 + FIELD_H / 2, FIELD_W - (int)(SQR_W*1.5), (int)(SQR_W*6.5), 15, 15);
 			g.fill(rect);
 			g.setColor(Color.WHITE);
-			g.draw(rect);
+			g.draw(rect);*/
 			
 			g.setColor(C_NOTICE);
 			g.setFont(F_GAMEOVER);
-			drawCentered(g, "GAME", x + FIELD_W / 2, y - 35 + FIELD_H / 2);
+			drawCentered(g, "GAME", x + FIELD_W / 2, y - g.getFont().getSize() + FIELD_H / 2);
 			drawCentered(g, "OVER", x + FIELD_W / 2, y + 35 + FIELD_H / 2);
 			
 			if(isIDFrame == false) {
@@ -1107,34 +1123,39 @@ public int level=1;
 			}	
 		}
 		else if (countdown_number>0 && dead==false) {
+			/*
 			g.setColor(new Color(0, 0, 0, 80));
 			g.fillRect(x, y, FIELD_W, FIELD_H);
 
-			g.setFont(F_PAUSE);
 			FontMetrics m = g.getFontMetrics();
 			int wid = m.stringWidth("aaa");
 			
-			g.setColor(new Color(0, 0, 0, 120));
+			g.setColor(new Color(0, 0, 0, 120));*/
+			
 			g.setColor(C_NOTICE);
+			g.setFont(F_COUNTDOWN);
 			drawCentered(g, countdown_number+"", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
 		}
 		else if (countdown_number==0 && dead==false) {
+			/*
 			g.setColor(new Color(0, 0, 0, 80));
 			g.fillRect(x, y, FIELD_W, FIELD_H);
 			g.setFont(F_PAUSE);
 			FontMetrics m = g.getFontMetrics();
 			int wid = m.stringWidth("aaa");
 			
-			g.setColor(new Color(0, 0, 0, 120));
+			g.setColor(new Color(0, 0, 0, 120));*/
+			
+			g.setFont(F_COUNTDOWN);
 			g.setColor(C_NOTICE);
 			drawCentered(g, "GO!", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
 		}
 		else if (paused && !isOver())
 		{
+			/*
 			g.setColor(new Color(0, 0, 0, 80));
 			g.fillRect(x, y, FIELD_W, FIELD_H);
 
-			g.setFont(F_PAUSE);
 			FontMetrics m = g.getFontMetrics();
 			int wid = m.stringWidth("PAUSED");
 			
@@ -1142,9 +1163,10 @@ public int level=1;
 			RoundRectangle2D rect = new RoundRectangle2D.Float(x + FIELD_W / 2 - wid / 2 - 15, y - 5 - 28 + FIELD_H / 2, wid + (int)(SQR_W*1.5), (int)(SQR_W*2.5), 10, 5);
 			g.fill(rect);
 			g.setColor(Color.WHITE);
-			g.draw(rect);
+			g.draw(rect);*/
 			
 			g.setColor(C_NOTICE);
+			g.setFont(F_PAUSE);
 			drawCentered(g, "PAUSED", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
 		}
 		drawAfter(g, x, y);
@@ -1161,10 +1183,11 @@ public int level=1;
 		int fcol = Integer.MAX_VALUE;
 		int lrow = Integer.MIN_VALUE;
 		int lcol = Integer.MIN_VALUE;
+		int size = 4;
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < size; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (int j = 0; j < size; j++)
 			{
 				if (arr[i][j] == 0)
 					continue;
@@ -1186,9 +1209,9 @@ public int level=1;
 		x -= xlen * sqrw / 2;
 		y -= ylen * sqrw / 2;
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < size; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (int j = 0; j < size; j++)
 			{
 				if (arr[i][j] == 0)
 					continue;
@@ -1206,12 +1229,15 @@ public int level=1;
 		FontMetrics m = g.getFontMetrics();
 		g.drawString(s, x - m.stringWidth(s) / 2, y);
 	}
+	
 	protected String getTimeString()
-	{
-		int hours = tickCount / ticksPerSecond / 60 / 60;
-		int minutes = (tickCount / ticksPerSecond / 60) % 60;
-		double seconds = (double) Math.round((double) tickCount / ticksPerSecond % 60 * 10) / 10;
+	{	
+		int timeunit = 60;
+		int hours = tickCount / ticksPerSecond / timeunit / timeunit;
+		int minutes = (tickCount / ticksPerSecond / timeunit) % timeunit;
+		int seconds = (int) Math.round((double) tickCount / ticksPerSecond % timeunit);
+		String pattern = "%02d:%02d:%02d";
 		
-		return "" + hours + ":" + (minutes < 10 ? ("0" + minutes) : minutes) + ":" + (seconds < 10 ? ("0" + seconds) : seconds);
+		return String.format(pattern, hours, minutes, seconds);
 	}
 }

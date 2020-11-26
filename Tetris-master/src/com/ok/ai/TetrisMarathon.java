@@ -25,13 +25,16 @@ public class TetrisMarathon extends Tetris
 		super(gen);
 		countdown(); // start count down
 	}
+	
+	private static final int maxfirmDropScore = 20;
+	private static final int difffirmDropScore = 4;
 	public void firmDrop()
 	{	
 		if(1 <= ty && ty < 5) {
-			score += (20 - (ty * 4));
+			score += (maxfirmDropScore - (ty * difffirmDropScore));
 		}
 		else if(0 >= ty) {
-			score += 20;
+			score += maxfirmDropScore;
 		}
 		int oldy = ty;
 		while (pieceLegal() == LEGAL)
@@ -45,25 +48,26 @@ public class TetrisMarathon extends Tetris
 
 	}
 	
+	private static final int defaultlevel = 1;
+	private static final int[] scoreThreshold = {0, 550, 1400, 2850, 5200, 8750, 13800, 20650, 29600, 40950, 55000};
+	private static final int multiThreshold = 2;
 	public void onLinesCleared(int cleared)
 	{
 		score += VALUES[cleared] * (combo + 1);
-		if (cleared >= 3)
+		if (cleared > multiThreshold)
 			combo++;
-		if(score>=550) setLevel(2);
-		if(score>=1400) setLevel(3);
-		if(score>=2850) setLevel(4);
-		if(score>=5200) setLevel(5);
-		if(score>=8750) setLevel(6);
-		if(score>=13800) setLevel(7);
-		if(score>=20650) setLevel(8);
-		if(score>=29600) setLevel(9);
-		if(score>=40950) setLevel(10);
-		if(score>=55000) setLevel(11);
+		for (int i = 0;i<scoreThreshold.length;i++) {
+			if (score>=scoreThreshold[i]) {
+				setLevel(defaultlevel+i);
+			}
+			else {
+				break;
+			}
+		}
 	}
 	public void onTSpin(int cleared, int x, int y, int rotation)
 	{
-		onLinesCleared(cleared + 2);
+		onLinesCleared(cleared + multiThreshold);
 		tSpinEffect(x, y, rotation);
 	}
 	
@@ -73,6 +77,7 @@ public class TetrisMarathon extends Tetris
 		
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		
 		g.setColor(Color.WHITE);
 		g.setFont(F_LINES);
 		g.drawString("" + score, x + (int)(SQR_W*1.5), y + (int)(SQR_W/2));
@@ -93,11 +98,11 @@ public class TetrisMarathon extends Tetris
 				
 		
 	}
-	
 
+	private int divider = 100;
 	public int evaluate()
 	{
-		return super.evaluate() + score / 100;
+		return super.evaluate() + score / divider;
 	}
 
 	public Tetris[] children()

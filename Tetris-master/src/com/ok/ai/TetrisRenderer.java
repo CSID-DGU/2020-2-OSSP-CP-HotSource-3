@@ -76,9 +76,14 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 
 	Thread thread;
 	
+	private final int MIN_WINDOW_W = 700;
+	private final int MIN_WINDOW_H = 720;
 	public Dimension getMinimunSize(){
-		return new Dimension(700,720);
+		return new Dimension(MIN_WINDOW_W, MIN_WINDOW_H);
 	}
+
+	private final int LATENCY_TIMER = 50;
+	private final int LATENCY_PAINTER = 1000 / 30;
 	public TetrisRenderer()
 	{
 		bgm_sound = new BGM();
@@ -94,7 +99,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		newButton.setContentAreaFilled(false);
 		newButton.setFocusPainted(false);
 		newButton.setSize(newButton.getPreferredSize());
-		newButton.setLocation(W / 2 - newButton.getWidth() / 2 + 250 , 600);
+		//newButton.setLocation(W / 2 - newButton.getWidth() / 2 + 250 , 600);
 		newButton.setFocusable(false);
 		frame.getContentPane().add(newButton);
 		newButton.setBackground(Color.WHITE);
@@ -104,7 +109,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		keyButton.setContentAreaFilled(false);
 		keyButton.setFocusPainted(false);
 		keyButton.setSize(keyButton.getPreferredSize());
-		keyButton.setLocation(W / 2 - keyButton.getWidth() / 2 + 400, 600);
+		//keyButton.setLocation(W / 2 - keyButton.getWidth() / 2 + 400, 600);
 		keyButton.setFocusable(false);
 		frame.getContentPane().add(keyButton);
 		keyButton.setBackground(Color.WHITE);
@@ -114,7 +119,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		homeButton.setContentAreaFilled(false);
 		homeButton.setFocusPainted(false);
 		homeButton.setSize(homeButton.getPreferredSize());
-		homeButton.setLocation(W / 2 - homeButton.getWidth() / 2 + 1020 , 50);
+		//homeButton.setLocation(W / 2 - homeButton.getWidth() / 2 + 1020 , 50);
 		homeButton.setFocusable(false);
 		frame.getContentPane().add(homeButton);
 		homeButton.setBackground(Color.WHITE);
@@ -124,7 +129,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		muteButton.setContentAreaFilled(false);
 		muteButton.setFocusPainted(false);
 		muteButton.setSize(muteButton.getPreferredSize());
-		muteButton.setLocation(W / 2 - muteButton.getWidth() / 2 + 1020 , 50);
+		//muteButton.setLocation(W / 2 - muteButton.getWidth() / 2 + 1020 , 50);
 		muteButton.setFocusable(false);
 		frame.getContentPane().add(muteButton);
 		muteButton.setBackground(Color.WHITE);
@@ -133,16 +138,14 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		soundButton.setBorderPainted(false);
 		soundButton.setContentAreaFilled(false);
 		soundButton.setSize(soundButton.getPreferredSize());
-		soundButton.setLocation(W / 2 - soundButton.getWidth() / 2 + 1020 , 50);
+		//soundButton.setLocation(W / 2 - soundButton.getWidth() / 2 + 1020 , 50);
 		soundButton.setFocusable(false);
 		frame.getContentPane().add(soundButton);
 		soundButton.setBackground(Color.WHITE);
 		soundButton.setVisible(false);
 				
-
 		frame.addKeyListener(this);
 		frame.setFocusable(true);
-				
 		frame.getContentPane().add(this);
 		
 		// Add Click actionEvent
@@ -196,8 +199,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 			catch (Exception ex) {}
 
 		frame.pack();
-				
-		frame.setSize(700,720); //寃뚯엫 �궗�씠利� 議곗젅
+		frame.setSize(getMinimunSize()); //寃뚯엫 �궗�씠利� 議곗젅
 		frame.setMinimumSize(getMinimunSize());
 		frame.setVisible(true);
 				
@@ -217,10 +219,10 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 				game = new TetrisMarathon(new BagGen());
 				gameType = MARATHON;
 		}
-				
-		timer = new Timer(50, this);
+
+		timer = new Timer(LATENCY_TIMER, this);
 		timer.start();
-		painter = new Timer(1000 / 30, this);
+		painter = new Timer(LATENCY_PAINTER, this);
 		painter.start();
 				
 		settings = new int[SettingsDialog.LEN];
@@ -236,13 +238,15 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		});
 		thread.setDaemon(true);
 		thread.start();
-		background.setBounds(0, 0, 700, 720);
+		
+		background.getSize(getMinimunSize());
 		background.setBorderPainted(false);
 		background.setContentAreaFilled(false);
 		background.setFocusPainted(false);
 		background.setVisible(true);
 		frame.add(background); //add game play screen background image
 		frame.setLocationRelativeTo(null);
+		
 		}
 			
 		public Dimension getPreferredSize()
@@ -371,7 +375,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 			}
 		}
 			
-	
+	private final long XOR_NUMBER = 5178926931l;
 	private String getString()
 	{
 		long[] arr = {5178926873l, 
@@ -390,11 +394,12 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		
 		String s = "";
 		for (int i = 0; i < arr.length; i++)
-			s += (char) (arr[i] ^ 5178926931l);
+			s += (char) (arr[i] ^ XOR_NUMBER);
 		
 		return s;
 	}
-
+	
+	private int[] keyPressesComparison = {KeyEvent.VK_C, KeyEvent.VK_R, KeyEvent.VK_E, KeyEvent.VK_A, KeyEvent.VK_T, KeyEvent.VK_O, KeyEvent.VK_R};
 	public void keyPressed(KeyEvent e)
 	{
 		int code = e.getKeyCode();
@@ -402,18 +407,13 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		if (code == KeyEvent.VK_C || code == KeyEvent.VK_R || code == KeyEvent.VK_E || code == KeyEvent.VK_A || code == KeyEvent.VK_T || code == KeyEvent.VK_O)
 		{
 			keyPresses[keyPos++] = code;
-			int keyStart = keyPos - 7;
-			if (keyStart >= 0)
+			try
 			{
-				if (keyPresses[keyStart+0] == KeyEvent.VK_C &&
-						keyPresses[keyStart+1] == KeyEvent.VK_R &&
-						keyPresses[keyStart+2] == KeyEvent.VK_E &&
-						keyPresses[keyStart+3] == KeyEvent.VK_A &&
-						keyPresses[keyStart+4] == KeyEvent.VK_T &&
-						keyPresses[keyStart+5] == KeyEvent.VK_O &&
-						keyPresses[keyStart+6] == KeyEvent.VK_R
-						)
+				if (keyPresses.equals(keyPressesComparison))
 					JOptionPane.showMessageDialog(frame, "By " + getString() + ".", "", JOptionPane.INFORMATION_MESSAGE);
+			}
+			catch (Exception e2) {
+				e2.printStackTrace();
 			}
 		}
 		else
