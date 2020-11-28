@@ -10,20 +10,31 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class IDFrame extends JFrame{
+import com.ok.main.Main;
 
+public class IDFrame extends JFrame{
 	JTextField tf;
 	
+	private static String jframe_string = "ID 입력";
+	private static String button_string = "확인";
+	private static String jlabel_string = "ID : ";
+	private static String defaultName = "user";
+	
+	private static int jframe_x = 900;
+	private static int jframe_y = 500;
+
+	private static int ID_length = 10;
+	
 	IDFrame(final int score) {
-		
-		super("ID 입력");
-		JLabel lb = new JLabel("ID : ",Label.RIGHT);
-		tf = new JTextField(10);
-		JButton jb =new JButton("확인");
+		super(jframe_string);
+		JLabel lb = new JLabel(jlabel_string, Label.RIGHT);
+		tf = new JTextField(ID_length);
+		JButton jb =new JButton(button_string);
 		jb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(tf.getText().equals(""))tf.setText("user");
+				if(tf.getText().equals(""))
+					tf.setText(defaultName);
 					String str=tf.getText();
 					ScoreFrame sf = new ScoreFrame(str,score);
 					setVisible(false);
@@ -34,11 +45,10 @@ public class IDFrame extends JFrame{
 		add(tf);
 		add(jb);
 		
-		this.getContentPane().setBackground(Color.lightGray);
-		setBounds(510, 150, 300, 200);
+		setBackground(Color.lightGray);
+		setLocation(jframe_x, jframe_y);
 		setLayout(new FlowLayout());
 		setVisible(true);
 		this.pack();
 	}
 }
-

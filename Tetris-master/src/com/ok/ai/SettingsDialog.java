@@ -75,16 +75,20 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 	private static final int CODES_X = 265;
 	private static final int TOP_MARGIN = 20;
 	private static final int LABEL_OFFSET = 17;
-	private static final int BOTTOM_BUTTON_OFFSET = 17;
+	private static final int ICON_OFFSET = 5;
+	private static final int BOTTOM_BUTTON_OFFSET_x = W/10;
+	private static final int BOTTOM_BUTTON_OFFSET_y = 80;
 	private static final int MAX_BUTTON_WIDTH = 100;
 	private static final int TEXT_BOX_Y = 390;
+	private static final Dimension button_size = new Dimension(BOTTOM_BUTTON_OFFSET_x*2, H/20);
 	
 	public static final int MIN_DAS = 50;
 	public static final int MAX_DAS = 1000;
 	public static final int MIN_ARR = 0;
 	public static final int MAX_ARR = 1000;
 	
-	public static final Font F_DIALOG = new Font(Font.DIALOG, Font.BOLD, 16);
+	public static final Font F_DIALOG = new Font(Font.DIALOG, Font.PLAIN, 16);
+	public static final Font F_LABEL = new Font(Font.DIALOG, Font.PLAIN, 12);
 	public static final Font F_HIGHLIGHT = new Font(Font.DIALOG, Font.BOLD, 20);
 	
 	private static final ImageIcon xIcon = new ImageIcon(Utility.iconToImage(UIManager.getIcon("OptionPane.errorIcon")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
@@ -169,8 +173,7 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 	private int[] old;
 	
 	private int modifying;
-	
-	private int BUTTON_HEIGHT;
+	private final int modify_code = -1;
 
 	private JButton okButton;
 	private JButton cancelButton;
@@ -209,25 +212,30 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 		
 		pane.setLayout(null);
 		
-		okButton = new JButton(okText);
-		okButton.setSize(okButton.getPreferredSize());
-		okButton.setLocation(W / 2 - okButton.getWidth() + 25 + BOTTOM_BUTTON_OFFSET, H - 80);
-		okButton.setFocusable(false);
-		okButton.addActionListener(this);
-		dialog.getRootPane().setDefaultButton(okButton);
-		BUTTON_HEIGHT = okButton.getHeight();
-		pane.add(okButton);
-		
 		cancelButton = new JButton(cancelText);
-		cancelButton.setSize(cancelButton.getPreferredSize());
-		cancelButton.setLocation(W / 2 + 50 + BOTTOM_BUTTON_OFFSET, H - 80);
+		//cancelButton.setSize(cancelButton.getPreferredSize());
+		cancelButton.setSize(button_size);
+		cancelButton.setLocation(BOTTOM_BUTTON_OFFSET_x , H - BOTTOM_BUTTON_OFFSET_y);
+		cancelButton.setFont(F_DIALOG);
 		cancelButton.setFocusable(false);
 		cancelButton.addActionListener(this);
 		pane.add(cancelButton);
 		
+		okButton = new JButton(okText);
+		//okButton.setSize(okButton.getPreferredSize());
+		okButton.setSize(button_size);
+		okButton.setLocation(BOTTOM_BUTTON_OFFSET_x*4, H - BOTTOM_BUTTON_OFFSET_y);
+		okButton.setFont(F_DIALOG);
+		okButton.setFocusable(false);
+		okButton.addActionListener(this);
+		dialog.getRootPane().setDefaultButton(okButton);
+		pane.add(okButton);
+		
 		defaultButton = new JButton(defaultText);
-		defaultButton.setSize(defaultButton.getPreferredSize());
-		defaultButton.setLocation(W / 2 - okButton.getWidth() - defaultButton.getWidth() + BOTTOM_BUTTON_OFFSET, H - 80);
+		//defaultButton.setSize(defaultButton.getPreferredSize());
+		defaultButton.setSize(button_size);
+		defaultButton.setLocation(BOTTOM_BUTTON_OFFSET_x*7, H - BOTTOM_BUTTON_OFFSET_y);
+		defaultButton.setFont(F_DIALOG);
 		defaultButton.setFocusable(false);
 		defaultButton.addActionListener(this);
 		pane.add(defaultButton);
@@ -240,13 +248,13 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 		
 		dasField = new JTextField(String.valueOf(settings[DAS_I]));
 		dasField.setSize(100, dasField.getPreferredSize().height);
-		dasField.setLocation(W / 2 + 20, TEXT_BOX_Y);
+		dasField.setLocation(W / 2 + LABEL_OFFSET, TEXT_BOX_Y);
 		dasField.getDocument().addDocumentListener(this);
 		pane.add(dasField);
 		
 		arrField = new JTextField(String.valueOf(settings[ARR_I]));
 		arrField.setSize(100, arrField.getPreferredSize().height);
-		arrField.setLocation(W / 2 + 20, TEXT_BOX_Y + dasField.getHeight() + 10);
+		arrField.setLocation(W / 2 + LABEL_OFFSET, TEXT_BOX_Y + dasField.getHeight() + LABEL_OFFSET);
 		arrField.getDocument().addDocumentListener(this);
 		pane.add(arrField);
 		
@@ -254,22 +262,24 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 		
 		label = new JLabel("Autoshift delay (ms):");
 		label.setSize(label.getPreferredSize());
-		label.setLocation(W / 2 - 130, TEXT_BOX_Y + 2);
+		label.setFont(F_LABEL);
+		label.setLocation(W / 2 - label.getPreferredSize().width - LABEL_OFFSET, TEXT_BOX_Y);
 		pane.add(label);
 		
 		label = new JLabel("Auto repeat rate (ms):");
 		label.setSize(label.getPreferredSize());
-		label.setLocation(W / 2 - 130, TEXT_BOX_Y + dasField.getHeight() + 12);
+		label.setFont(F_LABEL);
+		label.setLocation(W / 2 - label.getPreferredSize().width - LABEL_OFFSET, TEXT_BOX_Y + dasField.getHeight() + LABEL_OFFSET);
 		pane.add(label);
 		
 		xDasLabel = new JLabel(xIcon);
-		xDasLabel.setSize(xDasLabel.getPreferredSize());
-		xDasLabel.setLocation(W / 2 + 20 + dasField.getWidth() + 5, TEXT_BOX_Y + 2);
+		xDasLabel.setSize(xDasLabel.getPreferredSize().width, dasField.getHeight());
+		xDasLabel.setLocation(W / 2 + LABEL_OFFSET + dasField.getWidth() + ICON_OFFSET, TEXT_BOX_Y );
 		pane.add(xDasLabel);
 		
 		xArrLabel = new JLabel(xIcon);
-		xArrLabel.setSize(xArrLabel.getPreferredSize());
-		xArrLabel.setLocation(W / 2 + 20 + arrField.getWidth() + 5, TEXT_BOX_Y + 32);
+		xArrLabel.setSize(xArrLabel.getPreferredSize().width, arrField.getHeight());
+		xArrLabel.setLocation(W / 2 + LABEL_OFFSET + arrField.getWidth() + ICON_OFFSET, TEXT_BOX_Y + dasField.getHeight() + LABEL_OFFSET);
 		pane.add(xArrLabel);
 		
 		for (int i = 0; i < buttons.length; i++)
@@ -280,18 +290,20 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 			labels[i] = new JLabel(NAMES[i], ICONS[i], SwingConstants.CENTER);
 			labels[i].setFont(F_DIALOG);
 			labels[i].setSize(labels[i].getPreferredSize());
-			labels[i].setLocation(NAMES_X, TOP_MARGIN + POSITIONS[i] * SPACING - labels[i].getHeight() / 2 + LABEL_OFFSET);
+			//labels[i].setLocation(NAMES_X, TOP_MARGIN + POSITIONS[i] * SPACING - labels[i].getHeight() / 2 + LABEL_OFFSET);
+			labels[i].setLocation(W/2-labels[i].getPreferredSize().width-LABEL_OFFSET, TOP_MARGIN + POSITIONS[i] * SPACING - labels[i].getHeight() / 2 + LABEL_OFFSET);
 			labels[i].setHorizontalTextPosition(SwingConstants.LEFT);
 			pane.add(labels[i]);
 			
 			buttons[i] = new JButton();
-			buttons[i].setLocation(CODES_X, TOP_MARGIN + POSITIONS[i] * SPACING);
+			//buttons[i].setLocation(CODES_X, TOP_MARGIN + POSITIONS[i] * SPACING);
+			buttons[i].setLocation(W/2+LABEL_OFFSET, TOP_MARGIN + POSITIONS[i] * SPACING);
 			buttons[i].setFocusable(false);
 			buttons[i].addActionListener(this);
 			buttons[i].addKeyListener(this);
 			
 			if (settings[i] == 0)
-				buttons[i].setSize(60, BUTTON_HEIGHT);
+				buttons[i].setSize(button_size);
 			
 			pane.add(buttons[i]);
 		}
@@ -339,13 +351,13 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 	
 	private void updateHighlight()
 	{
-		if (modifying == -1)
+		if (modifying == modify_code)
 		{
 			highlight.setVisible(false);
 		}
 		else
 		{
-			highlight.setLocation(CODES_X - 21, TOP_MARGIN + SPACING * POSITIONS[modifying] - 1);
+			highlight.setLocation(CODES_X - LABEL_OFFSET, TOP_MARGIN + SPACING * POSITIONS[modifying] );
 			highlight.setVisible(true);
 			dialog.getRootPane().setDefaultButton(null);
 		}
@@ -353,7 +365,7 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 	
 	private void updateFields()
 	{
-		if (modifying == -1)
+		if (modifying == modify_code)
 		{
 			dasField.setEnabled(true);
 			arrField.setEnabled(true);
@@ -438,7 +450,7 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 			dasField.setText(String.valueOf(DEFAULTS[DAS_I]));
 			arrField.setText(String.valueOf(DEFAULTS[ARR_I]));
 
-			modifying = -1;
+			modifying = modify_code;
 			setButtonText();
 			updateHighlight();
 			updateFields();
@@ -449,7 +461,7 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 			if (buttons[i] == b)
 			{
 				if (modifying == i)
-					modifying = -1;
+					modifying = modify_code;
 				else
 					modifying = i;
 				
@@ -463,7 +475,7 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 
 	public void keyPressed(KeyEvent e)
 	{
-		if (modifying == -1)
+		if (modifying == modify_code)
 			return;
 		
 		int code = e.getKeyCode();
@@ -475,7 +487,7 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 		}
 		
 		settings[modifying] = code;
-		modifying = -1;
+		modifying = modify_code;
 		
 		setButtonText();
 		updateHighlight();
@@ -483,7 +495,7 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 	}
 	public void keyReleased(KeyEvent e)
 	{
-		if (modifying == -1)
+		if (modifying == modify_code)
 			dialog.getRootPane().setDefaultButton(okButton);
 	}
 	public void keyTyped(KeyEvent e) {}

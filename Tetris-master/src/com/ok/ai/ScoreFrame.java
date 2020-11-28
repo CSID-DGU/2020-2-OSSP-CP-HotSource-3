@@ -1,6 +1,8 @@
 package com.ok.ai;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.io.File;
@@ -11,24 +13,39 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
+import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import com.ok.gamedb.*;
+import com.ok.main.Main;
 
 
 public class ScoreFrame extends JFrame{
 	public static final long serialVersionUID = 1L;
-
 	TetrisMarathon marathon = new TetrisMarathon();
 	
+	// jframe
+	private static String jframe_string = "기록";
+	private static int margin_small = 10;
+	private static int margin_big = 30;
+	int jframe_w = (int) (Main.SCREEN_WIDTH*0.6);
+	int jframe_h = (int) (Main.SCREEN_HEIGHT*0.8);
+	int jframe_x = (Main.SCREEN_WIDTH-jframe_w)/2; // plot center of window
+	int jframe_y = (Main.SCREEN_HEIGHT-jframe_h)/2;
+	
+	// score file
 	Scanner file;
-	JLabel j[] = new JLabel[12];
+	String scorefilepath = "../../score.txt";
+	
+	// font
+	Font font_head = new Font(Font.DIALOG, Font.BOLD, jframe_w/20);
+	Font font_body = new Font(Font.DIALOG, Font.BOLD, jframe_w/30);
 	
 	public ScoreFrame(String name,int sc) {
-		super("기록");
-		
-		ArrayList<UserList> rank = new ArrayList<UserList>();
+		super(jframe_string);
 		
 		String id = name;
 		//if id == null, "user"
@@ -37,35 +54,124 @@ public class ScoreFrame extends JFrame{
 			id = "user";
 		}
 		sc = marathon.finalScore;
-		int length = 0;
 		
-		try {
-			//DB에 쓰기
-			DBInsert.insert(name, sc); 
-		} catch (ClassNotFoundException e1) {
+		write_score(id, sc); // write to score.txt
+		ArrayList<UserList> rank = read_score(); // read from score.txt
+		
+		// plotting jframe
+		JLabel jlabel_title = new JLabel(String.format("ID : %-7s  MY SCORE : %-7d", id, sc));
+		jlabel_title.setHorizontalAlignment(SwingConstants.CENTER);
+		jlabel_title.setForeground(Color.yellow);
+		jlabel_title.setBorder(new EmptyBorder(margin_big, 0, 0, 0));
+		jlabel_title.setFont(font_head);
+		getContentPane().add(jlabel_title, BorderLayout.NORTH);
+		
+		Box verticalBox = Box.createVerticalBox();
+		getContentPane().add(verticalBox, BorderLayout.CENTER);
+		
+		JLabel jlabel_user;
+		if (rank.isEmpty()) {
+			jlabel_user = new JLabel("새로운 기록을 남겨보세요!");
+			jlabel_user.setAlignmentX(Component.CENTER_ALIGNMENT);
+			jlabel_user.setHorizontalAlignment(SwingConstants.CENTER);
+			jlabel_user.setForeground(Color.white);
+			jlabel_user.setBorder(new EmptyBorder(margin_small, 0, 0, 0));
+			jlabel_user.setFont(font_body);
+			verticalBox.add(jlabel_user);
+			}
+		
+		for (int i = 0;i<rank.size();i++) {
+			jlabel_user = new JLabel(String.format("%2d등! ID : %-7s, SCORE : %-7d", (i+1), rank.get(i).getID(), rank.get(i).getScore()));
+			jlabel_user.setAlignmentX(Component.CENTER_ALIGNMENT);
+			jlabel_user.setHorizontalAlignment(SwingConstants.CENTER);
+			jlabel_user.setForeground(Color.white);
+			jlabel_user.setBorder(new EmptyBorder(margin_small, 0, 0, 0));
+			jlabel_user.setFont(font_body);
+			verticalBox.add(jlabel_user);
+		}
+		
+		getContentPane().setBackground(Color.black);
+		setBounds(jframe_x, jframe_y, jframe_w, jframe_h);
+		getContentPane().setLayout(new FlowLayout());
+		setVisible(true);
+	}
+
+	public ScoreFrame() {
+		super(jframe_string);	
+
+		ArrayList<UserList> rank = read_score(); // read from score.txt
+		
+		// plotting jframe
+		JLabel jlabel_title = new JLabel(String.format("%20s%4s%20s","","점수확인",""));
+		jlabel_title.setHorizontalAlignment(SwingConstants.CENTER);
+		jlabel_title.setForeground(Color.yellow);
+		jlabel_title.setBorder(new EmptyBorder(margin_big, 0, 0, 0));
+		jlabel_title.setFont(font_head);
+		getContentPane().add(jlabel_title, BorderLayout.NORTH);
+		
+		Box verticalBox = Box.createVerticalBox();
+		getContentPane().add(verticalBox, BorderLayout.CENTER);
+				
+		JLabel jlabel_user;
+		if (rank.isEmpty()) {
+			jlabel_user = new JLabel("새로운 기록을 남겨보세요!");
+			jlabel_user.setAlignmentX(Component.CENTER_ALIGNMENT);
+			jlabel_user.setHorizontalAlignment(SwingConstants.CENTER);
+			jlabel_user.setForeground(Color.white);
+			jlabel_user.setBorder(new EmptyBorder(margin_small, 0, 0, 0));
+			jlabel_user.setFont(font_body);
+			verticalBox.add(jlabel_user);
+			}
+		
+		for (int i = 0;i<rank.size();i++) {
+			jlabel_user = new JLabel(String.format("%2d등! ID : %-7s, SCORE : %-7d", (i+1), rank.get(i).getID(), rank.get(i).getScore()));
+			jlabel_user.setAlignmentX(Component.CENTER_ALIGNMENT);
+			jlabel_user.setHorizontalAlignment(SwingConstants.CENTER);
+			jlabel_user.setForeground(Color.white);
+			jlabel_user.setBorder(new EmptyBorder(margin_small, 0, 0, 0));
+			jlabel_user.setFont(font_body);
+			verticalBox.add(jlabel_user);
+		}
+		
+		getContentPane().setBackground(Color.black);
+		setBounds(jframe_x, jframe_y, jframe_w, jframe_h);
+		getContentPane().setLayout(new FlowLayout());
+		setVisible(true);
+	}	
+	
+	private void write_score(String id,int sc) {
+		try {	
+			DBInsert.insert(id, sc); //DB에 쓰기
+		} catch (Exception e1) {
 			e1.printStackTrace();
-			// DB 연결 실패한 경우, 직접 쓰기
+		}
+		
+		if (DBInsert.answercode==false) {
 			PrintWriter pw = null;
 			try {
-				pw = new PrintWriter(new FileWriter("../../score.txt",true));
+				pw = new PrintWriter(new FileWriter(scorefilepath,true)); // DB 연결 실패한 경우, 직접 쓰기
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			pw.append(id +" "+ sc);
+			pw.append(id +" "+ sc+"\n");
 			pw.println();
 			pw.flush();
 		}
+	}
+	
+	private ArrayList<UserList> read_score(){
+		ArrayList<UserList> rank = new ArrayList<UserList>();
 		
 		try {
-			// DB에서 로컬저장소로 가져오기
-			DBSelect.select();
+			DBSelect.select(); // DB에서 로컬저장소로 가져오기
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} catch (Exception e2) {
+			e2.printStackTrace();
 		}
 		
-		// 로컬저장소에서 가져오기
 		try {
-			file = new Scanner(new File("../../score.txt"));
+			file = new Scanner(new File(scorefilepath)); // 로컬저장소에서 가져오기
 			String line;
 			while (file.hasNext()) {
 				try {
@@ -74,7 +180,6 @@ public class ScoreFrame extends JFrame{
 					String id1 = lineScan.next();
 					int num  = lineScan.nextInt();
 					rank.add(new UserList(id1, num));
-					length++;
 					lineScan.close();
 					
 				}
@@ -84,120 +189,12 @@ public class ScoreFrame extends JFrame{
 			System.out.println("파일을 여는데 문제가 생겼습니다");
 		}
 		
-		for(int i=0;i<length;i++){
-			for(int j=0;i<length-j;j++){
+		// sort
+		for(int i=0;i<rank.size();i++){
+			for(int j=0;i<rank.size()-j;j++){
 				Collections.sort(rank);
 			}
 		}
-		
-		JLabel label1;
-		JLabel label2;
-		JLabel label3;
-		
-		label1 = new JLabel("                                                                  ");
-		label1.setForeground(Color.white);
-		label1.setFont(new Font("소야곧은10", Font.BOLD, 50));
-		j[0] = label1;
-
-		label2 = new JLabel("ID : " + name +",   MY SCORE : " + sc);
-		label2.setForeground(Color.yellow);
-		label2.setFont(new Font("소야곧은10", Font.BOLD, 50));
-		j[1] = label2;
-		
-		for(int i=0; i<10; i++){
-			if(length<=i)
-				break;
-			else
-
-				label3 = new JLabel("          " +(i+1)+"등!  ID : " + rank.get(i).getID() + ", SCORE : " + rank.get(i).getScore()+"          ");
-				label3.setForeground(Color.white);
-				label3.setFont(new Font("소야곧은10", Font.BOLD, 37));
-				j[i+2] = label3;
-				
-
-		}
-		for(int i = 0; i<12; i++){
-			if(length<i-1) break;
-			add(j[i]);
-		}
-		
-		getContentPane().setBackground(Color.black);
-		setBounds(35, 5, 1295, 725);
-		setLayout(new FlowLayout());
-		setVisible(true);
+		return rank;
 	}
-
-	public ScoreFrame() {
-		super("기록");	
-		ArrayList<UserList> rank = new ArrayList<UserList>();
-		int length = 0;
-		
-		try {
-			// DB에서 로컬저장소로 가져오기
-			DBSelect.select();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		// 로컬저장소에서 가져오기
-		try {
-			file = new Scanner(new File("../../score.txt"));
-			String line;
-			while (file.hasNext()) {
-				try {
-					line = file.nextLine();
-					Scanner lineScan = new Scanner(line);
-					String id1 = lineScan.next();
-					int num  = lineScan.nextInt();
-					rank.add(new UserList(id1, num));
-					length++;
-					lineScan.close();
-				}catch(Exception ex) {}
-			}
-		} catch (Exception ex) {
-			System.out.println("파일을 여는데 문제가 생겼습니다");
-		}
-		
-		for(int i=0;i<length;i++){
-			for(int j=0;i<length-j;j++){
-				Collections.sort(rank);
-			}
-		}
-		JLabel label1;
-		JLabel label2;
-		JLabel label3;
-
-		
-		label1 = new JLabel("                                                                  ");
-		label1.setForeground(Color.yellow);
-		label1.setFont(new Font("소야곧은10", Font.BOLD, 50));
-		j[0] = label1;
-
-		label2 = new JLabel("                       점수확인                        ");
-		label2.setForeground(Color.yellow);
-		label2.setFont(new Font("소야곧은10", Font.BOLD, 50));
-		j[1] = label2;
-		       
-		for(int i=0; i<10; i++){
-			if(length<=i)
-				break;
-			else
-
-				label3 = new JLabel("          " +(i+1)+"등!  ID : " + rank.get(i).getID() + ", SCORE : " + rank.get(i).getScore()+"          ");
-				label3.setForeground(Color.white);
-				label3.setFont(new Font("소야곧은10", Font.BOLD, 37));
-				j[i+2] = label3;
-		}
-		
-		for(int i = 0; i<12; i++){
-			if(length<i-1) break;
-			add(j[i]);
-		}
-		
-		getContentPane().setBackground(Color.black);
-		setBounds(35, 5, 1295, 725);
-		setLayout(new FlowLayout());
-		setVisible(true);	
-	}	
-	
 }

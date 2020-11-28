@@ -4,7 +4,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBInsert extends MyDB{
+	public static boolean answercode;
     public static void insert(String name, int score) throws ClassNotFoundException{
+    	answercode = false;
         try{
             // 1. Load Driver
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -27,10 +29,11 @@ public class DBInsert extends MyDB{
             }
             else{
                 System.out.println("데이터 입력 성공");
+                answercode = true;
             }
         }
-        catch( SQLException e){
-            System.out.println("에러 " + e);
+        catch( Exception e){
+            System.out.println("err:  " + e);
         }
         finally{
             try{
