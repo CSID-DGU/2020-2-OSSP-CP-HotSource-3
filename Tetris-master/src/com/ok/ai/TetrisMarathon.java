@@ -15,6 +15,8 @@ public class TetrisMarathon extends Tetris
 {
 	public int score = 0;
 	public  static int finalScore;
+	private int FirmDropPlusScore = 20;
+	private int DropDelayMinusScore = 4;
 	
 	public static final int[] VALUES = {0, 100, 175, 350, 700, 1000};
 	
@@ -28,10 +30,10 @@ public class TetrisMarathon extends Tetris
 	public void firmDrop()
 	{	
 		if(1 <= ty && ty < 5) {
-			score += (20 - (ty * 4));
+			score += (FirmDropPlusScore - (ty * DropDelayMinusScore));
 		}
 		else if(0 >= ty) {
-			score += 20;
+			score += FirmDropPlusScore;
 		}
 		int oldy = ty;
 		while (pieceLegal() == LEGAL)
