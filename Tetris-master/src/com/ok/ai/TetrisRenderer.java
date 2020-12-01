@@ -67,6 +67,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 	private boolean onDas;
 	private int[] settings;	
 	public static final int MARATHON = 1;
+	public static final int HARDMARATHON = 2;
 	
 	private static final String GAME_TYPE_SETTING = "game_type";
 	
@@ -358,6 +359,9 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 						{
 						case MARATHON:
 							game = new TetrisMarathon(new BagGen());
+							break;
+						case HARDMARATHON:
+							game = new TetrisMarathon(new BagGen(),1);
 							break;
 						}
 					}
