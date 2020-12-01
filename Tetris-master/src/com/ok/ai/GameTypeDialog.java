@@ -20,23 +20,27 @@ public class GameTypeDialog implements ActionListener
 	private JDialog dialog;
 	
 	private JRadioButton radioBtn_marathon;
+	private JRadioButton radioBtn_hardmarathon;
 	
 	private JButton okButton;
 	private JButton cancelButton;
 	
 	private String dialog_string = "New Game";
 	private String button_string = "NEW GAME";
+	private String button2_string = "NEW HARD GAME";
 	
 	private int dialog_width;
 	private int dialog_height;
 	private int dialog_margin;
-	private int radioButton_margin;
+	private int radioButton_margin_width;
+	private int radioButton_margin_height;
 	
 	private void setDialogSize(JFrame frame) {
 		dialog_width = frame.getWidth()/2;
 		dialog_height = frame.getHeight()/3;
 		dialog_margin = frame.getHeight()/10;
-		radioButton_margin = frame.getHeight()/20;
+		radioButton_margin_width = frame.getHeight()/20;
+		radioButton_margin_height = frame.getHeight()/20 + 20;
 	}
 	
 	private GameTypeDialog(JFrame frame, int def)
@@ -48,10 +52,17 @@ public class GameTypeDialog implements ActionListener
 		pane.setLayout(null);
 		radioBtn_marathon = new JRadioButton(button_string);
 		radioBtn_marathon.setSize(radioBtn_marathon.getPreferredSize());
-		radioBtn_marathon.setLocation(radioButton_margin, radioButton_margin);
+		radioBtn_marathon.setLocation(radioButton_margin_width, radioButton_margin_width);
 		radioBtn_marathon.addActionListener(this);
 		radioBtn_marathon.setVisible(true);
 		pane.add(radioBtn_marathon);
+		
+		radioBtn_hardmarathon = new JRadioButton(button2_string);
+		radioBtn_hardmarathon.setSize(radioBtn_hardmarathon.getPreferredSize());
+		radioBtn_hardmarathon.setLocation(radioButton_margin_width, radioButton_margin_height);
+		radioBtn_hardmarathon.addActionListener(this);
+		radioBtn_hardmarathon.setVisible(true);
+		pane.add(radioBtn_hardmarathon);
 
 		choice = def;
 		
@@ -82,6 +93,9 @@ public class GameTypeDialog implements ActionListener
 		
 		if (source == radioBtn_marathon)
 			choice = TetrisRenderer.MARATHON;
+		
+		if (source == radioBtn_hardmarathon)
+			choice = TetrisRenderer.HARDMARATHON;
 
 		if (source == okButton)
 			dialog.setVisible(false);
