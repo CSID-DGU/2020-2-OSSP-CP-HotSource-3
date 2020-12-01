@@ -27,6 +27,12 @@ public class TetrisMarathon extends Tetris
 		super(gen);
 		countdown(); // start count down
 	}
+	// HARD 모드를 위한 생성자
+	TetrisMarathon(PieceGenerator gen, int n)
+	{
+		super(gen, 3, n);
+		countdown(); // start count down
+	}
 	
 	private static final int maxfirmDropScore = 20;
 	private static final int difffirmDropScore = 4;
