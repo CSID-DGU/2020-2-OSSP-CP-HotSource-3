@@ -298,6 +298,56 @@ public int level=1;
 			fMoves[i] = gen.nextPiece();
 		putPiece();
 	}
+	Tetris(PieceGenerator gen, int ahead, int mode)
+	{
+		board = new int[W][H];
+		flash = new long[H];
+
+		if (gen == null)
+			gen = new PieceGenerator() {
+				public int nextPiece()
+				{
+					return 0;
+				}
+				public void newGame() {}
+			};
+		
+		this.gen = gen;
+		stored = -1;
+		hasStored = false;
+		linesCleared = 0;
+		dead = false;
+		paused = false;
+		tickCount = 0;
+		tickInterval = 10;
+		ticksPerSecond = 20;
+		tickThreshold = 10;
+		maxDelays = 7;
+		delays = 0;
+		combo = 0;
+		AHEAD = ahead;
+		lastMoveRotate = false;
+		spinTick = TSPIN_ANIMATION_TICKS * -4;
+		justCleared = false;
+		
+		int row_start = 0;
+		int row_final = 8;
+		int col_start = 12;
+		int col_final = 20;
+		final int BOARD_EXIST = 1;
+		
+		//게임 시작하자마자 쌓여있는 블록 생성
+		for(int i=row_start; i<row_final; i++) {
+			for(int j=col_start; j<col_final; j++) {
+				board[i][j] = BOARD_EXIST;
+			}
+		}
+
+		fMoves = new int[AHEAD];
+		for (int i = 0; i < AHEAD; i++)
+			fMoves[i] = gen.nextPiece();
+		putPiece();
+	}
 	
 	private static int preview_number = 3;
 	Tetris(PieceGenerator gen)
