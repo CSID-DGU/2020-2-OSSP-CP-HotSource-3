@@ -10,8 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import com.ok.main.Main;
-
 public class IDFrame extends JFrame{
 	JTextField tf;
 	
