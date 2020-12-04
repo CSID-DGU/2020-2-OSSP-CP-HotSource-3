@@ -16,8 +16,6 @@ import javax.swing.JLabel;
 import com.ok.ai.ScoreFrame;
 import com.ok.ai.SettingsDialog;
 import com.ok.ai.TetrisRenderer;
-//import com.ok.window.Tetris;
-import com.ok.sounds.BGM;
 
 public class TMain extends JFrame {
 	

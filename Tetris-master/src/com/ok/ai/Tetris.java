@@ -22,7 +22,7 @@ import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
-import com.ok.sounds.EffectSound;
+import com.ok.main.EffectSound;
 
 
 public class Tetris
