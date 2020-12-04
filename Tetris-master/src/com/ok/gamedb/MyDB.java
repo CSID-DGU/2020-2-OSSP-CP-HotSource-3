@@ -16,4 +16,7 @@ public class MyDB {
     static String DB_ID = "hotsource";
     static String DB_PW = "hotsource159";
     static String TABLE = "test.score_board";
+    
+	// score file
+	public static String scorefilepath = "com/ok/gamedb/score.txt";
 }

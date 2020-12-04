@@ -37,7 +37,7 @@ public class DBSelect extends MyDB {
 			}
 			
 			//6. write data
-			File file = new File("../../score.txt"); 
+			File file = new File(scorefilepath); 
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 			    writer.append(data);
 			} catch (IOException e) {

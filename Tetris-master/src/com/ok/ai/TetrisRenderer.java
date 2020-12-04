@@ -26,7 +26,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-import com.ok.main.BGM;
 import com.ok.main.Main;
 import com.ok.main.TMain;
 
@@ -55,7 +54,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 	private Timer timer;
 	private Timer painter;
 	public TMain main;
-	public BGM bgm_sound;
+	public com.ok.main.BGM bgm_sound;
 	private boolean soundplay = true;
 	
 	private Object aiLock = new Object();
@@ -87,7 +86,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 	private final int LATENCY_PAINTER = 1000 / 30;
 	public TetrisRenderer()
 	{
-		bgm_sound = new BGM();
+		bgm_sound = new com.ok.main.BGM();
 		bgm_sound.play();
 		
 		frame.setLocationRelativeTo(null);
