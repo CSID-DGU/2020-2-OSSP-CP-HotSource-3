@@ -971,6 +971,10 @@ public int level=1;
 	
 	// 테두리 두께
 	protected static final int borderSize = 1;
+	protected int yoffset = SQR_W;
+	protected int xoffset = SQR_W/2;
+	public static int boxsize = (int)(SQR_W*2.5); // Tetrimino가 들어가는 박스의 크기
+	protected int blocksize = (int)(SQR_W/2); // Tetrimino의 크기
 	public void drawTo(Graphics2D g, int x, int y)
 	{
 		int size = 4;
@@ -1128,11 +1132,6 @@ public int level=1;
 				}
 			}
 		}
-
-		int yoffset = SQR_W;
-		int xoffset = SQR_W/2;
-		int boxsize = (int)(SQR_W*2.5); // Tetrimino가 들어가는 박스의 크기
-		int blocksize = (int)(SQR_W/2); // Tetrimino의 크기
 		
 		// holdBox와 hold글씨 그리기
 		g.setColor(Color.WHITE);
@@ -1158,6 +1157,19 @@ public int level=1;
 		//보드판(상단)
 		g.setColor (Color.WHITE);
 		g.drawRect(x, y-DSP_W-yoffset/2, SQR_W*10, DSP_W);
+		
+		//버튼 그리기
+		TetrisRenderer.muteButton.setSize(boxsize,boxsize);
+		TetrisRenderer.muteButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9);
+		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9, boxsize, boxsize);
+		
+		TetrisRenderer.soundButton.setSize(boxsize,boxsize);
+		TetrisRenderer.soundButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9);
+		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9, boxsize, boxsize);
+		
+		TetrisRenderer.newButton.setSize(boxsize,boxsize);
+		TetrisRenderer.newButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9+boxsize);
+		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9+boxsize, boxsize, boxsize);
 		
 		// 테트리스 구역에 메세지 쓰기
 		if (dead)
