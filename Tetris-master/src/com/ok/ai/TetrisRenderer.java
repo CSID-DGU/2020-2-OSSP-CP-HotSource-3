@@ -257,21 +257,41 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 
 		public void paint(Graphics g)
 		{
+			int gameSQRCoefficient = 30;
+			int gameDSPCoefficient = 10;
+			int gameLocationCoefficient = 8;
+			int newButtonXSizeCoefficient = 8;
+			int newButtonYSizeCoefficient = 16;
+			int keyButtonXSizeCoefficient = 18;
+			int keyButtonYSizeCoefficient = 19;
+			int homeButtonXSizeCoefficient = 8;
+			int homeButtonYSizeCoefficient = 19;
+			int muteSoundButtonXSizeCoefficient = 4;
+			int muteSoundButtonYSizeCoefficient = 9;
+			int newButtonLocationXCoefficient = 28;
+			int newButtonLocationYCoefficient = 20;
+			int keyButtonLocationXCoefficient = 27;
+			double keyButtonLocationYCoefficient = 2.5;
+			int homeButtonLocationXCoefficient = 30;
+			double homeButtonLocationYCoefficient = 2.5;
+			int muteSoundButtonLocationXCoefficient = 26;
+			int muteSoundButtonLocationYCoefficient = 14;
+			int Wdivide = 2;
+			
 			super.paint(g);
-			game.setSQR_W(frame.getSize().width/30);
-			game.setDSP_W(frame.getSize().width/10);
-			//game.drawTo((Graphics2D)(g), 70, 70); //The play Screen can move according to the size of the frame
-			game.drawTo((Graphics2D)(g), (int)(frame.getSize().width/8), (int)(frame.getSize().height/8)); //The play Screen can move according to the size of the frame
-			newButton.setSize(frame.getSize().width/8,frame.getSize().width/16);
-			keyButton.setSize(frame.getSize().width/18,frame.getSize().width/19);
-			homeButton.setSize(frame.getSize().width/8,frame.getSize().width/19);
-			muteButton.setSize(frame.getSize().width/4,frame.getSize().width/9);
-			soundButton.setSize(frame.getSize().width/4,frame.getSize().width/9);
-			newButton.setLocation(W/2-newButton.getWidth()/2+Tetris.SQR_W*28,Tetris.SQR_W*20);
-			keyButton.setLocation(W/2-keyButton.getWidth()/2+Tetris.SQR_W*27,(int)(Tetris.SQR_W*2.5));
-			homeButton.setLocation(W/2-homeButton.getWidth()/2+Tetris.SQR_W*30,(int)(Tetris.SQR_W*2.5));
-			muteButton.setLocation(W/2-homeButton.getWidth()/2+Tetris.SQR_W*26,(int)(Tetris.SQR_W*14));
-			soundButton.setLocation(W/2-homeButton.getWidth()/2+Tetris.SQR_W*26,(int)(Tetris.SQR_W*14));
+			game.setSQR_W(frame.getSize().width/gameSQRCoefficient);
+			game.setDSP_W(frame.getSize().width/gameDSPCoefficient);
+			game.drawTo((Graphics2D)(g), (int)(frame.getSize().width/gameLocationCoefficient), (int)(frame.getSize().height/gameLocationCoefficient)); //The play Screen can move according to the size of the frame
+			newButton.setSize(frame.getSize().width/newButtonXSizeCoefficient,frame.getSize().width/newButtonYSizeCoefficient);
+			keyButton.setSize(frame.getSize().width/keyButtonXSizeCoefficient,frame.getSize().width/keyButtonYSizeCoefficient);
+			homeButton.setSize(frame.getSize().width/homeButtonXSizeCoefficient,frame.getSize().width/homeButtonYSizeCoefficient);
+			muteButton.setSize(frame.getSize().width/muteSoundButtonXSizeCoefficient,frame.getSize().width/muteSoundButtonYSizeCoefficient);
+			soundButton.setSize(frame.getSize().width/muteSoundButtonXSizeCoefficient,frame.getSize().width/muteSoundButtonYSizeCoefficient);
+			newButton.setLocation(W/Wdivide-newButton.getWidth()/Wdivide+Tetris.SQR_W*newButtonLocationXCoefficient,Tetris.SQR_W*newButtonLocationYCoefficient);
+			keyButton.setLocation(W/Wdivide-keyButton.getWidth()/Wdivide+Tetris.SQR_W*keyButtonLocationXCoefficient,(int)(Tetris.SQR_W*keyButtonLocationYCoefficient));
+			homeButton.setLocation(W/Wdivide-homeButton.getWidth()/Wdivide+Tetris.SQR_W*homeButtonLocationXCoefficient,(int)(Tetris.SQR_W*homeButtonLocationYCoefficient));
+			muteButton.setLocation(W/Wdivide-homeButton.getWidth()/Wdivide+Tetris.SQR_W*muteSoundButtonLocationXCoefficient,(int)(Tetris.SQR_W*muteSoundButtonLocationYCoefficient));
+			soundButton.setLocation(W/Wdivide-homeButton.getWidth()/Wdivide+Tetris.SQR_W*muteSoundButtonLocationXCoefficient,(int)(Tetris.SQR_W*muteSoundButtonLocationYCoefficient));
 		
 
 			}
