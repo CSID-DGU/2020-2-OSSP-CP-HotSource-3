@@ -972,7 +972,7 @@ public int level=1;
 	// 테두리 두께
 	protected static final int borderSize = 1;
 	protected int yoffset = SQR_W;
-	protected int xoffset = SQR_W/2;
+	protected int xoffset = SQR_W;
 	public static int boxsize = (int)(SQR_W*2.5); // Tetrimino가 들어가는 박스의 크기
 	protected int blocksize = (int)(SQR_W/2); // Tetrimino의 크기
 	public void drawTo(Graphics2D g, int x, int y)
@@ -1159,6 +1159,9 @@ public int level=1;
 		g.drawRect(x, y-DSP_W-yoffset/2, SQR_W*10, DSP_W);
 		
 		//버튼 그리기
+		g.setColor (Color.WHITE);
+		drawCentered(g, "Control", x + FIELD_W + xoffset + boxsize/2, y + SQR_W*9-yoffset/2);
+		
 		TetrisRenderer.muteButton.setSize(boxsize,boxsize);
 		TetrisRenderer.muteButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9);
 		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9, boxsize, boxsize);
@@ -1170,6 +1173,14 @@ public int level=1;
 		TetrisRenderer.newButton.setSize(boxsize,boxsize);
 		TetrisRenderer.newButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9+boxsize);
 		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9+boxsize, boxsize, boxsize);
+		
+		TetrisRenderer.keyButton.setSize(boxsize,boxsize);
+		TetrisRenderer.keyButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9+boxsize*2);
+		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9+boxsize*2, boxsize, boxsize);
+		
+		TetrisRenderer.homeButton.setSize(boxsize,boxsize);
+		TetrisRenderer.homeButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9+boxsize*3);
+		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9+boxsize*3, boxsize, boxsize);
 		
 		// 테트리스 구역에 메세지 쓰기
 		if (dead)
