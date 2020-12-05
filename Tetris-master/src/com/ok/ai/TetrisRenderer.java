@@ -25,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.WindowConstants;
 
 import com.ok.main.Main;
 import com.ok.main.TMain;
@@ -89,6 +90,8 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 		bgm_sound = new com.ok.main.BGM();
 		bgm_sound.play();
 		
+		frame.setUndecorated(false); //true: delete menubar
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//end the whole game
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(true);
 		frame.setResizable(true); //Resize the Game screen using the mouse

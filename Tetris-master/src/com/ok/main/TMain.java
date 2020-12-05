@@ -68,7 +68,8 @@ public class TMain extends JFrame {
 	int rankBtn_h = SCREEN_HEIGHT/7;
 	int rankBtn_x = (SCREEN_WIDTH-rankBtn_w)/2;
 	int rankBtn_y = (int) (SCREEN_HEIGHT*10/13);
-
+	
+	/*
 	// menuBar
 	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("../images/menuBar.png")));
 	int menuBar_x = 0;
@@ -83,7 +84,7 @@ public class TMain extends JFrame {
 	int exitButton_w = 30;
 	int exitButton_h = 30;
 	int exitButton_x = SCREEN_WIDTH-exitButton_w*3;
-	int exitButton_y = 0;
+	int exitButton_y = 0;*/
 	
 	// MainScreen
 	private ImageIcon background = new ImageIcon(Main.class.getResource("../images/IntroBackground.png"));
@@ -114,7 +115,7 @@ public class TMain extends JFrame {
 	
 	public TMain() {
 		//bgm_sound.play();
-		setUndecorated(true); // �⺻ �޴��ٰ� ������ ����. -> ���ο� menuBar�� �ֱ� ���� �۾�
+		setUndecorated(false); // true: delete menubar
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		setResizable(true); // ȭ�� ũ�� ���� �Ұ���
 		setLocationRelativeTo(null); // ȭ�� ���߾ӿ� �߰� ��.
@@ -237,6 +238,7 @@ public class TMain extends JFrame {
 		});
 		add(rankBtn);
 		
+		/*
 		// Menu bar exit ��ư ���� ó��
 		exitButton.setBounds(exitButton_x, exitButton_y, exitButton_w, exitButton_h);
 		exitButton.setBorderPainted(false);
@@ -278,7 +280,7 @@ public class TMain extends JFrame {
 				setLocation(x - mouseX, y - mouseY); // JFrame�� ��ġ�� �ٲ���
 			}
 		});
-		add(menuBar);
+		add(menuBar);*/
 		
 		// Main Screen
 		MainScreen = new JLabel(background);
