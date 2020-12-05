@@ -91,7 +91,8 @@ public class TetrisMarathon extends Tetris
 		g.drawString("" + score, x + (int)(SQR_W*1.5), y + (int)(SQR_W/2));
 		
 		g.setFont(F_TIME);
-		g.drawString("Level: "+getLevel(), x+DSP_W*2, y+SQR_W);
+		/*
+		g.drawString("Level: "+getLevel(), x+DSP_W*2, y+SQR_W);*/
 		g.drawString("" + linesCleared + " lines", x+DSP_W*2, y+ DSP_W/2);
 		g.drawString(getTimeString(), x + (int)(SQR_W*1.5), y + DSP_W/2);
 		if (combo > 0)

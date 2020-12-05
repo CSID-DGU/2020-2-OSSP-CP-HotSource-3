@@ -1143,6 +1143,11 @@ public int level=1;
 		if (stored != -1)
 			drawTetrimino(g, stored, x - xoffset - boxsize/2, y + yoffset + boxsize/2, blocksize); // holdBox안의 테트리스 그리기
 		
+		// levelBox 그리기
+		drawCentered(g, "Level", x - xoffset - boxsize/2, y + SQR_W*4 + g.getFont().getSize());
+		g.drawRect(x - xoffset - boxsize, y + yoffset + SQR_W*4, boxsize, boxsize);
+		drawCentered(g, getLevel()+"", x - xoffset - boxsize/2, y + yoffset + SQR_W*4 + boxsize - (boxsize-g.getFont().getSize())/2);
+		
 		//"NEXT"글씨와 다음 테트리스 미리보기 상자
 		g.setColor (Color.WHITE);
 		drawCentered(g, "Next", x + FIELD_W + xoffset + boxsize/2, y + g.getFont().getSize());
