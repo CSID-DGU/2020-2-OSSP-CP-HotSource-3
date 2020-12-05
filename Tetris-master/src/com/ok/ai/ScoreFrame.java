@@ -41,8 +41,8 @@ public class ScoreFrame extends JFrame{
 	String scorefilepath = MyDB.scorefilepath;
 	
 	// font
-	Font font_head = new Font(Font.DIALOG, Font.BOLD, jframe_w/20);
-	Font font_body = new Font(Font.DIALOG, Font.BOLD, jframe_w/30);
+	Font font_head = new Font(Utility.getFontString(), Font.BOLD, jframe_w/20);
+	Font font_body = new Font(Utility.getFontString(), Font.BOLD, jframe_w/30);
 	
 	public ScoreFrame(String name,int sc) {
 		super(jframe_string);

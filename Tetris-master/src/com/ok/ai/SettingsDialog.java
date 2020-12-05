@@ -87,9 +87,9 @@ public class SettingsDialog implements KeyListener, ActionListener, DocumentList
 	public static final int MIN_ARR = 0;
 	public static final int MAX_ARR = 1000;
 	
-	public static final Font F_DIALOG = new Font(Font.DIALOG, Font.PLAIN, 16);
-	public static final Font F_LABEL = new Font(Font.DIALOG, Font.PLAIN, 12);
-	public static final Font F_HIGHLIGHT = new Font(Font.DIALOG, Font.BOLD, 20);
+	public static final Font F_DIALOG = new Font(Utility.getFontString(), Font.BOLD, 16);
+	public static final Font F_LABEL = new Font(Utility.getFontString(), Font.BOLD, 12);
+	public static final Font F_HIGHLIGHT = new Font(Utility.getFontString(), Font.BOLD, 20);
 	
 	private static final ImageIcon xIcon = new ImageIcon(Utility.iconToImage(UIManager.getIcon("OptionPane.errorIcon")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	
