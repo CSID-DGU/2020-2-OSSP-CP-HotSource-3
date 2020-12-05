@@ -15,8 +15,6 @@ public class TetrisMarathon extends Tetris
 {
 	public int score = 0;
 	public  static int finalScore;
-	private int FirmDropPlusScore = 20;
-	private int DropDelayMinusScore = 4;
 	
 	public static final int[] VALUES = {0, 100, 175, 350, 700, 1000};
 	
@@ -36,12 +34,14 @@ public class TetrisMarathon extends Tetris
 	
 	private static final int maxfirmDropScore = 20;
 	private static final int difffirmDropScore = 4;
+	private static final int maxty = 5;
+	private static final int minty = 1;
 	public void firmDrop()
 	{	
-		if(1 <= ty && ty < 5) {
+		if(minty <= ty && ty < maxty) {
 			score += (maxfirmDropScore - (ty * difffirmDropScore));
 		}
-		else if(0 >= ty) {
+		else if(minty > ty) {
 			score += maxfirmDropScore;
 		}
 		int oldy = ty;
@@ -57,11 +57,13 @@ public class TetrisMarathon extends Tetris
 	}
 	
 	private static final int defaultlevel = 1;
+	private static final int defaultcombo = 1;
+	private static final int zerocombo = 0;
 	private static final int[] scoreThreshold = {0, 550, 1400, 2850, 5200, 8750, 13800, 20650, 29600, 40950, 55000};
 	private static final int multiThreshold = 2;
 	public void onLinesCleared(int cleared)
 	{
-		score += VALUES[cleared] * (combo + 1);
+		score += VALUES[cleared] * (combo + defaultcombo);
 		if (cleared > multiThreshold)
 			combo++;
 		for (int i = 0;i<scoreThreshold.length;i++) {
@@ -81,6 +83,15 @@ public class TetrisMarathon extends Tetris
 	
 	public void drawTo(Graphics2D g, int x, int y)
 	{
+		double scoreXCoefficient = 1.5;
+		int scoreYCoefficient = 2;
+		int levelCoefficient = 2;
+		int linesCoefficient = 2;
+		double timeXCoefficient = 1.5;
+		int timeYCoefficient = 2;
+		double comboXCoefficient = 1.8;
+		int comboYCoefficient = 10;
+		
 		x += DSP_W;
 		
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -88,14 +99,20 @@ public class TetrisMarathon extends Tetris
 		
 		g.setColor(Color.WHITE);
 		g.setFont(F_LINES);
-		g.drawString("" + score, x + (int)(SQR_W*1.5), y + (int)(SQR_W/2));
+		
+		
+		g.drawString("" + score, x + (int)(SQR_W*scoreXCoefficient), y + (int)(SQR_W/scoreYCoefficient));
 		
 		g.setFont(F_TIME);
-		g.drawString("Level: "+getLevel(), x+DSP_W*2, y+SQR_W);
-		g.drawString("" + linesCleared + " lines", x+DSP_W*2, y+ DSP_W/2);
-		g.drawString(getTimeString(), x + (int)(SQR_W*1.5), y + DSP_W/2);
-		if (combo > 0)
-			g.drawString("combo x" + (combo + 1), x+(int)(DSP_W*1.8), y + DSP_W/10);
+		
+		g.drawString("Level: "+getLevel(), x+DSP_W*levelCoefficient, y+SQR_W);
+		
+		g.drawString("" + linesCleared + " lines", x+DSP_W*linesCoefficient, y+ DSP_W/linesCoefficient);
+		
+		g.drawString(getTimeString(), x + (int)(SQR_W*timeXCoefficient), y + DSP_W/timeYCoefficient);
+		
+		if (combo > zerocombo)
+			g.drawString("combo x" + (combo + 1), x+(int)(DSP_W*comboXCoefficient), y + DSP_W/comboYCoefficient);
 
 		
 		super.drawTo(g, x, y);
