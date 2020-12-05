@@ -248,6 +248,8 @@ public class Tetris
 	public int spinR;
 	public int spinTick;
 	public boolean justCleared;
+	public final int Block_EXIST = 1;
+	public final int Block_NOTEXIST = 0;
 
 public int level=1;
 	
@@ -334,12 +336,11 @@ public int level=1;
 		int row_final = 8;
 		int col_start = 12;
 		int col_final = 20;
-		final int BOARD_EXIST = 1;
 		
 		//게임 시작하자마자 쌓여있는 블록 생성
 		for(int i=row_start; i<row_final; i++) {
 			for(int j=col_start; j<col_final; j++) {
-				board[i][j] = BOARD_EXIST;
+				board[i][j] = Block_EXIST;
 			}
 		}
 
@@ -675,7 +676,7 @@ public int level=1;
 			boolean foundEmpty = false;
 			for (int i = 0; i < W; i++)
 			{
-				if (board[i][row] == 0)
+				if (board[i][row] == Block_NOTEXIST)
 				{
 					foundEmpty = true;
 					break;
@@ -690,7 +691,7 @@ public int level=1;
 			{
 				for (int j = row; j >= 1; j--)
 					board[i][j] = board[i][j-1];
-				board[i][0] = 0;
+				board[i][0] = Block_NOTEXIST;
 			}
 			linesCleared++;
 			lines++;
@@ -734,16 +735,16 @@ public int level=1;
 		{
 			int corners = 0;
 			
-			if (x <= 0 || y <= 0 || board[x-1][y-1] != 0)
+			if (x <= 0 || y <= 0 || board[x-1][y-1] != Block_NOTEXIST)
 				corners++;
 			
-			if (x <= 0 || y >= H-1 || board[x-1][y+1] != 0)
+			if (x <= 0 || y >= H-1 || board[x-1][y+1] != Block_NOTEXIST)
 				corners++;
 			
-			if (x >= W-1 || y <= 0 || board[x+1][y-1] != 0)
+			if (x >= W-1 || y <= 0 || board[x+1][y-1] != Block_NOTEXIST)
 				corners++;
 			
-			if (x >= W-1 || y >= H-1 || board[x+1][y+1] != 0)
+			if (x >= W-1 || y >= H-1 || board[x+1][y+1] != Block_NOTEXIST)
 				corners++;
 			
 			if (corners >= 3)
@@ -773,7 +774,7 @@ public int level=1;
 					err = Math.max(err, TOO_LOW);
 				else if (ty + j < 0)
 					continue;
-				else if (board[tx+i][ty+j] != 0)
+				else if (board[tx+i][ty+j] != Block_NOTEXIST)
 					err = Math.max(err, COLLISION);
 			}
 		}
@@ -886,19 +887,19 @@ public int level=1;
 			
 			for (int j = 0; j < H; j++)
 			{
-				if (board[i][j] != 0)
+				if (board[i][j] != Block_NOTEXIST)
 				{
 					ans -= 11;
 					
-					for (int k = j+1; k < H && board[i][k] == 0; k++)
+					for (int k = j+1; k < H && board[i][k] == Block_NOTEXIST; k++)
 						ans -= 130;
 				}
 				else
 				{
-					for (int k = j-1; k >= 0 && board[i][k] != 0; k++)
+					for (int k = j-1; k >= 0 && board[i][k] != Block_NOTEXIST; k++)
 						ans -= 120;
 					
-					if ((i <= 0 || board[i-1][j] != 0) && (i >= W-1 || board[i+1][j] != 0))
+					if ((i <= 0 || board[i-1][j] != Block_NOTEXIST) && (i >= W-1 || board[i+1][j] != Block_NOTEXIST))
 					{
 						if (columnfree > 0)
 							columnfree--;
@@ -929,7 +930,7 @@ public int level=1;
 		{
 			for (int i = 0; i < W; i++)
 			{
-				if (board[i][j] != 0)
+				if (board[i][j] != Block_NOTEXIST)
 					return H - j;
 			}
 		}
@@ -1024,7 +1025,7 @@ public int level=1;
 		{
 			for (int j = 0; j < H; j++)
 			{
-				if (board[i][j] == 0)
+				if (board[i][j] == Block_NOTEXIST)
 					continue;
 
 				g.setColor(COLORS[board[i][j]]);
@@ -1249,7 +1250,8 @@ public int level=1;
 	protected static void drawCentered(Graphics2D g, String s, int x, int y)
 	{
 		FontMetrics m = g.getFontMetrics();
-		g.drawString(s, x - m.stringWidth(s) / 2, y);
+		int mWidthCoefficient = 2;
+		g.drawString(s, x - m.stringWidth(s) / mWidthCoefficient, y);
 	}
 	
 	protected String getTimeString()
