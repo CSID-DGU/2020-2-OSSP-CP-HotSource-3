@@ -70,6 +70,21 @@ The picture above is that was operated normally by clicking the home button with
 
 * **When the button is pressed, the music is muted or played again**
 
+
+
+### 5. Delete margin, frame resizing
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/55723966/101282555-3a657e80-3819-11eb-8e1d-6bb7fb1e381c.gif)
+
+* **Deletes the margin of the play screen and maintains the frame resizng function**
+
+
+
+### 6. Blocks already stacked
+![blockstacked1](https://user-images.githubusercontent.com/55723966/101282615-8d3f3600-3819-11eb-8085-e0bb6b37011f.PNG)
+![blockstacked2](https://user-images.githubusercontent.com/55723966/101282619-903a2680-3819-11eb-9e65-d9eb537963aa.PNG)
+
+* **How to run : NewGame> NEW HARDGAME> OK on the play screen**
+
 ## References
 
 * **PSNB92, Tetris, https://github.com/PSNB92/Tetris, Nov 3, 2017**
