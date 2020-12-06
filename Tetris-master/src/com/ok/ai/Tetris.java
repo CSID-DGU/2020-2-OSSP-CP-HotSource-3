@@ -19,6 +19,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -346,16 +347,52 @@ public int level=1;
 		spinTick = TSPIN_ANIMATION_TICKS * -4;
 		justCleared = false;
 		
-		int row_start = 0;
-		int row_final = 8;
-		int col_start = 12;
-		int col_final = 20;
 		
-		//寃뚯엫 �떆�옉�븯�옄留덉옄 �뙎�뿬�엳�뒗 釉붾줉 �깮�꽦
-		for(int i=row_start; i<row_final; i++) {
-			for(int j=col_start; j<col_final; j++) {
-				board[i][j] = Block_EXIST;
-			}
+		//Already Stacked Block
+		Random rand = new Random();
+		int n = rand.nextInt(3);
+		
+		switch(n) {
+			case 0:	//	낭떠러지
+				//게임 시작하자마자 쌓여있는 블록 생성
+				for(int i=0; i<8; i++) {
+					for(int j=12; j<20; j++) {
+						board[i][j] = 1;
+					}
+				}
+				break;
+			case 1:	//	협곡
+				//게임 시작하자마자 쌓여있는 블록 생성
+				for(int i=0; i<5; i++) {
+					for(int j=12; j<20; j++) {
+						board[i][j] = 1;
+					}
+				}
+				for(int i=7; i<10; i++) {
+					for(int j=12; j<20; j++) {
+						board[i][j] = 1;
+					}
+				}
+				break;
+			case 2:	//	HI
+				for(int j=12; j<20; j++) {
+					board[1][j] = 1;
+					board[3][j] = 1;
+				}
+				board[2][16] = 1;
+				for(int j=12; j<20; j++) {
+					if(j == 12) {
+						board[6][j] = 1;
+						board[8][j] = 1;
+					}
+					if(j == 19) {
+						board[6][j] = 1;
+						board[8][j] = 1;
+					}
+					board[7][j] = 1;
+				}
+				break;
+			
 		}
 
 		fMoves = new int[AHEAD];
