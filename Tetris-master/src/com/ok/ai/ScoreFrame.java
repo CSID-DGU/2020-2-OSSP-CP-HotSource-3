@@ -38,7 +38,7 @@ public class ScoreFrame extends JFrame{
 	
 	// score file
 	Scanner file;
-	String scorefilepath = "../../score.txt";
+	String scorefilepath = MyDB.scorefilepath;
 	
 	// font
 	Font font_head = new Font(Font.DIALOG, Font.BOLD, jframe_w/20);

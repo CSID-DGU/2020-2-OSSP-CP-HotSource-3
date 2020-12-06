@@ -10,7 +10,7 @@ public class BGM {
 	private Clip clip;
 	private boolean availableFile = true;
     public BGM() {
-        File bgm = new File("../../Sound/bgm_TheFatRat.wav");
+        File bgm = new File("com/ok/sounds/bgm_TheFatRat.wav");
         AudioInputStream stream;
         AudioFormat format;
         DataLine.Info info;
