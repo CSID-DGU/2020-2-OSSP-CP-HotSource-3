@@ -350,14 +350,15 @@ public int level=1;
 		
 		//Already Stacked Block
 		Random rand = new Random();
-		int n = rand.nextInt(3);
+		int mapsize = 4;
+		int n = rand.nextInt(mapsize);
 		
 		switch(n) {
 			case 0:	//	낭떠러지
 				//게임 시작하자마자 쌓여있는 블록 생성
 				for(int i=0; i<8; i++) {
 					for(int j=12; j<20; j++) {
-						board[i][j] = 1;
+						board[i][j] = Block_EXIST;
 					}
 				}
 				break;
@@ -365,34 +366,70 @@ public int level=1;
 				//게임 시작하자마자 쌓여있는 블록 생성
 				for(int i=0; i<5; i++) {
 					for(int j=12; j<20; j++) {
-						board[i][j] = 1;
+						board[i][j] = Block_EXIST;
 					}
 				}
 				for(int i=7; i<10; i++) {
 					for(int j=12; j<20; j++) {
-						board[i][j] = 1;
+						board[i][j] = Block_EXIST;
 					}
 				}
 				break;
 			case 2:	//	HI
 				for(int j=12; j<20; j++) {
-					board[1][j] = 1;
-					board[3][j] = 1;
+					board[1][j] = Block_EXIST;
+					board[3][j] = Block_EXIST;
 				}
-				board[2][16] = 1;
+				board[2][16] = Block_EXIST;
 				for(int j=12; j<20; j++) {
 					if(j == 12) {
-						board[6][j] = 1;
-						board[8][j] = 1;
+						board[6][j] = Block_EXIST;
+						board[8][j] = Block_EXIST;
 					}
 					if(j == 19) {
-						board[6][j] = 1;
-						board[8][j] = 1;
+						board[6][j] = Block_EXIST;
+						board[8][j] = Block_EXIST;
 					}
-					board[7][j] = 1;
+					board[7][j] = Block_EXIST;
 				}
 				break;
-			
+			case 3:	//	OSSP
+				//	O
+				for(int j = 10; j < 13; j++) {
+					board[1][j] = Block_EXIST;
+					board[4][j] = Block_EXIST;
+				}
+				for(int i = 2; i < 4; i++) {
+					board[i][9] = Block_EXIST;
+					board[i][13] = Block_EXIST;
+				}
+				
+				//	S, P
+				for(int i = 6; i < 9; i++) {
+					board[i][9] = Block_EXIST;
+					board[i][11] = Block_EXIST;
+					board[i][13] = Block_EXIST;
+					board[i][15] = Block_EXIST;
+					board[i][17] = Block_EXIST;
+				}
+				
+					board[6][10] = Block_EXIST;
+					board[8][12] = Block_EXIST;
+					board[8][16] = Block_EXIST;
+					board[6][16] = Block_EXIST;
+					board[6][18] = Block_EXIST;
+					board[6][19] = Block_EXIST;
+				
+				//	S
+				for(int i = 1; i < 5; i++) {
+					for(int j = 15; j < 20; j++) {
+						if(j == 15 || j == 17 || j == 19) board[i][j] = Block_EXIST;
+					}
+				}
+				board[1][16] = Block_EXIST;
+				board[4][18] = Block_EXIST;
+					
+				break;
 		}
 
 		fMoves = new int[AHEAD];
