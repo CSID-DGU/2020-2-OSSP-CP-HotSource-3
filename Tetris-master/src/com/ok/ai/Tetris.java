@@ -8,16 +8,18 @@ provide credit to me if you use it in your own program.
 
 */
 import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Composite;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,19 +33,21 @@ public class Tetris
 	public static final int W = 10;
 	public static final int H = 20;
 
-	protected static int SQR_W = 20;
+	protected static int SQR_W;
+	protected static int SQR_H;
 	public static int DSP_W = 70;
 	public static int DSP_H = 60;
-	public static int FIELD_W = W * SQR_W;
-	public static int FIELD_H = H * SQR_W;
-	protected static Font F_LINES = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*1.2));
-	protected static Font F_TIME = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*0.7));
-	protected static Font F_UI = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*0.7));
-	protected static Font F_PAUSE = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*1.8));
-	protected static Font F_COUNTDOWN = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*1.8));
-	protected static Font F_GAMEOVER = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*2.4));
-	public void setSQR_W(int sqr_W) {
+	public static int FIELD_W ;
+	public static int FIELD_H;
+	protected static Font F_LINES;
+	protected static Font F_TIME;
+	protected static Font F_UI ;
+	protected static Font F_PAUSE;
+	protected static Font F_COUNTDOWN ;
+	protected static Font F_GAMEOVER ;
+	public void setSQR_W(int sqr_W,int sqr_H) {
 		this.SQR_W=sqr_W;
+		this.SQR_H =sqr_H;
 		this.FIELD_W=W*sqr_W;
 		this.FIELD_H=H*sqr_W;
 		this.F_LINES = new Font(Utility.getFontString(), Font.BOLD, (int)(sqr_W*1.2));
@@ -51,18 +55,30 @@ public class Tetris
 		this.F_UI = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*0.7));
 		this.F_PAUSE = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*1.8));
 		this.F_GAMEOVER = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*2.4));
-		
 	}
+	int font_dsp;
 	public int getSQR_W() {
 		return SQR_W;
 	}
 	public void setDSP_W(int dsp_w) {
 		this.DSP_W=dsp_w;
+		if(FIELD_H<=real_y) {
+			this.F_LINES = new Font("digital-7", Font.BOLD, (int)(DSP_W/3));
+			this.F_TIME = new Font(Font.SANS_SERIF, Font.BOLD, (int)(DSP_W/4));
+			this.F_UI = new Font("digital-7", Font.BOLD, (int)(SQR_W*0.7));
+			this.F_PAUSE = new Font("digital-7", Font.BOLD, (int)(SQR_W*1.8));
+			this.F_GAMEOVER = new Font("digital-7", Font.BOLD, (int)(SQR_W*2.4));
+			font_dsp =(int)(DSP_W);
+		}else {
+			this.F_LINES = new Font("digital-7", Font.BOLD, font_dsp/3);
+			this.F_TIME = new Font(Font.SANS_SERIF, Font.BOLD, font_dsp/4);
+			this.F_UI = new Font("digital-7", Font.BOLD, (int)(sqr*0.7));
+			this.F_PAUSE = new Font("digital-7", Font.BOLD, (int)(sqr*1.8));
+			this.F_GAMEOVER = new Font("digital-7", Font.BOLD, (int)(sqr*2.4));
+		}
+		
 	}
-	public int getDSP_W() {
-		return DSP_W;
-	}
-	public static int PIXEL_W = FIELD_W + DSP_W * 2;
+	public static int PIXEL_W = FIELD_W + DSP_W;
 	public static int PIXEL_H = FIELD_H + DSP_H;
 	public static boolean isIDFrame = false;
 	
@@ -248,6 +264,8 @@ public class Tetris
 	public int spinR;
 	public int spinTick;
 	public boolean justCleared;
+	public final int Block_EXIST = 1;
+	public final int Block_NOTEXIST = 0;
 
 public int level=1;
 	
@@ -256,7 +274,7 @@ public int level=1;
 	}
 	public void setLevel(int level) {
 		this.level=level;
-		this.tickInterval=10/level; //속도 조절
+		this.tickInterval=10/level;//속도조절
 	}
 	
 	protected PieceGenerator gen;
@@ -330,17 +348,89 @@ public int level=1;
 		spinTick = TSPIN_ANIMATION_TICKS * -4;
 		justCleared = false;
 		
-		int row_start = 0;
-		int row_final = 8;
-		int col_start = 12;
-		int col_final = 20;
-		final int BOARD_EXIST = 1;
 		
-		//게임 시작하자마자 쌓여있는 블록 생성
-		for(int i=row_start; i<row_final; i++) {
-			for(int j=col_start; j<col_final; j++) {
-				board[i][j] = BOARD_EXIST;
-			}
+		//Already Stacked Block
+		Random rand = new Random();
+		int mapsize = 4;
+		int n = rand.nextInt(mapsize);
+		
+		switch(n) {
+			case 0:	//	낭떠러지
+				//게임 시작하자마자 쌓여있는 블록 생성
+				for(int i=0; i<8; i++) {
+					for(int j=12; j<20; j++) {
+						board[i][j] = Block_EXIST;
+					}
+				}
+				break;
+			case 1:	//	협곡
+				//게임 시작하자마자 쌓여있는 블록 생성
+				for(int i=0; i<5; i++) {
+					for(int j=12; j<20; j++) {
+						board[i][j] = Block_EXIST;
+					}
+				}
+				for(int i=7; i<10; i++) {
+					for(int j=12; j<20; j++) {
+						board[i][j] = Block_EXIST;
+					}
+				}
+				break;
+			case 2:	//	HI
+				for(int j=12; j<20; j++) {
+					board[1][j] = Block_EXIST;
+					board[3][j] = Block_EXIST;
+				}
+				board[2][16] = Block_EXIST;
+				for(int j=12; j<20; j++) {
+					if(j == 12) {
+						board[6][j] = Block_EXIST;
+						board[8][j] = Block_EXIST;
+					}
+					if(j == 19) {
+						board[6][j] = Block_EXIST;
+						board[8][j] = Block_EXIST;
+					}
+					board[7][j] = Block_EXIST;
+				}
+				break;
+			case 3:	//	OSSP
+				//	O
+				for(int j = 10; j < 13; j++) {
+					board[1][j] = Block_EXIST;
+					board[4][j] = Block_EXIST;
+				}
+				for(int i = 2; i < 4; i++) {
+					board[i][9] = Block_EXIST;
+					board[i][13] = Block_EXIST;
+				}
+				
+				//	S, P
+				for(int i = 6; i < 9; i++) {
+					board[i][9] = Block_EXIST;
+					board[i][11] = Block_EXIST;
+					board[i][13] = Block_EXIST;
+					board[i][15] = Block_EXIST;
+					board[i][17] = Block_EXIST;
+				}
+				
+					board[6][10] = Block_EXIST;
+					board[8][12] = Block_EXIST;
+					board[8][16] = Block_EXIST;
+					board[6][16] = Block_EXIST;
+					board[6][18] = Block_EXIST;
+					board[6][19] = Block_EXIST;
+				
+				//	S
+				for(int i = 1; i < 5; i++) {
+					for(int j = 15; j < 20; j++) {
+						if(j == 15 || j == 17 || j == 19) board[i][j] = Block_EXIST;
+					}
+				}
+				board[1][16] = Block_EXIST;
+				board[4][18] = Block_EXIST;
+					
+				break;
 		}
 
 		fMoves = new int[AHEAD];
@@ -624,7 +714,7 @@ public int level=1;
 	protected void countdown() {
 		countdown_number = getCountDownNumber();
 			
-		// 게임 멈추기
+		// 게임멈추기 
 		paused = true; // stop game
 		Timer paused_timer = new Timer();
 		TimerTask paused_task = new TimerTask() {
@@ -732,18 +822,18 @@ public int level=1;
 		int y = ty + 2;
 		if (pieceID == TPIECE && lastMoveRotate)
 		{
-			int corners = 0;
+int corners = 0;
 			
-			if (x <= 0 || y <= 0 || board[x-1][y-1] != 0)
+			if (x <= 0 || y <= 0 || board[x-1][y-1] != Block_NOTEXIST)
 				corners++;
 			
-			if (x <= 0 || y >= H-1 || board[x-1][y+1] != 0)
+			if (x <= 0 || y >= H-1 || board[x-1][y+1] != Block_NOTEXIST)
 				corners++;
 			
-			if (x >= W-1 || y <= 0 || board[x+1][y-1] != 0)
+			if (x >= W-1 || y <= 0 || board[x+1][y-1] != Block_NOTEXIST)
 				corners++;
 			
-			if (x >= W-1 || y >= H-1 || board[x+1][y+1] != 0)
+			if (x >= W-1 || y >= H-1 || board[x+1][y+1] != Block_NOTEXIST)
 				corners++;
 			
 			if (corners >= 3)
@@ -957,7 +1047,7 @@ public int level=1;
 		return H - ty - max - height() - 1;
 	}
 
-	//°ÔÀÓÆÇ »ö
+	//째횚�횙횈횉 쨩철
 	protected static final Color C_BACKGROUND = Color.BLACK; //게임창 배경색 설정
 	protected static final Color C_BORDER = new Color(63, 63, 63);
 	protected static final Color C_SHADOW = new Color(0, 0, 0, 63);
@@ -965,26 +1055,46 @@ public int level=1;
 	protected static final Color C_GHOST_FILL = new Color(0, 0, 0, 63);
 	protected static final Color C_PIECE_HIGHLIGHT = new Color(0, 0, 0, 50);
 	protected static final Color C_NOTICE = new Color(255, 255, 255, 225);
-	protected static final Color C_BUFFER = new Color(255, 255, 255, 200);
 												// I, S, T, O, Z, L, J
 	protected static final Color[] COLORS = {null, Color.CYAN, Color.RED, Color.MAGENTA, Color.YELLOW, Color.GREEN, Color.ORANGE, new Color(100, 150, 255), new Color(190, 190, 190)};
 	
 	// 테두리 두께
 	protected static final int borderSize = 1;
+
 	protected int yoffset = SQR_W;
 	protected int xoffset = SQR_W;
 	public static int boxsize = (int)(SQR_W*2.5); // Tetrimino가 들어가는 박스의 크기
 	protected int blocksize = (int)(SQR_W/2); // Tetrimino의 크기
+
+	Dimension dimen = Toolkit.getDefaultToolkit().getScreenSize();
+	protected int real_y = (int)(dimen.getHeight())-265;
+	protected static int field_w;
+	protected static int field_h;
+	protected static int sqr;
+	protected static int dsp;
+	protected static int hold;
+	protected static int next;
+	protected static int over;
+	
 	public void drawTo(Graphics2D g, int x, int y)
 	{
 		int size = 4;
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		y += DSP_H;
-		
-		g.setStroke(new BasicStroke(borderSize)); //테두리 두께 
+
 		g.setColor(C_BACKGROUND); //배경색 대입
-		g.fillRect(x, y, FIELD_W, FIELD_H); //게임 창 구성
+		if(FIELD_H<=real_y ) {
+			g.fillRect(x, y, FIELD_W, FIELD_H);//게임창 구성
+			field_w=FIELD_W;
+			field_h= FIELD_H;
+			sqr = SQR_W;
+			dsp = DSP_W;
+		}else {
+			g.fillRect(x, y, field_w, field_h);
+		}
+		
+		
 
 		if (!dead)
 		{
@@ -1012,41 +1122,62 @@ public int level=1;
 					
 					if (xpos < 0 || ypos < 0)
 						continue;
-	
-					g.setColor(C_GHOST_FILL);
-					g.fillRect(x + xpos * SQR_W + 1, y + ypos * SQR_W + 1, SQR_W - 2, SQR_W - 2);
+					if(FIELD_H<=real_y ) {
+						g.setColor(C_GHOST_FILL);
+						g.fillRect(x + xpos * SQR_W + 1, y + ypos * SQR_W + 1, SQR_W - 2, SQR_W - 2);
+						
+						g.setColor(C_GHOST);
+						g.drawRect(x + xpos * SQR_W + 1, y + ypos * SQR_W + 1, SQR_W - 2, SQR_W - 2);
+						g.drawRect(x + xpos * SQR_W + 2, y + ypos * SQR_W + 2, SQR_W - 4, SQR_W - 4);
+					}else {
+						g.setColor(C_GHOST_FILL);
+						g.fillRect(x + xpos * sqr + 1, y + ypos * sqr + 1, sqr - 2, sqr - 2);
+						
+						g.setColor(C_GHOST);
+						g.drawRect(x + xpos * sqr + 1, y + ypos * sqr + 1, sqr - 2, sqr - 2);
+						g.drawRect(x + xpos * sqr + 2, y + ypos * sqr + 2, sqr - 4, sqr - 4);
+					}
 					
-					g.setColor(C_GHOST);
-					g.drawRect(x + xpos * SQR_W + 1, y + ypos * SQR_W + 1, SQR_W - 2, SQR_W - 2);
-					g.drawRect(x + xpos * SQR_W + 2, y + ypos * SQR_W + 2, SQR_W - 4, SQR_W - 4);
 				}
 			}
 		}
-		
-		// 쌓여 있는 블록 그리기
+		//쌓여 있는 블록 그리기
 		for (int i = 0; i < W; i++)
 		{
 			for (int j = 0; j < H; j++)
 			{
 				if (board[i][j] == 0)
 					continue;
+				if(FIELD_H<=real_y ) {
+					g.setColor(COLORS[board[i][j]]);
+					g.fillRect(x + i * SQR_W, y + j * SQR_W, SQR_W, SQR_W);
+					
+					g.setColor(C_PIECE_HIGHLIGHT);
+					g.fillRect(x + i * SQR_W, y + j * SQR_W, SQR_W, SQR_W);
 
-				g.setColor(COLORS[board[i][j]]);
-				g.fillRect(x + i * SQR_W, y + j * SQR_W, SQR_W, SQR_W);
+					g.setColor(COLORS[board[i][j]]);
+					g.fillRect(x + i * SQR_W + 6, y + j * SQR_W + 6, SQR_W - 11, SQR_W - 11);
+
+					g.setColor(C_SHADOW);
+					g.drawRect(x + i * SQR_W + 1, y + j * SQR_W + 1, SQR_W - 2, SQR_W - 2);
+				}else {
+					g.setColor(COLORS[board[i][j]]);
+					g.fillRect(x + i * sqr, y + j * sqr, sqr, sqr);
+					
+					g.setColor(C_PIECE_HIGHLIGHT);
+					g.fillRect(x + i * sqr, y + j * sqr, sqr, sqr);
+
+					g.setColor(COLORS[board[i][j]]);
+					g.fillRect(x + i * sqr + 6, y + j * sqr + 6, sqr - 11, sqr - 11);
+
+					g.setColor(C_SHADOW);
+					g.drawRect(x + i * sqr + 1, y + j * sqr + 1, sqr - 2, sqr - 2);
+				}
+
 				
-				g.setColor(C_PIECE_HIGHLIGHT);
-				g.fillRect(x + i * SQR_W, y + j * SQR_W, SQR_W, SQR_W);
-
-				g.setColor(COLORS[board[i][j]]);
-				g.fillRect(x + i * SQR_W + 6, y + j * SQR_W + 6, SQR_W - 11, SQR_W - 11);
-
-				g.setColor(C_SHADOW);
-				g.drawRect(x + i * SQR_W + 1, y + j * SQR_W + 1, SQR_W - 2, SQR_W - 2);
 			}
 		}
-        
-		// 하강하는 블록 그리기
-		g.setStroke(new BasicStroke(borderSize));
+		//하강 하는 블록 그리기
 		if (!dead)
 		{
 			g.setColor(COLORS[pieceID]);
@@ -1060,27 +1191,47 @@ public int level=1;
 						continue;
 					if (ty + j < 0 || ty + j >= H)
 						continue;
+					if(FIELD_H<=real_y) {
+						g.setColor(COLORS[pieceID]);
+						g.fillRect(x + (tx + i) * SQR_W, y + (ty + j) * SQR_W, SQR_W, SQR_W);
+						
+						g.setColor(C_PIECE_HIGHLIGHT);
+						g.fillRect(x + (tx + i) * SQR_W, y + (ty + j) * SQR_W, SQR_W, SQR_W);
 
-					g.setColor(COLORS[pieceID]);
-					g.fillRect(x + (tx + i) * SQR_W, y + (ty + j) * SQR_W, SQR_W, SQR_W);
+						g.setColor(COLORS[pieceID]);
+						g.fillRect(x + (tx + i) * SQR_W + 6, y + (ty + j) * SQR_W + 6, SQR_W - 11, SQR_W - 11);
+
+						g.setColor(C_SHADOW);
+						g.drawRect(x + (tx + i) * SQR_W + 1, y + (ty + j) * SQR_W + 1, SQR_W - 2, SQR_W - 2);
+					}else {
+						g.setColor(COLORS[pieceID]);
+						g.fillRect(x + (tx + i) * sqr, y + (ty + j) * sqr, sqr, sqr);
+						
+						g.setColor(C_PIECE_HIGHLIGHT);
+						g.fillRect(x + (tx + i) * sqr, y + (ty + j) * sqr, sqr, sqr);
+
+						g.setColor(COLORS[pieceID]);
+						g.fillRect(x + (tx + i) * sqr + 6, y + (ty + j) * sqr + 6, sqr - 11, sqr - 11);
+
+						g.setColor(C_SHADOW);
+						g.drawRect(x + (tx + i) * sqr + 1, y + (ty + j) * sqr + 1, sqr - 2, sqr - 2);
+					}
 					
-					g.setColor(C_PIECE_HIGHLIGHT);
-					g.fillRect(x + (tx + i) * SQR_W, y + (ty + j) * SQR_W, SQR_W, SQR_W);
-
-					g.setColor(COLORS[pieceID]);
-					g.fillRect(x + (tx + i) * SQR_W + 6, y + (ty + j) * SQR_W + 6, SQR_W - 11, SQR_W - 11);
-
-					g.setColor(C_SHADOW);
-					g.drawRect(x + (tx + i) * SQR_W + 1, y + (ty + j) * SQR_W + 1, SQR_W - 2, SQR_W - 2);
 				}
 			}
 		}
-
+		//격자 그리기
 		g.setColor(C_BORDER);
 		for (int i = 0; i < W; i++)
 		{
 			for (int j = 0; j < H; j++)
-				g.drawRect(x + i * SQR_W, y + j * SQR_W, SQR_W, SQR_W);
+				if(FIELD_H<=real_y) {
+					g.drawRect(x + i * SQR_W, y + j * SQR_W, SQR_W, SQR_W);
+					sqr = SQR_W;
+				}else {
+					g.drawRect(x + i * sqr, y + j * sqr, sqr, sqr);
+				}
+				
 		}
 		
 		final double FLASH_TIME = (long) 500;
@@ -1096,7 +1247,11 @@ public int level=1;
 			float alpha = (float) ((FLASH_TIME  - diff) / FLASH_TIME );
 			alpha *= alpha * alpha;
 			g.setColor(new Color(1.0f, 1.0f, 1.0f, alpha));
-			g.fillRect(x + 1, y + i * SQR_W + 1, FIELD_W - 1, SQR_W - 1);
+			if(FIELD_H<real_y) {
+				g.fillRect(x + 1, y + i * SQR_W + 1, FIELD_W - 1, SQR_W - 1);
+			}else {
+				g.fillRect(x + 1, y + i * sqr + 1, field_h - 1, sqr - 1);
+			}
 		}
 
 		{
@@ -1106,42 +1261,80 @@ public int level=1;
 				int rotation = (spinR + diff / TSPIN_ANIMATION_TICKS < 2 ? (diff / TSPIN_ANIMATION_TICKS) : 2) % 4;
 				BufferedImage img = tspins[rotation];
 				if (img != null)
-				{	
+				{
 					Composite comp = g.getComposite();
 					if (diff >= TSPIN_ANIMATION_TICKS * 2)
 					{
 						float alpha = 1.0f - (float)(diff - TSPIN_ANIMATION_TICKS * 2) / (TSPIN_ANIMATION_TICKS * 2);
 						g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-						g.setColor(C_BUFFER);
-						g.fillRect(x + spinX * SQR_W, y + spinY * SQR_W, SQR_W, SQR_W);
-						
-						if (rotation != 0 && spinY + 1 < H)
-							g.fillRect(x + spinX * SQR_W, y + (spinY + 1) * SQR_W, SQR_W, SQR_W);
-						
-						if (rotation != 1 && spinX > 0)
-							g.fillRect(x + (spinX - 1) * SQR_W, y + spinY * SQR_W, SQR_W, SQR_W);
-						
-						if (rotation != 2 && spinY > 0)
-							g.fillRect(x + spinX * SQR_W, y + (spinY - 1) * SQR_W, SQR_W, SQR_W);
-						
-						if (rotation != 3 && spinX + 1 < W)
-							g.fillRect(x + (spinX + 1) * SQR_W, y + spinY * SQR_W, SQR_W, SQR_W);
+						g.setColor(new Color(255, 255, 255, 200));
+						if(FIELD_H<=real_y) {
+							g.fillRect(x + spinX * SQR_W, y + spinY* SQR_W, SQR_W, SQR_W);
+							
+							if (rotation != 0 && spinY + 1 < H)
+								g.fillRect(x + spinX * SQR_W, y + (spinY + 1) * SQR_W, SQR_W, SQR_W);
+							
+							if (rotation != 1 && spinX > 0)
+								g.fillRect(x + (spinX - 1) * SQR_W, y + spinY * SQR_W, SQR_W, SQR_W);
+							
+							if (rotation != 2 && spinY > 0)
+								g.fillRect(x + spinX * SQR_W, y + (spinY - 1) * SQR_W, SQR_W, SQR_W);
+							
+							if (rotation != 3 && spinX + 1 < W)
+								g.fillRect(x + (spinX + 1) * SQR_W, y + spinY * SQR_W, SQR_W, SQR_W);
+						}else{
+							g.fillRect(x + spinX * sqr, y + spinY* sqr, sqr, sqr);
+							if (rotation != 0 && spinY + 1 < H)
+								g.fillRect(x + spinX * sqr, y + (spinY + 1) * sqr, sqr, sqr);
+							
+							if (rotation != 1 && spinX > 0)
+								g.fillRect(x + (spinX - 1) * sqr, y + spinY * sqr, sqr, sqr);
+							
+							if (rotation != 2 && spinY > 0)
+								g.fillRect(x + spinX * sqr, y + (spinY - 1) * sqr, sqr, sqr);
+							
+							if (rotation != 3 && spinX + 1 < W)
+								g.fillRect(x + (spinX + 1) * sqr, y + spinY * sqr, sqr, sqr);
+						}
 					}
-					g.drawImage(img, x + spinX * SQR_W - img.getWidth() / 2 + SQR_W / 2, y + spinY * SQR_W - img.getHeight() / 2 + SQR_W / 2, null);
-					g.setComposite(comp);
+					if(FIELD_H<=real_y) {
+						g.drawImage(img, x + spinX * SQR_W - img.getWidth() / 2 + SQR_W / 2, y + spinY * SQR_W - img.getHeight() / 2 + SQR_W / 2, null);
+						g.setComposite(comp);
+					}else {
+						g.drawImage(img, x + spinX * sqr - img.getWidth() / 2 + sqr / 2, y + spinY * sqr - img.getHeight() / 2 + sqr / 2, null);
+						g.setComposite(comp);
+					}
 				}
 			}
+		}
+
+		if(FIELD_H<=real_y) {
+			yoffset = SQR_W;
+			xoffset = SQR_W/2;
+			boxsize = (int)(SQR_W*2.5);
+			blocksize = (int)(SQR_W/2);
+		}else {
+			 yoffset = sqr;
+			 xoffset = sqr/2;
+			 boxsize = (int)(sqr*2.5);
+			 blocksize = (int)(sqr/2);
 		}
 		
 		// holdBox와 hold글씨 그리기
 		g.setColor(Color.WHITE);
 		g.setFont(F_UI);
-		drawCentered(g, "Hold", x - xoffset - boxsize/2, y + g.getFont().getSize());
-		g.drawRect(x - xoffset - boxsize, y + yoffset, boxsize, boxsize);
+		if(FIELD_H<=real_y) {
+			drawCentered(g, "Hold", x - xoffset - boxsize/2, y + g.getFont().getSize());
+			g.drawRect(x - xoffset - boxsize, y + yoffset, boxsize, boxsize);
+			hold = g.getFont().getSize();
+		}else {
+			drawCentered(g, "Hold", x - xoffset - boxsize/2, y + hold);
+			g.drawRect(x - xoffset - boxsize, y + yoffset, boxsize, boxsize);
+		}
 		
 		// holdBox안의 테트리스 그리기
 		if (stored != -1)
-			drawTetrimino(g, stored, x - xoffset - boxsize/2, y + yoffset + boxsize/2, blocksize); // holdBox안의 테트리스 그리기
+			drawTetrimino(g, stored, x - xoffset - boxsize/2, y + yoffset + boxsize/2, blocksize); // holdBox�븞�쓽 �뀒�듃由ъ뒪 洹몃━湲�
 		
 		// levelBox 그리기
 		drawCentered(g, "Level", x - xoffset - boxsize/2, y + SQR_W*4 + g.getFont().getSize());
@@ -1149,21 +1342,38 @@ public int level=1;
 		drawCentered(g, getLevel()+"", x - xoffset - boxsize/2, y + yoffset + SQR_W*4 + boxsize - (boxsize-g.getFont().getSize())/2);
 		
 		//"NEXT"글씨와 다음 테트리스 미리보기 상자
-		g.setColor (Color.WHITE);
-		drawCentered(g, "Next", x + FIELD_W + xoffset + boxsize/2, y + g.getFont().getSize());
+		g.setColor(Color.WHITE);
+		if(FIELD_H<real_y) {
+			drawCentered(g, "Next", x + FIELD_W + xoffset + boxsize/2, y + g.getFont().getSize());
+			next = g.getFont().getSize();
+		}else {
+			drawCentered(g, "Next", x + field_w+ xoffset + boxsize/2, y + next);
+		}
+		
 
 		for (int i = 0; i < AHEAD; i++)
 		{
+			//대기하는 블록 창
 			g.setColor(Color.WHITE);
-			g.drawRect(x + FIELD_W + xoffset, y + boxsize*i+ yoffset, boxsize, boxsize); //Next의 네모칸들
-			drawTetrimino(g, fMoves[i], x + FIELD_W + xoffset+ boxsize/2, y + boxsize*i+ boxsize/2 + yoffset, blocksize); // NEXT칸의 블록들
+			if(FIELD_H<=real_y) {
+				g.drawRect(x + FIELD_W + xoffset, y + boxsize*i+ yoffset, boxsize, boxsize); //Next�쓽 �꽕紐⑥뭏�뱾
+				drawTetrimino(g, fMoves[i], x + FIELD_W + xoffset+ boxsize/2, y + boxsize*i+ boxsize/2 + yoffset, blocksize); // NEXT移몄쓽 釉붾줉�뱾
+			}else {
+				g.drawRect(x +field_w + xoffset, y + boxsize*i+ yoffset, boxsize, boxsize); //Next�쓽 �꽕紐⑥뭏�뱾
+				drawTetrimino(g, fMoves[i], x + field_w + xoffset+ boxsize/2, y + boxsize*i+ boxsize/2 + yoffset, blocksize); // NEXT移몄쓽 釉붾줉�뱾
+			}
 		}
 		
 		//보드판(상단)
 		g.setColor (Color.WHITE);
-		g.drawRect(x, y-DSP_W-yoffset/2, SQR_W*10, DSP_W);
+		if(FIELD_H<real_y) {
+			g.drawRect(x, y-DSP_W-yoffset/2, SQR_W*10, DSP_W);
+		}
+		g.drawRect(x, y-dsp-yoffset/2, sqr*10, dsp);
 		
 		//버튼 그리기
+		int right_x = FIELD_H<=real_y ? x + FIELD_W + xoffset : x +field_w + xoffset;
+		
 		g.setColor (Color.WHITE);
 		drawCentered(g, "Control", x + FIELD_W + xoffset + boxsize/2, y + SQR_W*9-yoffset/2);
 		
@@ -1192,8 +1402,15 @@ public int level=1;
 		{ 
 			g.setColor(C_NOTICE);
 			g.setFont(F_GAMEOVER);
-			drawCentered(g, "GAME", x + FIELD_W / 2, y - g.getFont().getSize() + FIELD_H / 2);
-			drawCentered(g, "OVER", x + FIELD_W / 2, y + g.getFont().getSize() + FIELD_H / 2);
+			if(FIELD_H<=real_y) {
+				drawCentered(g, "GAME", x + FIELD_W / 2, y - g.getFont().getSize() + FIELD_H / 2);
+				drawCentered(g, "OVER", x + FIELD_W / 2, y + 35 + FIELD_H / 2);
+				over = g.getFont().getSize();
+			}else {
+				drawCentered(g, "GAME", x + field_w / 2, y - g.getFont().getSize() + field_h / 2);
+				drawCentered(g, "OVER", x + field_w / 2, y + 35 + field_h/ 2);
+			}
+			;
 			
 			if(isIDFrame == false) {
 				isIDFrame = true;
@@ -1204,20 +1421,32 @@ public int level=1;
 			
 			g.setColor(C_NOTICE);
 			g.setFont(F_COUNTDOWN);
-			drawCentered(g, countdown_number+"", x + FIELD_W / 2, y + g.getFont().getSize()/2 + FIELD_H / 2);
+			if(FIELD_H<=real_y) {
+				drawCentered(g, countdown_number+"", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
+			}else {
+				drawCentered(g, countdown_number+"", x + field_h / 2, y + 5 + field_h / 2);
+			}
 		}
 		else if (countdown_number==0 && dead==false) {
 			
 			g.setFont(F_COUNTDOWN);
 			g.setColor(C_NOTICE);
-			drawCentered(g, "GO!", x + FIELD_W / 2, y + g.getFont().getSize()/2 + FIELD_H / 2);
+			if(FIELD_H<=real_y) {
+				drawCentered(g, "GO!", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
+			}else {
+				drawCentered(g, "GO!", x + field_w / 2, y + 5 + field_h/ 2);
+			}
 		}
 		else if (paused && !isOver())
 		{
 			
 			g.setColor(C_NOTICE);
 			g.setFont(F_PAUSE);
-			drawCentered(g, "PAUSED", x + FIELD_W / 2, y + g.getFont().getSize()/2 + FIELD_H / 2);
+			if(FIELD_H<real_y) {
+				drawCentered(g, "PAUSED", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
+			}else {
+				drawCentered(g, "PAUSED", x + field_w / 2, y + 5 + field_h / 2);
+			}
 		}
 		drawAfter(g, x, y);
 	}
@@ -1279,7 +1508,7 @@ public int level=1;
 		FontMetrics m = g.getFontMetrics();
 		g.drawString(s, x - m.stringWidth(s) / 2, y);
 	}
-	
+	// 게임 경과 시간
 	protected String getTimeString()
 	{	
 		int timeunit = 60;
