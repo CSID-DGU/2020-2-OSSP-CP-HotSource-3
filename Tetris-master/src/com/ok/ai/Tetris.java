@@ -55,6 +55,7 @@ public class Tetris
 		this.F_UI = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*0.7));
 		this.F_PAUSE = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*1.8));
 		this.F_GAMEOVER = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*2.4));
+		this.F_COUNTDOWN = new Font(Utility.getFontString(), Font.BOLD, (int)(SQR_W*1.2));
 	}
 	int font_dsp;
 	public int getSQR_W() {
@@ -1337,9 +1338,9 @@ int corners = 0;
 			drawTetrimino(g, stored, x - xoffset - boxsize/2, y + yoffset + boxsize/2, blocksize); // holdBox�븞�쓽 �뀒�듃由ъ뒪 洹몃━湲�
 		
 		// levelBox 그리기
-		drawCentered(g, "Level", x - xoffset - boxsize/2, y + SQR_W*4 + g.getFont().getSize());
-		g.drawRect(x - xoffset - boxsize, y + yoffset + SQR_W*4, boxsize, boxsize);
-		drawCentered(g, getLevel()+"", x - xoffset - boxsize/2, y + yoffset + SQR_W*4 + boxsize - (boxsize-g.getFont().getSize())/2);
+		drawCentered(g, "Level", x - xoffset - boxsize/2, (int) (y + boxsize*(4/2.5) + g.getFont().getSize()));
+		g.drawRect(x - xoffset - boxsize, (int) (y + yoffset + boxsize*(4/2.5)), boxsize, boxsize);
+		drawCentered(g, getLevel()+"", x - xoffset - boxsize/2, (int) (y + yoffset + boxsize*(4/2.5) + boxsize - (boxsize-g.getFont().getSize())/2));
 		
 		//"NEXT"글씨와 다음 테트리스 미리보기 상자
 		g.setColor(Color.WHITE);
@@ -1373,29 +1374,30 @@ int corners = 0;
 		
 		//버튼 그리기
 		int right_x = FIELD_H<=real_y ? x + FIELD_W + xoffset : x +field_w + xoffset;
+		int right_y = (int) (y + boxsize*(AHEAD+1));
 		
 		g.setColor (Color.WHITE);
-		drawCentered(g, "Control", x + FIELD_W + xoffset + boxsize/2, y + SQR_W*9-yoffset/2);
+		drawCentered(g, "Control", right_x + boxsize/2, right_y-yoffset/2);
 		
 		TetrisRenderer.muteButton.setSize(boxsize,boxsize);
-		TetrisRenderer.muteButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9);
-		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9, boxsize, boxsize);
+		TetrisRenderer.muteButton.setLocation(right_x, right_y);
+		g.drawRect(right_x, right_y, boxsize, boxsize);
 		
 		TetrisRenderer.soundButton.setSize(boxsize,boxsize);
-		TetrisRenderer.soundButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9);
-		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9, boxsize, boxsize);
+		TetrisRenderer.soundButton.setLocation(right_x, right_y);
+		g.drawRect(right_x, right_y, boxsize, boxsize);
 		
 		TetrisRenderer.newButton.setSize(boxsize,boxsize);
-		TetrisRenderer.newButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9+boxsize);
-		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9+boxsize, boxsize, boxsize);
+		TetrisRenderer.newButton.setLocation(right_x, right_y +boxsize);
+		g.drawRect(right_x, right_y +boxsize, boxsize, boxsize);
 		
 		TetrisRenderer.keyButton.setSize(boxsize,boxsize);
-		TetrisRenderer.keyButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9+boxsize*2);
-		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9+boxsize*2, boxsize, boxsize);
+		TetrisRenderer.keyButton.setLocation(right_x, right_y +boxsize*2);
+		g.drawRect(right_x, right_y +boxsize*2, boxsize, boxsize);
 		
 		TetrisRenderer.homeButton.setSize(boxsize,boxsize);
-		TetrisRenderer.homeButton.setLocation(x + FIELD_W + xoffset, y + SQR_W*9+boxsize*3);
-		g.drawRect(x + FIELD_W + xoffset, y + SQR_W*9+boxsize*3, boxsize, boxsize);
+		TetrisRenderer.homeButton.setLocation(right_x, right_y +boxsize*3);
+		g.drawRect(right_x, right_y +boxsize*3, boxsize, boxsize);
 		
 		// 테트리스 구역에 메세지 쓰기
 		if (dead)
@@ -1403,12 +1405,12 @@ int corners = 0;
 			g.setColor(C_NOTICE);
 			g.setFont(F_GAMEOVER);
 			if(FIELD_H<=real_y) {
-				drawCentered(g, "GAME", x + FIELD_W / 2, y - g.getFont().getSize() + FIELD_H / 2);
-				drawCentered(g, "OVER", x + FIELD_W / 2, y + 35 + FIELD_H / 2);
+				drawCentered(g, "GAME", x + FIELD_W / 2, y - g.getFont().getSize()/2 + FIELD_H / 2);
+				drawCentered(g, "OVER", x + FIELD_W / 2, y + g.getFont().getSize()/2 + FIELD_H / 2);
 				over = g.getFont().getSize();
 			}else {
-				drawCentered(g, "GAME", x + field_w / 2, y - g.getFont().getSize() + field_h / 2);
-				drawCentered(g, "OVER", x + field_w / 2, y + 35 + field_h/ 2);
+				drawCentered(g, "GAME", x + field_w / 2, y - g.getFont().getSize()/2 + field_h / 2);
+				drawCentered(g, "OVER", x + field_w / 2, y + g.getFont().getSize()/2 + field_h/ 2);
 			}
 			;
 			
@@ -1422,9 +1424,9 @@ int corners = 0;
 			g.setColor(C_NOTICE);
 			g.setFont(F_COUNTDOWN);
 			if(FIELD_H<=real_y) {
-				drawCentered(g, countdown_number+"", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
+				drawCentered(g, countdown_number+"", x + FIELD_W / 2, y + g.getFont().getSize()/2 + FIELD_H / 2);
 			}else {
-				drawCentered(g, countdown_number+"", x + field_h / 2, y + 5 + field_h / 2);
+				drawCentered(g, countdown_number+"", x + field_h / 2, y + g.getFont().getSize()/2 + field_h / 2);
 			}
 		}
 		else if (countdown_number==0 && dead==false) {
@@ -1432,9 +1434,9 @@ int corners = 0;
 			g.setFont(F_COUNTDOWN);
 			g.setColor(C_NOTICE);
 			if(FIELD_H<=real_y) {
-				drawCentered(g, "GO!", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
+				drawCentered(g, "GO!", x + FIELD_W / 2, y + g.getFont().getSize()/2 + FIELD_H / 2);
 			}else {
-				drawCentered(g, "GO!", x + field_w / 2, y + 5 + field_h/ 2);
+				drawCentered(g, "GO!", x + field_w / 2, y + g.getFont().getSize()/2 + field_h/ 2);
 			}
 		}
 		else if (paused && !isOver())
@@ -1443,9 +1445,9 @@ int corners = 0;
 			g.setColor(C_NOTICE);
 			g.setFont(F_PAUSE);
 			if(FIELD_H<real_y) {
-				drawCentered(g, "PAUSED", x + FIELD_W / 2, y + 5 + FIELD_H / 2);
+				drawCentered(g, "PAUSED", x + FIELD_W / 2, y + g.getFont().getSize()/2 + FIELD_H / 2);
 			}else {
-				drawCentered(g, "PAUSED", x + field_w / 2, y + 5 + field_h / 2);
+				drawCentered(g, "PAUSED", x + field_w / 2, y + g.getFont().getSize()/2 + field_h / 2);
 			}
 		}
 		drawAfter(g, x, y);

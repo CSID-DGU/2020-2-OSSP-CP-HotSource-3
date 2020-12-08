@@ -289,11 +289,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 			g.drawImage(backgroundImage.getImage(), 0, 0, null);//background를 그려줌
 			game.setSQR_W(frame.getSize().width/homeButtonLocationXCoefficient,frame.getSize().height);
 			game.setDSP_W(frame.getSize().width/gameDSPCoefficient);
-			if(frame.getSize().width<=frame.getSize().height) {//x와 y의 위치
-				game.drawTo((Graphics2D)(g), (int)(frame.getSize().width/gameLocationCoefficient), (int)(frame.getSize().height/gameLocationCoefficient));
-			}else {
-				game.drawTo((Graphics2D)(g), (int)(frame.getSize().width/muteSoundButtonXSizeCoefficient), (int)(frame.getSize().height/gameLocationCoefficient));
-			}
+			game.drawTo((Graphics2D)(g), (int)(frame.getSize().width - game.xoffset*2 - game.boxsize*2 - game.FIELD_W)/2, (int)(frame.getSize().height/8));
 			/*
 			newButton.setSize(frame.getSize().width/newButtonXSizeCoefficient,frame.getSize().width/newButtonYSizeCoefficient);
 			keyButton.setSize(frame.getSize().width/keyButtonXSizeCoefficient,frame.getSize().width/keyButtonYSizeCoefficient);
