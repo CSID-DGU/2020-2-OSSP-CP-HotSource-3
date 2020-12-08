@@ -15,8 +15,6 @@ import java.awt.RenderingHints;
 public class TetrisMarathon extends Tetris {
 	public int score = 0;
 	public static int finalScore;
-	private int FirmDropPlusScore = 20;
-	private int DropDelayMinusScore = 4;
 
 	public static final int[] VALUES = { 0, 100, 175, 350, 700, 1000 };
 
@@ -105,14 +103,15 @@ public class TetrisMarathon extends Tetris {
 		}
 
 		g.setFont(F_TIME);
+
 		if (FIELD_H <= real_y) {
-			g.drawString("Level: " + getLevel(), x + DSP_W * levelCoefficient , y - DSP_W - SQR_W / levelCoefficient  + scoreycofficient);
+			//g.drawString("Level: " + getLevel(), x + DSP_W * levelCoefficient , y - DSP_W - SQR_W / levelCoefficient  + scoreycofficient);
 			g.drawString("" + linesCleared + " lines", x + DSP_W * linesCoefficient, y - DSP_W - SQR_W / linesCoefficient + DSP_W * linesCoefficient / linescofficient + liney);
 			g.drawString(getTimeString(), x + comboYCoefficient, y - DSP_W - SQR_W / timeYCoefficient + DSP_W * timeYCoefficient / linescofficient + liney);
 			if (combo > 0)
 				g.drawString("combo x" + (combo + 1), x + (int) (DSP_W * comboXCoefficient), y);
 		} else {
-			g.drawString("Level: " + getLevel(), x + dsp * levelCoefficient, y - dsp - sqr /levelCoefficient+ scoreycofficient2);
+			//g.drawString("Level: " + getLevel(), x + dsp * levelCoefficient, y - dsp - sqr /levelCoefficient+ scoreycofficient2);
 			g.drawString("" + linesCleared + " lines", x + dsp * linesCoefficient, y - dsp - sqr / linesCoefficient + dsp * linesCoefficient / linescofficient + liney);
 			g.drawString(getTimeString(), x + comboYCoefficient, y - dsp - sqr / timeYCoefficient + dsp * timeYCoefficient / linescofficient + liney);
 			if (combo > 0)
@@ -124,8 +123,6 @@ public class TetrisMarathon extends Tetris {
 		if (isOver() == true) {
 			finalScore = score;
 		}
-		;
-
 	}
 
 	private int divider = 100;

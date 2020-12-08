@@ -60,4 +60,8 @@ public class Utility
 		}
 		return ans;
 	}
+	
+	public static String getFontString() {
+		return "digital-7";
+	}
 }
