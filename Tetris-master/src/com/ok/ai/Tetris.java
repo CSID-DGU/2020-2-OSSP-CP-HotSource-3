@@ -51,6 +51,11 @@ public class Tetris
 	protected static double F_PAUSESsize = 1.8;
 	protected static double F_GAMEOVERsize = 2.4;
 	protected static double F_COUNTDOWNsize = 1.2;
+	protected static int F_LINEsize = 3;
+	protected static int F_Ttimesize = 4;
+	protected static double UIFontsize = 0.7;
+	protected static double PAUSEFontsize = 1.8;
+	protected static double GAMEOVERFontsize = 2.4;
 	
 	public void setSQR_W(int sqr_W,int sqr_H) {
 		this.SQR_W=sqr_W;
@@ -71,18 +76,18 @@ public class Tetris
 	public void setDSP_W(int dsp_w) {
 		this.DSP_W=dsp_w;
 		if(FIELD_H<=real_y) {
-			this.F_LINES = new Font("digital-7", Font.BOLD, (int)(DSP_W/3));
-			this.F_TIME = new Font(Font.SANS_SERIF, Font.BOLD, (int)(DSP_W/4));
-			this.F_UI = new Font("digital-7", Font.BOLD, (int)(SQR_W*0.7));
-			this.F_PAUSE = new Font("digital-7", Font.BOLD, (int)(SQR_W*1.8));
-			this.F_GAMEOVER = new Font("digital-7", Font.BOLD, (int)(SQR_W*2.4));
+			this.F_LINES = new Font("digital-7", Font.BOLD, (int)(DSP_W/F_LINEsize));
+			this.F_TIME = new Font(Font.SANS_SERIF, Font.BOLD, (int)(DSP_W/F_Ttimesize));
+			this.F_UI = new Font("digital-7", Font.BOLD, (int)(SQR_W*UIFontsize));
+			this.F_PAUSE = new Font("digital-7", Font.BOLD, (int)(SQR_W*PAUSEFontsize));
+			this.F_GAMEOVER = new Font("digital-7", Font.BOLD, (int)(SQR_W*GAMEOVERFontsize));
 			font_dsp =(int)(DSP_W);
 		}else {
-			this.F_LINES = new Font("digital-7", Font.BOLD, font_dsp/3);
-			this.F_TIME = new Font(Font.SANS_SERIF, Font.BOLD, font_dsp/4);
-			this.F_UI = new Font("digital-7", Font.BOLD, (int)(sqr*0.7));
-			this.F_PAUSE = new Font("digital-7", Font.BOLD, (int)(sqr*1.8));
-			this.F_GAMEOVER = new Font("digital-7", Font.BOLD, (int)(sqr*2.4));
+			this.F_LINES = new Font("digital-7", Font.BOLD, font_dsp/F_LINEsize);
+			this.F_TIME = new Font(Font.SANS_SERIF, Font.BOLD, font_dsp/F_Ttimesize);
+			this.F_UI = new Font("digital-7", Font.BOLD, (int)(sqr*UIFontsize));
+			this.F_PAUSE = new Font("digital-7", Font.BOLD, (int)(sqr*PAUSEFontsize));
+			this.F_GAMEOVER = new Font("digital-7", Font.BOLD, (int)(sqr*GAMEOVERFontsize));
 		}
 		
 	}
@@ -91,8 +96,15 @@ public class Tetris
 	public static boolean isIDFrame = false;
 	
 	protected static final int TSPIN_ANIMATION_TICKS = 3;
-	public static final BufferedImage[] tspins = new BufferedImage[4];
+	protected static int BufferedImageIndex = 4;
+	public static final BufferedImage[] tspins = new BufferedImage[BufferedImageIndex];
 	protected static final int TPIECE = 3;
+	protected static int Tspinfirst = 0;
+	protected static int Tspinsecond = 1;
+	protected static int Tspinthird = 2;
+	protected static int Tspinfourth = 3;
+	protected static byte Blocknodraw = 0;
+	protected static byte Blockdraw = 1;
 	
 	static
 	{
@@ -103,16 +115,16 @@ public class Tetris
 			in = loader.getResourceAsStream("tspin.png");
 			BufferedImage base = ImageIO.read(in);
 			
-			tspins[0] = base;
+			tspins[Tspinfirst] = base;
 			base = Utility.rotateRight(base);
 			
-			tspins[1] = base;
+			tspins[Tspinsecond] = base;
 			base = Utility.rotateRight(base);
 			
-			tspins[2] = base;
+			tspins[Tspinthird] = base;
 			base = Utility.rotateRight(base);
 			
-			tspins[3] = base;
+			tspins[Tspinfourth] = base;
 		}
 		catch (Exception ex) {}
 		finally
@@ -128,112 +140,112 @@ public class Tetris
 	}
 
 	protected static final byte[][][][] PIECES =
-								{null,       { { {0, 1, 0, 0},   // I-Tetrimino
-												 {0, 1, 0, 0},
-												 {0, 1, 0, 0},
-												 {0, 1, 0, 0} },
-											   { {0, 0, 0, 0},
-												 {0, 0, 0, 0},
-												 {1, 1, 1, 1},
-												 {0, 0, 0, 0} },
-											   { {0, 0, 1, 0},
-												 {0, 0, 1, 0},
-												 {0, 0, 1, 0},
-												 {0, 0, 1, 0} },
-											   { {0, 0, 0, 0},
-												 {1, 1, 1, 1},
-												 {0, 0, 0, 0},
-												 {0, 0, 0, 0} } },
+								{null,       { { {Blocknodraw, Blockdraw, Blocknodraw, Blocknodraw},   // I-Tetrimino
+												 {Blocknodraw, Blockdraw, Blocknodraw, Blocknodraw},
+												 {Blocknodraw, Blockdraw, Blocknodraw, Blocknodraw},
+												 {Blocknodraw, Blockdraw, Blocknodraw, Blocknodraw} },
+											   { {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+												 {Blockdraw, Blockdraw, Blockdraw, Blockdraw},
+												 {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+											   { {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw} },
+											   { {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+												 {Blockdraw, Blockdraw, Blockdraw, Blockdraw},
+												 {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} } },
 
-											 { { {0, 1, 0, 0},   // S-Tetrimino
-												 {0, 1, 1, 0},
-												 {0, 0, 1, 0},
-												 {0, 0, 0, 0} },
-										       { {0, 0, 0, 0},
-											     {0, 0, 1, 1},
-											     {0, 1, 1, 0},
-											     {0, 0, 0, 0} },
-										       { {0, 0, 1, 0},
-											     {0, 0, 1, 1},
-											     {0, 0, 0, 1},
-											     {0, 0, 0, 0} },
-										       { {0, 0, 1, 1},
-											     {0, 1, 1, 0},
-											     {0, 0, 0, 0},
-											     {0, 0, 0, 0} } },
+											 { { {Blocknodraw, Blockdraw, Blocknodraw, Blocknodraw},   // S-Tetrimino
+												 {Blocknodraw, Blockdraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blockdraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blockdraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} } },
 
-											 { { {0, 0, 1, 0},   // T-Tetrimino
-												 {0, 1, 1, 0},
-												 {0, 0, 1, 0},
-												 {0, 0, 0, 0} },
-										       { {0, 0, 0, 0},
-											     {0, 1, 1, 1},
-											     {0, 0, 1, 0},
-											     {0, 0, 0, 0} },
-										       { {0, 0, 1, 0},
-											     {0, 0, 1, 1},
-											     {0, 0, 1, 0},
-											     {0, 0, 0, 0} },
-										       { {0, 0, 1, 0},
-											     {0, 1, 1, 1},
-											     {0, 0, 0, 0},
-											     {0, 0, 0, 0} } },
+											 { { {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},   // T-Tetrimino
+												 {Blocknodraw, Blockdraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blockdraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blockdraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} } },
 
-											 { { {0, 0, 0, 0},   // O-Tetrimino
-												 {0, 1, 1, 0},
-												 {0, 1, 1, 0},
-												 {0, 0, 0, 0} } },
+											 { { {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},   // O-Tetrimino
+												 {Blocknodraw, Blockdraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blockdraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} } },
 
-											 { { {0, 0, 1, 0},   // S-Tetrimino
-												 {0, 1, 1, 0},
-												 {0, 1, 0, 0},
-												 {0, 0, 0, 0} },
-										       { {0, 0, 0, 0},
-											     {0, 1, 1, 0},
-											     {0, 0, 1, 1},
-											     {0, 0, 0, 0} },
-										       { {0, 0, 0, 1},
-											     {0, 0, 1, 1},
-											     {0, 0, 1, 0},
-											     {0, 0, 0, 0} },
-										       { {0, 1, 1, 0},
-											     {0, 0, 1, 1},
-											     {0, 0, 0, 0},
-											     {0, 0, 0, 0} } },
+											 { { {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},   // S-Tetrimino
+												 {Blocknodraw, Blockdraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blockdraw, Blocknodraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blockdraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blocknodraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blockdraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} } },
 
-											 { { {0, 0, 1, 0},   // L-Tetrimino
-												 {0, 0, 1, 0},
-												 {0, 1, 1, 0},
-												 {0, 0, 0, 0} },
-										       { {0, 0, 0, 0},
-											     {0, 1, 1, 1},
-											     {0, 0, 0, 1},
-											     {0, 0, 0, 0} },
-										       { {0, 0, 1, 1},
-											     {0, 0, 1, 0},
-											     {0, 0, 1, 0},
-											     {0, 0, 0, 0} },
-										       { {0, 1, 0, 0},
-											     {0, 1, 1, 1},
-											     {0, 0, 0, 0},
-											     {0, 0, 0, 0} } },
+											 { { {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},   // L-Tetrimino
+												 {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blockdraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blockdraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blockdraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blockdraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} } },
 
-											 { { {0, 1, 1, 0},   // J-Tetrimino
-												 {0, 0, 1, 0},
-												 {0, 0, 1, 0},
-												 {0, 0, 0, 0} },
-										       { {0, 0, 0, 0},
-											     {0, 1, 1, 1},
-											     {0, 1, 0, 0},
-											     {0, 0, 0, 0} },
-										       { {0, 0, 1, 0},
-											     {0, 0, 1, 0},
-											     {0, 0, 1, 1},
-											     {0, 0, 0, 0} },
-										       { {0, 0, 0, 1},
-											     {0, 1, 1, 1},
-											     {0, 0, 0, 0},
-											     {0, 0, 0, 0} } } };
+											 { { {Blocknodraw, Blockdraw, Blockdraw, Blocknodraw},   // J-Tetrimino
+												 {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+												 {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blockdraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blockdraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} },
+										       { {Blocknodraw, Blocknodraw, Blocknodraw, Blockdraw},
+											     {Blocknodraw, Blockdraw, Blockdraw, Blockdraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw},
+											     {Blocknodraw, Blocknodraw, Blocknodraw, Blocknodraw} } } };
 	
 	public static final int PIECE_TYPES = PIECES.length - 1;
 
@@ -271,18 +283,21 @@ public class Tetris
 	public int spinY;
 	public int spinR;
 	public int spinTick;
+	public int Tspinnumber;
 	public boolean justCleared;
 	public final int Block_EXIST = 1;
 	public final int Block_NOTEXIST = 0;
+	public int Tspinanimationticks;
 
 public int level=1;
+public int totallevel = 10;
 	
 	public int getLevel() {
 		return level;
 	}
 	public void setLevel(int level) {
 		this.level=level;
-		this.tickInterval=10/level;//속도조절
+		this.tickInterval=totallevel/level;//속도조절
 	}
 	
 	protected PieceGenerator gen;
@@ -316,11 +331,15 @@ public int level=1;
 		combo = 0;
 		AHEAD = ahead;
 		lastMoveRotate = false;
-		spinTick = TSPIN_ANIMATION_TICKS * -4;
+		Tspinanimationticks = -4;
+		int i;
+		int index = 0;
+		
+		spinTick = TSPIN_ANIMATION_TICKS * Tspinanimationticks;
 		justCleared = false;
 
 		fMoves = new int[AHEAD];
-		for (int i = 0; i < AHEAD; i++)
+		for (i = index; i < AHEAD; i++)
 			fMoves[i] = gen.nextPiece();
 		putPiece();
 	}
@@ -353,44 +372,56 @@ public int level=1;
 		combo = 0;
 		AHEAD = ahead;
 		lastMoveRotate = false;
-		spinTick = TSPIN_ANIMATION_TICKS * -4;
+		Tspinnumber = -4;
+		spinTick = TSPIN_ANIMATION_TICKS * Tspinnumber;
 		justCleared = false;
 		
 		
 		//Already Stacked Block
 		Random rand = new Random();
 		int mapsize = 4;
-		int n = rand.nextInt(mapsize);
+		int n = rand.nextInt(mapsize);//난수 생성
+		int i,j;
+		int index = 0;
+		int CaseZeroWidth = 8;
+		int CaseZeroHeightStart = 12;
+		int CaseZeroHeightEnd = 20;
+		int CasefirstWidth = 5;
+		int CasefirstWidthStart = 7;
+		int CasefirstWidthEnd = 10;
+		int CasefirstHeightStart = 12;
+		int CasefirstHeightEnd = 20;
+		
 		
 		switch(n) {
 			case 0:	//	낭떠러지
 				//게임 시작하자마자 쌓여있는 블록 생성
-				for(int i=0; i<8; i++) {
-					for(int j=12; j<20; j++) {
+				for(i=index; i<CaseZeroWidth; i++) {
+					for(j=CaseZeroHeightStart; j<CaseZeroHeightEnd; j++) {
 						board[i][j] = Block_EXIST;
 					}
 				}
 				break;
 			case 1:	//	협곡
 				//게임 시작하자마자 쌓여있는 블록 생성
-				for(int i=0; i<5; i++) {
-					for(int j=12; j<20; j++) {
+				for(i=index; i<CasefirstWidth; i++) {
+					for(j=CasefirstHeightStart; j<CasefirstHeightEnd; j++) {
 						board[i][j] = Block_EXIST;
 					}
 				}
-				for(int i=7; i<10; i++) {
-					for(int j=12; j<20; j++) {
+				for(i=CasefirstWidthStart;i<CasefirstWidthEnd;i++) {
+					for(j=CasefirstHeightStart; j<CasefirstHeightEnd; j++) {
 						board[i][j] = Block_EXIST;
 					}
 				}
 				break;
 			case 2:	//	HI
-				for(int j=12; j<20; j++) {
+				for(j=12; j<20; j++) {
 					board[1][j] = Block_EXIST;
 					board[3][j] = Block_EXIST;
 				}
 				board[2][16] = Block_EXIST;
-				for(int j=12; j<20; j++) {
+				for(j=12; j<20; j++) {
 					if(j == 12) {
 						board[6][j] = Block_EXIST;
 						board[8][j] = Block_EXIST;
@@ -404,17 +435,17 @@ public int level=1;
 				break;
 			case 3:	//	OSSP
 				//	O
-				for(int j = 10; j < 13; j++) {
+				for(j = 10; j < 13; j++) {
 					board[1][j] = Block_EXIST;
 					board[4][j] = Block_EXIST;
 				}
-				for(int i = 2; i < 4; i++) {
+				for(i = 2; i < 4; i++) {
 					board[i][9] = Block_EXIST;
 					board[i][13] = Block_EXIST;
 				}
 				
 				//	S, P
-				for(int i = 6; i < 9; i++) {
+				for(i = 6; i < 9; i++) {
 					board[i][9] = Block_EXIST;
 					board[i][11] = Block_EXIST;
 					board[i][13] = Block_EXIST;
@@ -430,8 +461,8 @@ public int level=1;
 					board[6][19] = Block_EXIST;
 				
 				//	S
-				for(int i = 1; i < 5; i++) {
-					for(int j = 15; j < 20; j++) {
+				for(i = 1; i < 5; i++) {
+					for(j = 15; j < 20; j++) {
 						if(j == 15 || j == 17 || j == 19) board[i][j] = Block_EXIST;
 					}
 				}
@@ -442,7 +473,7 @@ public int level=1;
 		}
 
 		fMoves = new int[AHEAD];
-		for (int i = 0; i < AHEAD; i++)
+		for (i = 0; i < AHEAD; i++)
 			fMoves[i] = gen.nextPiece();
 		putPiece();
 	}
@@ -1068,14 +1099,17 @@ int corners = 0;
 	
 	// 테두리 두께
 	protected static final int borderSize = 1;
+	protected static double boxsizeconfficient = 2.5;
+	protected static int blocksizeconfficient = 2;
+	protected static int heightconfficient = 265;
 
 	protected int yoffset = SQR_W;
 	protected int xoffset = SQR_W;
-	public static int boxsize = (int)(SQR_W*2.5); // Tetrimino가 들어가는 박스의 크기
-	protected int blocksize = (int)(SQR_W/2); // Tetrimino의 크기
+	public static int boxsize = (int)(SQR_W*boxsizeconfficient); // Tetrimino가 들어가는 박스의 크기
+	protected int blocksize = (int)(SQR_W/blocksizeconfficient); // Tetrimino의 크기
 
 	Dimension dimen = Toolkit.getDefaultToolkit().getScreenSize();
-	protected int real_y = (int)(dimen.getHeight())-265;
+	protected int real_y = (int)(dimen.getHeight())-heightconfficient;
 	protected static int field_w;
 	protected static int field_h;
 	protected static int sqr;
@@ -1279,16 +1313,19 @@ int corners = 0;
 			int diff = tickCount - spinTick;
 			int BlockSpintConfficient = 1;
 			int ImageWidthHeight = 2;
+			int Tspinanimationtickscof = 2;
+			int Tspinblocknumber = 4;
+			
 			if (diff >= 0 && diff < TSPIN_ANIMATION_TICKS * 4 && !dead)
 			{
-				int rotation = (spinR + diff / TSPIN_ANIMATION_TICKS < 2 ? (diff / TSPIN_ANIMATION_TICKS) : 2) % 4;
+				int rotation = (spinR + diff / TSPIN_ANIMATION_TICKS < 2 ? (diff / TSPIN_ANIMATION_TICKS) : Tspinanimationtickscof) % Tspinblocknumber;
 				BufferedImage img = tspins[rotation];
 				if (img != null)
 				{
 					Composite comp = g.getComposite();
-					if (diff >= TSPIN_ANIMATION_TICKS * 2)
+					if (diff >= TSPIN_ANIMATION_TICKS * Tspinanimationtickscof)
 					{
-						float alpha = 1.0f - (float)(diff - TSPIN_ANIMATION_TICKS * 2) / (TSPIN_ANIMATION_TICKS * 2);
+						float alpha = 1.0f - (float)(diff - TSPIN_ANIMATION_TICKS * Tspinanimationtickscof) / (TSPIN_ANIMATION_TICKS * Tspinanimationtickscof);
 						g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 						g.setColor(new Color(255, 255, 255, 200));
 						if(FIELD_H<=real_y) {
