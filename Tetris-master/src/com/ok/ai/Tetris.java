@@ -355,94 +355,132 @@ public int level=1;
 		lastMoveRotate = false;
 		spinTick = TSPIN_ANIMATION_TICKS * -4;
 		justCleared = false;
+		int index = 0;
+		int casezeroWidth = 8;
+		int casezeroHedightStart = 12;
+		int casezeroHedightEnd = 20;
+		int caseoneWidth = 5;
+		int caseoneWidthSatrt = 7;
+		int caseoneWidthEnd = 10;
+		int caseoneHedightStart = 12;
+		int caseoneHedightEnd = 20;
+		int casesecondWidthSsix = 6;
+		int casesecondWidtheight = 8;
+		int casesecondWidthone = 1;
+		int casesecondWidththree = 3;
+		int casesecondWidthnineteen= 19;
+		int casesecondWidthseven= 7;
+		int casesecondWidthtwo= 2;
+		int casesecondWidthsixteen= 16;
+		int casethirdWidthten = 10;
+		int casethirdWidththirteen = 13;
+		int casethirdWidthone = 1;
+		int casethirdWidthfour = 4;
+		int casethirdWidthtwo = 2;
+		int casethirdWidthnine = 9;
+		int casethirdWidtheleven = 11;
+		int casethirdWidthfifteen = 15;
+		int casethirdWidthseventeen = 17;
+		int casethirdWidthtwelve = 12;
+		int casethirdWidthsixteen = 16;
+		int casethirdWidtheightteen = 18;
+		int casethirdWidthnineteen = 19;
+		int casethirdWidtheight = 8;
+		int casethirdWidthfive = 5;
+		int casethirdWidthtwenty = 20;
+		int casethirdWidthsix = 6;
 		
 		
+		int casesecondHedightStart = 12;
+		int casesecondHedightEnd = 20;
 		//Already Stacked Block
+		int i,j;
 		Random rand = new Random();
 		int mapsize = 4;
 		int n = rand.nextInt(mapsize);
 		
+		
 		switch(n) {
 			case 0:	//	낭떠러지
 				//게임 시작하자마자 쌓여있는 블록 생성
-				for(int i=0; i<8; i++) {
-					for(int j=12; j<20; j++) {
+				for(i=index; i<casezeroWidth; i++) {
+					for(j=  casezeroHedightStart; j<casezeroHedightEnd; j++) {
 						board[i][j] = Block_EXIST;
 					}
 				}
 				break;
 			case 1:	//	협곡
 				//게임 시작하자마자 쌓여있는 블록 생성
-				for(int i=0; i<5; i++) {
-					for(int j=12; j<20; j++) {
+				for( i=index; i<caseoneWidth; i++) {
+					for(j=caseoneHedightStart; j<caseoneHedightEnd; j++) {
 						board[i][j] = Block_EXIST;
 					}
 				}
-				for(int i=7; i<10; i++) {
-					for(int j=12; j<20; j++) {
+				for(i=caseoneWidthSatrt; i<caseoneWidthEnd; i++) {
+					for(j=caseoneHedightStart; j<caseoneHedightEnd; j++) {
 						board[i][j] = Block_EXIST;
 					}
 				}
 				break;
 			case 2:	//	HI
-				for(int j=12; j<20; j++) {
-					board[1][j] = Block_EXIST;
-					board[3][j] = Block_EXIST;
+				for(j=casesecondHedightStart ; j<casesecondHedightEnd; j++) {
+					board[casesecondWidthone][j] = Block_EXIST;
+					board[casesecondWidththree][j] = Block_EXIST;
 				}
-				board[2][16] = Block_EXIST;
-				for(int j=12; j<20; j++) {
-					if(j == 12) {
-						board[6][j] = Block_EXIST;
-						board[8][j] = Block_EXIST;
+				board[casesecondWidthtwo][casesecondWidthsixteen] = Block_EXIST;
+				for(j=casesecondHedightStart ; j<casesecondHedightEnd; j++) {
+					if(j == casesecondHedightStart) {
+						board[casesecondWidthSsix][j] = Block_EXIST;
+						board[casesecondWidtheight][j] = Block_EXIST;
 					}
-					if(j == 19) {
-						board[6][j] = Block_EXIST;
-						board[8][j] = Block_EXIST;
+					if(j == casesecondWidthnineteen) {
+						board[casesecondWidthSsix][j] = Block_EXIST;
+						board[casesecondWidtheight][j] = Block_EXIST;
 					}
-					board[7][j] = Block_EXIST;
+					board[casesecondWidthseven][j] = Block_EXIST;
 				}
 				break;
 			case 3:	//	OSSP
 				//	O
-				for(int j = 10; j < 13; j++) {
-					board[1][j] = Block_EXIST;
-					board[4][j] = Block_EXIST;
+				for(j = casethirdWidthten; j < casethirdWidththirteen; j++) {
+					board[casethirdWidthone][j] = Block_EXIST;
+					board[casethirdWidthfour][j] = Block_EXIST;
 				}
-				for(int i = 2; i < 4; i++) {
-					board[i][9] = Block_EXIST;
-					board[i][13] = Block_EXIST;
+				for(i = casethirdWidthtwo; i < casethirdWidthfour; i++) {
+					board[i][casethirdWidthnine] = Block_EXIST;
+					board[i][casethirdWidththirteen] = Block_EXIST;
 				}
 				
 				//	S, P
-				for(int i = 6; i < 9; i++) {
-					board[i][9] = Block_EXIST;
-					board[i][11] = Block_EXIST;
-					board[i][13] = Block_EXIST;
-					board[i][15] = Block_EXIST;
-					board[i][17] = Block_EXIST;
+				for(i = casethirdWidthsix; i < casethirdWidthnine; i++) {
+					board[i][casethirdWidthnine] = Block_EXIST;
+					board[i][casethirdWidtheleven] = Block_EXIST;
+					board[i][casethirdWidththirteen] = Block_EXIST;
+					board[i][casethirdWidthfifteen] = Block_EXIST;
+					board[i][casethirdWidthseventeen] = Block_EXIST;
 				}
 				
-					board[6][10] = Block_EXIST;
-					board[8][12] = Block_EXIST;
-					board[8][16] = Block_EXIST;
-					board[6][16] = Block_EXIST;
-					board[6][18] = Block_EXIST;
-					board[6][19] = Block_EXIST;
+					board[casethirdWidthsix][casethirdWidthten] = Block_EXIST;
+					board[casethirdWidtheight][casethirdWidthtwelve] = Block_EXIST;
+					board[casethirdWidtheight][casethirdWidthsixteen] = Block_EXIST;
+					board[casethirdWidthsix][casethirdWidthsixteen] = Block_EXIST;
+					board[casethirdWidthsix][casethirdWidtheightteen] = Block_EXIST;
+					board[casethirdWidthsix][casethirdWidthnineteen] = Block_EXIST;
 				
 				//	S
-				for(int i = 1; i < 5; i++) {
-					for(int j = 15; j < 20; j++) {
-						if(j == 15 || j == 17 || j == 19) board[i][j] = Block_EXIST;
+				for(i = casethirdWidthone; i < casethirdWidthfive; i++) {
+					for(j = casethirdWidthfifteen; j < casethirdWidthtwenty; j++) {
+						if(j == casethirdWidthfifteen || j == casethirdWidthseventeen || j == casethirdWidthnineteen) board[i][j] = Block_EXIST;
 					}
 				}
-				board[1][16] = Block_EXIST;
-				board[4][18] = Block_EXIST;
+				board[casethirdWidthone][casethirdWidthsixteen] = Block_EXIST;
+				board[casethirdWidthfour][casethirdWidtheightteen] = Block_EXIST;
 					
 				break;
 		}
 
 		fMoves = new int[AHEAD];
-		for (int i = 0; i < AHEAD; i++)
+		for ( i= 0; i < AHEAD; i++)
 			fMoves[i] = gen.nextPiece();
 		putPiece();
 	}
