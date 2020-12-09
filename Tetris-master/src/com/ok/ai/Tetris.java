@@ -962,25 +962,32 @@ public int level=1;
 	
 	protected static void copy(int[][] dest, int[][] source)
 	{
-		for (int i = 0; i < dest.length && i < source.length; i++)
-			for (int j = 0; j < dest[i].length && j < source[i].length; j++)
+		int indexstart = 0;
+		int i,j;
+		for (i = indexstart; i < dest.length && i < source.length; i++)
+			for (j = indexstart; j < dest[i].length && j < source[i].length; j++)
 				dest[i][j] = source[i][j];
 	}
 	protected static void copy(int[] dest, int[] source)
 	{
-		for (int i = 0; i < dest.length && i < source.length; i++)
+		int indexstart = 0;
+		int i;
+		for (i = indexstart; i < dest.length && i < source.length; i++)
 			dest[i] = source[i];
 	}
 
 	public Tetris[] children()
 	{
-		int len = (W+3) * piece.length + 1;
+		int i,r;
+		int Wconfficient = 3;
+		int piececonfficient = 1;
+		int len = (W+Wconfficient) * piece.length + piececonfficient;
 		Tetris[] ans = new Tetris[len];
 		int pos = 0;
 
-		for (int i = -3; i < W; i++)
+		for (i = -3; i < W; i++)
 		{
-			for (int r = 0; r < piece.length; r++)
+			for (r = 0; r < piece.length; r++)
 			{
 				Tetris t = new Tetris();
 				t.piece = piece;
