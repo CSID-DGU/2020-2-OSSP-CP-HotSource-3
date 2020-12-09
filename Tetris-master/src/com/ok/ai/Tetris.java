@@ -51,6 +51,8 @@ public class Tetris
 	protected static double F_PAUSESsize = 1.8;
 	protected static double F_GAMEOVERsize = 2.4;
 	protected static double F_COUNTDOWNsize = 1.2;
+	protected static int F_LINEsize = 3;
+	protected static int F_TIMEsize = 4;
 	
 	public void setSQR_W(int sqr_W,int sqr_H) {
 		this.SQR_W=sqr_W;
@@ -71,18 +73,18 @@ public class Tetris
 	public void setDSP_W(int dsp_w) {
 		this.DSP_W=dsp_w;
 		if(FIELD_H<=real_y) {
-			this.F_LINES = new Font("digital-7", Font.BOLD, (int)(DSP_W/3));
-			this.F_TIME = new Font(Font.SANS_SERIF, Font.BOLD, (int)(DSP_W/4));
-			this.F_UI = new Font("digital-7", Font.BOLD, (int)(SQR_W*0.7));
-			this.F_PAUSE = new Font("digital-7", Font.BOLD, (int)(SQR_W*1.8));
-			this.F_GAMEOVER = new Font("digital-7", Font.BOLD, (int)(SQR_W*2.4));
+			this.F_LINES = new Font("digital-7", Font.BOLD, (int)(DSP_W/F_LINEsize));
+			this.F_TIME = new Font(Font.SANS_SERIF, Font.BOLD, (int)(DSP_W/F_TIMEsize));
+			this.F_UI = new Font("digital-7", Font.BOLD, (int)(SQR_W*F_UISsize));
+			this.F_PAUSE = new Font("digital-7", Font.BOLD, (int)(SQR_W*F_PAUSESsize));
+			this.F_GAMEOVER = new Font("digital-7", Font.BOLD, (int)(SQR_W*F_GAMEOVERsize));
 			font_dsp =(int)(DSP_W);
 		}else {
-			this.F_LINES = new Font("digital-7", Font.BOLD, font_dsp/3);
-			this.F_TIME = new Font(Font.SANS_SERIF, Font.BOLD, font_dsp/4);
-			this.F_UI = new Font("digital-7", Font.BOLD, (int)(sqr*0.7));
-			this.F_PAUSE = new Font("digital-7", Font.BOLD, (int)(sqr*1.8));
-			this.F_GAMEOVER = new Font("digital-7", Font.BOLD, (int)(sqr*2.4));
+			this.F_LINES = new Font("digital-7", Font.BOLD, font_dsp/F_LINEsize);
+			this.F_TIME = new Font(Font.SANS_SERIF, Font.BOLD, font_dsp/F_TIMEsize);
+			this.F_UI = new Font("digital-7", Font.BOLD, (int)(sqr*F_UISsize));
+			this.F_PAUSE = new Font("digital-7", Font.BOLD, (int)(sqr*F_PAUSESsize));
+			this.F_GAMEOVER = new Font("digital-7", Font.BOLD, (int)(sqr*F_GAMEOVERsize));
 		}
 		
 	}
@@ -93,6 +95,10 @@ public class Tetris
 	protected static final int TSPIN_ANIMATION_TICKS = 3;
 	public static final BufferedImage[] tspins = new BufferedImage[4];
 	protected static final int TPIECE = 3;
+	protected static int tspinszero = 0;
+	protected static int tspinsone = 1;
+	protected static int tspinstwo = 2;
+	protected static int tspinsthree = 3;
 	
 	static
 	{
@@ -103,16 +109,16 @@ public class Tetris
 			in = loader.getResourceAsStream("tspin.png");
 			BufferedImage base = ImageIO.read(in);
 			
-			tspins[0] = base;
+			tspins[tspinszero] = base;
 			base = Utility.rotateRight(base);
 			
-			tspins[1] = base;
+			tspins[tspinsone] = base;
 			base = Utility.rotateRight(base);
 			
-			tspins[2] = base;
+			tspins[tspinstwo] = base;
 			base = Utility.rotateRight(base);
 			
-			tspins[3] = base;
+			tspins[tspinsthree] = base;
 		}
 		catch (Exception ex) {}
 		finally
@@ -359,7 +365,8 @@ public class Tetris
 		combo = 0;
 		AHEAD = ahead;
 		lastMoveRotate = false;
-		spinTick = TSPIN_ANIMATION_TICKS * -4;
+		Tspintmultiple = -4;
+		spinTick = TSPIN_ANIMATION_TICKS * Tspintmultiple;
 		justCleared = false;
 		int index = 0;
 		int casezeroWidth = 8;
