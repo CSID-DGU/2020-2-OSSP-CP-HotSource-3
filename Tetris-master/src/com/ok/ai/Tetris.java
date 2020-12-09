@@ -375,46 +375,9 @@ public int totallevel = 10;
 		Tspinnumber = -4;
 		spinTick = TSPIN_ANIMATION_TICKS * Tspinnumber;
 		justCleared = false;
-		int index = 0;
-		int casezeroWidth = 8;
-		int casezeroHedightStart = 12;
-		int casezeroHedightEnd = 20;
-		int caseoneWidth = 5;
-		int caseoneWidthSatrt = 7;
-		int caseoneWidthEnd = 10;
-		int caseoneHedightStart = 12;
-		int caseoneHedightEnd = 20;
-		int casesecondWidthSsix = 6;
-		int casesecondWidtheight = 8;
-		int casesecondWidthone = 1;
-		int casesecondWidththree = 3;
-		int casesecondWidthnineteen= 19;
-		int casesecondWidthseven= 7;
-		int casesecondWidthtwo= 2;
-		int casesecondWidthsixteen= 16;
-		int casethirdWidthten = 10;
-		int casethirdWidththirteen = 13;
-		int casethirdWidthone = 1;
-		int casethirdWidthfour = 4;
-		int casethirdWidthtwo = 2;
-		int casethirdWidthnine = 9;
-		int casethirdWidtheleven = 11;
-		int casethirdWidthfifteen = 15;
-		int casethirdWidthseventeen = 17;
-		int casethirdWidthtwelve = 12;
-		int casethirdWidthsixteen = 16;
-		int casethirdWidtheightteen = 18;
-		int casethirdWidthnineteen = 19;
-		int casethirdWidtheight = 8;
-		int casethirdWidthfive = 5;
-		int casethirdWidthtwenty = 20;
-		int casethirdWidthsix = 6;
 		
 		
-		int casesecondHedightStart = 12;
-		int casesecondHedightEnd = 20;
 		//Already Stacked Block
-		int i,j;
 		Random rand = new Random();
 		int mapsize = 4;
 		int n = rand.nextInt(mapsize);//난수 생성
@@ -430,24 +393,17 @@ public int totallevel = 10;
 		int CasefirstHeightEnd = 20;
 		
 		
-		
 		switch(n) {
 			case 0:	//	낭떠러지
 				//게임 시작하자마자 쌓여있는 블록 생성
-<<<<<<< HEAD
 				for(i=index; i<CaseZeroWidth; i++) {
 					for(j=CaseZeroHeightStart; j<CaseZeroHeightEnd; j++) {
-=======
-				for(i=index; i<casezeroWidth; i++) {
-					for(j=  casezeroHedightStart; j<casezeroHedightEnd; j++) {
->>>>>>> MainPkgVChange
 						board[i][j] = Block_EXIST;
 					}
 				}
 				break;
 			case 1:	//	협곡
 				//게임 시작하자마자 쌓여있는 블록 생성
-<<<<<<< HEAD
 				for(i=index; i<CasefirstWidth; i++) {
 					for(j=CasefirstHeightStart; j<CasefirstHeightEnd; j++) {
 						board[i][j] = Block_EXIST;
@@ -455,21 +411,11 @@ public int totallevel = 10;
 				}
 				for(i=CasefirstWidthStart;i<CasefirstWidthEnd;i++) {
 					for(j=CasefirstHeightStart; j<CasefirstHeightEnd; j++) {
-=======
-				for( i=index; i<caseoneWidth; i++) {
-					for(j=caseoneHedightStart; j<caseoneHedightEnd; j++) {
-						board[i][j] = Block_EXIST;
-					}
-				}
-				for(i=caseoneWidthSatrt; i<caseoneWidthEnd; i++) {
-					for(j=caseoneHedightStart; j<caseoneHedightEnd; j++) {
->>>>>>> MainPkgVChange
 						board[i][j] = Block_EXIST;
 					}
 				}
 				break;
 			case 2:	//	HI
-<<<<<<< HEAD
 				for(j=12; j<20; j++) {
 					board[1][j] = Block_EXIST;
 					board[3][j] = Block_EXIST;
@@ -479,28 +425,16 @@ public int totallevel = 10;
 					if(j == 12) {
 						board[6][j] = Block_EXIST;
 						board[8][j] = Block_EXIST;
-=======
-				for(j=casesecondHedightStart ; j<casesecondHedightEnd; j++) {
-					board[casesecondWidthone][j] = Block_EXIST;
-					board[casesecondWidththree][j] = Block_EXIST;
-				}
-				board[casesecondWidthtwo][casesecondWidthsixteen] = Block_EXIST;
-				for(j=casesecondHedightStart ; j<casesecondHedightEnd; j++) {
-					if(j == casesecondHedightStart) {
-						board[casesecondWidthSsix][j] = Block_EXIST;
-						board[casesecondWidtheight][j] = Block_EXIST;
->>>>>>> MainPkgVChange
 					}
-					if(j == casesecondWidthnineteen) {
-						board[casesecondWidthSsix][j] = Block_EXIST;
-						board[casesecondWidtheight][j] = Block_EXIST;
+					if(j == 19) {
+						board[6][j] = Block_EXIST;
+						board[8][j] = Block_EXIST;
 					}
-					board[casesecondWidthseven][j] = Block_EXIST;
+					board[7][j] = Block_EXIST;
 				}
 				break;
 			case 3:	//	OSSP
 				//	O
-<<<<<<< HEAD
 				for(j = 10; j < 13; j++) {
 					board[1][j] = Block_EXIST;
 					board[4][j] = Block_EXIST;
@@ -517,57 +451,29 @@ public int totallevel = 10;
 					board[i][13] = Block_EXIST;
 					board[i][15] = Block_EXIST;
 					board[i][17] = Block_EXIST;
-=======
-				for(j = casethirdWidthten; j < casethirdWidththirteen; j++) {
-					board[casethirdWidthone][j] = Block_EXIST;
-					board[casethirdWidthfour][j] = Block_EXIST;
-				}
-				for(i = casethirdWidthtwo; i < casethirdWidthfour; i++) {
-					board[i][casethirdWidthnine] = Block_EXIST;
-					board[i][casethirdWidththirteen] = Block_EXIST;
 				}
 				
-				//	S, P
-				for(i = casethirdWidthsix; i < casethirdWidthnine; i++) {
-					board[i][casethirdWidthnine] = Block_EXIST;
-					board[i][casethirdWidtheleven] = Block_EXIST;
-					board[i][casethirdWidththirteen] = Block_EXIST;
-					board[i][casethirdWidthfifteen] = Block_EXIST;
-					board[i][casethirdWidthseventeen] = Block_EXIST;
->>>>>>> MainPkgVChange
-				}
-				
-					board[casethirdWidthsix][casethirdWidthten] = Block_EXIST;
-					board[casethirdWidtheight][casethirdWidthtwelve] = Block_EXIST;
-					board[casethirdWidtheight][casethirdWidthsixteen] = Block_EXIST;
-					board[casethirdWidthsix][casethirdWidthsixteen] = Block_EXIST;
-					board[casethirdWidthsix][casethirdWidtheightteen] = Block_EXIST;
-					board[casethirdWidthsix][casethirdWidthnineteen] = Block_EXIST;
+					board[6][10] = Block_EXIST;
+					board[8][12] = Block_EXIST;
+					board[8][16] = Block_EXIST;
+					board[6][16] = Block_EXIST;
+					board[6][18] = Block_EXIST;
+					board[6][19] = Block_EXIST;
 				
 				//	S
-<<<<<<< HEAD
 				for(i = 1; i < 5; i++) {
 					for(j = 15; j < 20; j++) {
 						if(j == 15 || j == 17 || j == 19) board[i][j] = Block_EXIST;
-=======
-				for(i = casethirdWidthone; i < casethirdWidthfive; i++) {
-					for(j = casethirdWidthfifteen; j < casethirdWidthtwenty; j++) {
-						if(j == casethirdWidthfifteen || j == casethirdWidthseventeen || j == casethirdWidthnineteen) board[i][j] = Block_EXIST;
->>>>>>> MainPkgVChange
 					}
 				}
-				board[casethirdWidthone][casethirdWidthsixteen] = Block_EXIST;
-				board[casethirdWidthfour][casethirdWidtheightteen] = Block_EXIST;
+				board[1][16] = Block_EXIST;
+				board[4][18] = Block_EXIST;
 					
 				break;
 		}
 
 		fMoves = new int[AHEAD];
-<<<<<<< HEAD
 		for (i = 0; i < AHEAD; i++)
-=======
-		for ( i= 0; i < AHEAD; i++)
->>>>>>> MainPkgVChange
 			fMoves[i] = gen.nextPiece();
 		putPiece();
 	}
@@ -581,17 +487,14 @@ public int totallevel = 10;
 	{
 		this(null);
 	}
-	int Wdivide = 2;
-	int Wminus = 2;
-	int tyint = -2;
-	
+
 	protected void putGivenPiece(int pieceID)
 	{
 		if (pieceID == 0)
 			return;
 		
-		tx = W / Wdivide - Wminus;
-		ty = tyint;
+		tx = W / 2 - 2;
+		ty = -2;
 		piece = PIECES[pieceID];
 		this.pieceID = pieceID;
 		rotation = 0;
@@ -599,18 +502,15 @@ public int totallevel = 10;
 		while (pieceLegal() == COLLISION)
 			ty--;
 	}
-	int i;
-	int index = 1;
-	int aheadminus = 1;
 	protected void putPiece()
 	{
 		lastMoveRotate = false;
 		putGivenPiece(fMoves[0]);
 		hasStored = false;
 
-		for ( i = index; i < AHEAD; i++)
-			fMoves[i-aheadminus] = fMoves[i];
-		fMoves[AHEAD-aheadminus] = gen.nextPiece();
+		for (int i = 1; i < AHEAD; i++)
+			fMoves[i-1] = fMoves[i];
+		fMoves[AHEAD-1] = gen.nextPiece();
 	}
 	public void moveLeft()
 	{
@@ -630,72 +530,64 @@ public int totallevel = 10;
 		else
 			resetTicks();
 	}
-	public static int rotationzero = 0;
-	public static int rotationminusone = -1;
-	public static int rotationone = 1;
-	public static int rotationtwo = 2;
-	public static int rotationminustwo = -2;	
+	
 	//KICK_X[direction][rotation][test]
-	private static final int[][][] KICK_X =   {{{rotationzero, rotationminusone, rotationminusone, rotationzero, rotationminusone},
-											    {rotationzero,  rotationone,  rotationone, rotationzero,  rotationone},
-											    {rotationzero,  rotationone,  rotationone, rotationzero,  rotationone},
-											    {rotationzero, rotationminusone, rotationminusone, rotationzero, rotationminusone}},
-											   {{rotationzero,  rotationone,  rotationone, rotationzero,  rotationone},
-											    {rotationzero,  rotationone,  rotationone, rotationzero,  rotationone},
-											    {rotationzero, rotationminusone, rotationminusone, rotationzero, rotationminusone},
-											    {rotationzero, rotationminusone, rotationminusone, rotationzero, rotationminusone}}};
+	private static final int[][][] KICK_X =   {{{0, -1, -1, 0, -1},
+											    {0,  1,  1, 0,  1},
+											    {0,  1,  1, 0,  1},
+											    {0, -1, -1, 0, -1}},
+											   {{0,  1,  1, 0,  1},
+											    {0,  1,  1, 0,  1},
+											    {0, -1, -1, 0, -1},
+											    {0, -1, -1, 0, -1}}};
 
-	private static final int[][][] KICK_Y =   {{{rotationzero, rotationzero,  rotationone, rotationminustwo, rotationminustwo},
-											    {rotationzero, rotationzero, rotationminusone,  rotationtwo,  rotationtwo},
-											    {rotationzero, rotationzero,  rotationone, rotationminustwo, rotationminustwo},
-											    {rotationzero, rotationzero, rotationminusone,  rotationtwo,  rotationtwo}},
-											   {{rotationzero, rotationzero, rotationminusone,  rotationtwo,  rotationtwo},
-											    {rotationzero, rotationzero,  rotationone, rotationminustwo, rotationminustwo},
-											    {rotationzero, rotationzero, rotationminusone,  rotationtwo,  rotationtwo},
-											    {rotationzero, rotationzero,  rotationone, rotationminustwo, rotationminustwo}}};
+	private static final int[][][] KICK_Y =   {{{0, 0,  1, -2, -2},
+											    {0, 0, -1,  2,  2},
+											    {0, 0,  1, -2, -2},
+											    {0, 0, -1,  2,  2}},
+											   {{0, 0, -1,  2,  2},
+											    {0, 0,  1, -2, -2},
+											    {0, 0, -1,  2,  2},
+											    {0, 0,  1, -2, -2}}};
 
-	private static final int[][][] I_KICK_X =   {{{rotationzero, rotationminustwo,  rotationone, rotationminustwo,  rotationone},
-											      {rotationzero, rotationminusone,  rotationtwo, rotationminusone,  rotationtwo},
-											      {rotationzero,  rotationtwo, rotationminusone,  rotationtwo, rotationminusone},
-											      {rotationzero,  rotationone, rotationminustwo,  rotationone, rotationminustwo}},
-											     {{rotationzero, rotationminusone,  rotationtwo, rotationminusone,  rotationtwo},
-											      {rotationzero,  rotationtwo, rotationminusone,  rotationtwo, rotationminusone},
-											      {rotationzero,  rotationone, rotationminustwo,  rotationone, rotationminustwo},
-											      {rotationzero, rotationminustwo,  rotationone, rotationminustwo,  rotationone}}};
+	private static final int[][][] I_KICK_X =   {{{0, -2,  1, -2,  1},
+											      {0, -1,  2, -1,  2},
+											      {0,  2, -1,  2, -1},
+											      {0,  1, -2,  1, -2}},
+											     {{0, -1,  2, -1,  2},
+											      {0,  2, -1,  2, -1},
+											      {0,  1, -2,  1, -2},
+											      {0, -2,  1, -2,  1}}};
 	
-	private static final int[][][] I_KICK_Y =   {{{rotationzero, rotationzero, rotationzero, rotationminusone,  rotationtwo},
-											      {rotationzero, rotationzero, rotationzero,  rotationtwo, rotationminusone},
-											      {rotationzero, rotationzero, rotationzero,  rotationone, rotationminustwo},
-											      {rotationzero, rotationzero, rotationzero, rotationminustwo,  rotationone}},
-											     {{rotationzero, rotationzero, rotationzero,  rotationtwo, rotationminusone},
-											      {rotationzero, rotationzero, rotationzero,  rotationone, rotationminustwo},
-											      {rotationzero, rotationzero, rotationzero, rotationminustwo,  rotationone},
-											      {rotationzero, rotationzero, rotationzero, rotationminusone,  rotationtwo}}};
+	private static final int[][][] I_KICK_Y =   {{{0, 0, 0, -1,  2},
+											      {0, 0, 0,  2, -1},
+											      {0, 0, 0,  1, -2},
+											      {0, 0, 0, -2,  1}},
+											     {{0, 0, 0,  2, -1},
+											      {0, 0, 0,  1, -2},
+											      {0, 0, 0, -2,  1},
+											      {0, 0, 0, -1,  2}}};
 	
-	int rotateindex = 0;
-	int rotationlength = 1;
 	public void rotate()
 	{
-		int rotateindex = 0;
-		int rotationlength = 1;
 		lastMoveRotate = true;
 		int oldrot = rotation;
 		int oldx = tx;
 		int oldy = ty;
 
-		int[] kicks_x = KICK_X[rotateindex][rotation];
-		int[] kicks_y = KICK_Y[rotateindex][rotation];
+		int[] kicks_x = KICK_X[0][rotation];
+		int[] kicks_y = KICK_Y[0][rotation];
 		
 		if (pieceID == 1)
 		{
-			kicks_x = I_KICK_X[rotateindex][rotation];
-			kicks_y = I_KICK_Y[rotateindex][rotation];
+			kicks_x = I_KICK_X[0][rotation];
+			kicks_y = I_KICK_Y[0][rotation];
 		}
 		
 		rotation++;
 		rotation %= piece.length;
 
-		for (i = rotateindex; i < kicks_x.length && pieceLegal() != LEGAL; i++)
+		for (int i = 0; i < kicks_x.length && pieceLegal() != LEGAL; i++)
 		{
 			tx = oldx;
 			ty = oldy;
@@ -716,19 +608,19 @@ public int totallevel = 10;
 		int oldx = tx;
 		int oldy = ty;
 
-		int[] kicks_x = KICK_X[rotationlength][rotation];
-		int[] kicks_y = KICK_Y[rotationlength][rotation];
+		int[] kicks_x = KICK_X[1][rotation];
+		int[] kicks_y = KICK_Y[1][rotation];
 		
-		if (pieceID == rotationlength)
+		if (pieceID == 1)
 		{
-			kicks_x = I_KICK_X[rotationlength][rotation];
-			kicks_y = I_KICK_Y[rotationlength][rotation];
+			kicks_x = I_KICK_X[1][rotation];
+			kicks_y = I_KICK_Y[1][rotation];
 		}
 		
-		rotation += piece.length - rotationlength;
+		rotation += piece.length - 1;
 		rotation %= piece.length;
 
-		for ( i = 0; i < kicks_x.length && pieceLegal() != LEGAL; i++)
+		for (int i = 0; i < kicks_x.length && pieceLegal() != LEGAL; i++)
 		{
 			tx = oldx;
 			ty = oldy;
@@ -803,11 +695,10 @@ public int totallevel = 10;
 	}
 	public boolean store()
 	{
-		int store = -1;
 		if (hasStored)
 			return false;
 
-		if (stored == store)
+		if (stored == -1)
 		{
 			stored = pieceID;
 			putPiece();
@@ -861,8 +752,6 @@ public int totallevel = 10;
 	}
 	protected void countdown() {
 		countdown_number = getCountDownNumber();
-		int countdownconfficient = 1;
-		
 			
 		// 게임멈추기 
 		paused = true; // stop game
@@ -873,7 +762,7 @@ public int totallevel = 10;
 			public void run() {
 				paused = false; // game start!
 			}};
-		paused_timer.schedule(paused_task, countdown_delay*(getCountDownNumber()+countdownconfficient)); //run after 4s
+		paused_timer.schedule(paused_task, countdown_delay*(getCountDownNumber()+1)); //run after 4s
 		
 		
 		// 카운트 다운
@@ -899,43 +788,36 @@ public int totallevel = 10;
 	}
 	public void tSpinEffect(int x, int y, int rotation)
 	{
-		int rotaionconfficient = 2;
-		int rotationdivide = 4;
-		
 		spinX = x;
 		spinY = y;
-		spinR = (rotation + rotaionconfficient) % rotationdivide;
+		spinR = (rotation + 2) % 4;
 		spinTick = tickCount;
 	}
 	protected boolean checkClear(boolean tspin, int x, int y, int rotation)
 	{
 		boolean ans = false;
 		int lines = 0;
-		int row;
-		int indexstart = 0;
-		int indexend = 8;
-		int i,j;
 		
-		for (row = indexstart; row < H; row++)
+		for (int row = 0; row < H; row++)
 		{
 			boolean containsColored = false;
 			boolean foundEmpty = false;
-			for ( i = indexstart; i < W; i++)
+			for (int i = 0; i < W; i++)
 			{
-				if (board[i][row] == indexstart)
+				if (board[i][row] == 0)
 				{
 					foundEmpty = true;
 					break;
 				}
-				else if (board[i][row] != indexend)
+				else if (board[i][row] != 8)
 					containsColored = true;
 			}
 			if (foundEmpty || !containsColored)
 				continue;
 
-			for (i = 0; i < W; i++)
+			for (int i = 0; i < W; i++)
 			{
-				for (j = row; j >= 1; j--)
+				for (int j = row; j >= 1; j--)
 					board[i][j] = board[i][j-1];
 				board[i][0] = 0;
 			}
@@ -954,27 +836,20 @@ public int totallevel = 10;
 	}
 	protected void placePiece()
 	{
-		int i,j;
-		int indexstart = 0;
-		int indexend = 4;
-		int placepiece = -1;
-		int txstart = 1;
-		int tystart = 2;
-		int cornersend = 3;
 		if (dead) return;
 
 		byte[][] arr = piece[rotation];
 
-		for (i = indexstart; i < indexend ; i++)
+		for (int i = 0; i < 4; i++)
 		{
-			for (j = indexstart; j < indexend ; j++)
+			for (int j = 0; j < 4; j++)
 			{
-				if (arr[i][j] == indexstart)
+				if (arr[i][j] == 0)
 					continue;
 
-				if (ty + j < placepiece)
+				if (ty + j < -1)
 					die();
-				if (tx + i < indexstart|| ty + j < indexstart)
+				if (tx + i < 0 || ty + j < 0)
 					continue;
 				if (tx + i >= W || ty + j >= H)
 					continue;
@@ -982,25 +857,25 @@ public int totallevel = 10;
 			}
 		}
 		boolean tspin = false;
-		int x = tx + txstart;
-		int y = ty + tystart;
+		int x = tx + 1;
+		int y = ty + 2;
 		if (pieceID == TPIECE && lastMoveRotate)
 		{
-            int corners = indexstart;
+int corners = 0;
 			
-			if (x <=indexstart || y <= indexstart || board[x-txstart][y-txstart] != Block_NOTEXIST)
+			if (x <= 0 || y <= 0 || board[x-1][y-1] != Block_NOTEXIST)
 				corners++;
 			
-			if (x <= indexstart || y >= H-txstart|| board[x-txstart][y+txstart] != Block_NOTEXIST)
+			if (x <= 0 || y >= H-1 || board[x-1][y+1] != Block_NOTEXIST)
 				corners++;
 			
-			if (x >= W-txstart || y <= indexstart || board[x+txstart][y-txstart] != Block_NOTEXIST)
+			if (x >= W-1 || y <= 0 || board[x+1][y-1] != Block_NOTEXIST)
 				corners++;
 			
-			if (x >= W-txstart || y >= H-txstart || board[x+txstart][y+txstart] != Block_NOTEXIST)
+			if (x >= W-1 || y >= H-1 || board[x+1][y+1] != Block_NOTEXIST)
 				corners++;
 			
-			if (corners >= cornersend )
+			if (corners >= 3)
 				tspin = true;
 		}
 		if (checkClear(tspin, x, y, rotation))
@@ -1011,26 +886,23 @@ public int totallevel = 10;
 	}
 	protected int pieceLegal()
 	{
-		int i,j;
-		int indexstart = 0;
-		int indexend = 4;
 		byte[][] arr = piece[rotation];
 		int err = LEGAL;
 
-		for (i = indexstart; i < indexend; i++)
+		for (int i = 0; i < 4; i++)
 		{
-			for (j = indexstart; j < indexend; j++)
+			for (int j = 0; j < 4; j++)
 			{
 				if (arr[i][j] == 0)
 					continue;
 
-				if (tx + i < indexstart || tx + i >= W)
+				if (tx + i < 0 || tx + i >= W)
 					return OUT_OF_BOUNDS;
 				else if (ty + j >= H)
 					err = Math.max(err, TOO_LOW);
-				else if (ty + j < indexstart)
+				else if (ty + j < 0)
 					continue;
-				else if (board[tx+i][ty+j] != indexstart)
+				else if (board[tx+i][ty+j] != 0)
 					err = Math.max(err, COLLISION);
 			}
 		}
@@ -1049,34 +921,25 @@ public int totallevel = 10;
 	
 	protected static void copy(int[][] dest, int[][] source)
 	{
-		int indexstart = 0;
-		int i,j;
-		for (i = indexstart; i < dest.length && i < source.length; i++)
-			for (j = indexstart; j < dest[i].length && j < source[i].length; j++)
+		for (int i = 0; i < dest.length && i < source.length; i++)
+			for (int j = 0; j < dest[i].length && j < source[i].length; j++)
 				dest[i][j] = source[i][j];
 	}
 	protected static void copy(int[] dest, int[] source)
 	{
-		int indexstart = 0;
-		int i;
-		for (i = indexstart; i < dest.length && i < source.length; i++)
+		for (int i = 0; i < dest.length && i < source.length; i++)
 			dest[i] = source[i];
 	}
 
 	public Tetris[] children()
 	{
-		int i,r;
-		int Wconfficient = 3;
-		int piececonfficient = 1;
-		int indexstart = -3;
-		int rindexstart = 0;
-		int len = (W+Wconfficient) * piece.length + piececonfficient;
+		int len = (W+3) * piece.length + 1;
 		Tetris[] ans = new Tetris[len];
 		int pos = 0;
 
-		for (i = indexstart; i < W; i++)
+		for (int i = -3; i < W; i++)
 		{
-			for (r = rindexstart; r < piece.length; r++)
+			for (int r = 0; r < piece.length; r++)
 			{
 				Tetris t = new Tetris();
 				t.piece = piece;
@@ -1114,80 +977,64 @@ public int totallevel = 10;
 	}
 	public int[] xpos()
 	{
-		int i,r;
-		int iindexstart = -3;
-		int rindexstart = 0;
-		int lenconfficient = 3;
-		int len = (W+lenconfficient) * piece.length;
+		int len = (W+3) * piece.length;
 		int[] ans = new int[len];
 		int pos = 0;
 
-		for (i = iindexstart; i < W; i++)
+		for (int i = -3; i < W; i++)
 		{
-			for (r = rindexstart; r < piece.length; r++)
+			for (int r = 0; r < piece.length; r++)
 				ans[pos++] = i;
 		}
 		return ans;
 	}
 	public int[] rotations()
 	{
-		int lenconfficient = 3;
-		int i,r;
-		int iindexstart = -3;
-		int rindexstart = 0;
-		int len = (W+lenconfficient) * piece.length;
+		int len = (W+3) * piece.length;
 		int[] ans = new int[len];
 		int pos = 0;
 
-		for (i = iindexstart; i < W; i++)
+		for (int i = -3; i < W; i++)
 		{
-			for (r = rindexstart; r < piece.length; r++)
+			for (int r = 0; r < piece.length; r++)
 				ans[pos++] = r;
 		}
 		return ans;
 	}
 	public int evaluate()
 	{
-		int i,j,k;
 		if (dead)
 			return Integer.MIN_VALUE;
 		
 		int ans = 0;
+
 		int totalfree = 2;
-		int iindexstart = 0;
-		int jindexstart = 0;
-		int ansminus = 130;
-		int ansminus2 = 11;
-		int kindexend = 0;
-		int kindexconfficient = 1;
-		int ansmultiple = 55;
-		int ansmultiple2 = 2;
-		for (i = iindexstart; i < W; i++)
+		for (int i = 0; i < W; i++)
 		{
 			int columnfree = 2;
 			
-			for (j = jindexstart; j < H; j++)
+			for (int j = 0; j < H; j++)
 			{
-				if (board[i][j] != iindexstart)
+				if (board[i][j] != 0)
 				{
-					ans -= ansminus2;
+					ans -= 11;
 					
-					for (k = j+kindexconfficient; k < H && board[i][k] == iindexstart; k++)
-						ans -= ansminus;
+					for (int k = j+1; k < H && board[i][k] == 0; k++)
+						ans -= 130;
 				}
 				else
 				{
-					for (k = j-kindexconfficient; k >= kindexend && board[i][k] != iindexstart; k++)
+					for (int k = j-1; k >= 0 && board[i][k] != 0; k++)
 						ans -= 120;
 					
-					if ((i <= iindexstart || board[i-kindexconfficient][j] != iindexstart) && (i >= W-kindexconfficient || board[i+1][j] != iindexstart))
+					if ((i <= 0 || board[i-1][j] != 0) && (i >= W-1 || board[i+1][j] != 0))
 					{
-						if (columnfree > iindexstart)
+						if (columnfree > 0)
 							columnfree--;
-						else if (totalfree > iindexstart)
+						else if (totalfree > 0)
 							totalfree--;
 						else
-							ans -= ansmultiple + j * ansmultiple2;
+							ans -= 55 + j * 2;
 					}
 				}
 			}
@@ -1195,30 +1042,23 @@ public int totallevel = 10;
 
 		int h = height();
 		int h_limit = 15;
-		int ansconfficient = 10;
-		int ansminusconfficient = 1000000;
-		int storeans = 1;
-		ans -= h * ansconfficient ;
+		ans -= h * 10;
 		
 		if (h >= h_limit)
-			ans -= ansminusconfficient * h;
+			ans -= 1000000 * h;
 		
-		if (stored == storeans)
+		if (stored == 1)
 			ans++;
 
 		return ans;
 	}
 	public int height()
 	{
-		int j,i;
-		int iindexstart = 0;
-		int jindexstart = 0;
-		int boardindex = 0;
-		for (j = jindexstart; j < H; j++)
+		for (int j = 0; j < H; j++)
 		{
-			for (i = iindexstart; i < W; i++)
+			for (int i = 0; i < W; i++)
 			{
-				if (board[i][j] != boardindex)
+				if (board[i][j] != 0)
 					return H - j;
 			}
 		}
@@ -1226,21 +1066,16 @@ public int totallevel = 10;
 	}
 	public int fallDistance()
 	{
-		int i,j;
-		int iindexstart = 0;
-		int jindexstart = 1;
-		int jindexend = 0;
-		int arrindex = 0;
-		int heightconfficient = 1;
 		byte[][] arr = piece[rotation];
 		int size = 4;
+		
 		int max = 0;
 		mainloop:
-		for (j = size-jindexstart; j >= jindexend; j--)
+		for (int j = size-1; j >= 0; j--)
 		{
-			for (i = iindexstart; i < size; i++)
+			for (int i = 0; i < size; i++)
 			{
-				if (arr[i][j] != arrindex)
+				if (arr[i][j] != 0)
 				{
 					max = j;
 					break mainloop;
@@ -1248,7 +1083,7 @@ public int totallevel = 10;
 			}
 		}
 		
-		return H - ty - max - height() - heightconfficient;
+		return H - ty - max - height() - 1;
 	}
 
 	//째횚�횙횈횉 쨩철
@@ -1261,9 +1096,7 @@ public int totallevel = 10;
 	protected static final Color C_NOTICE = new Color(255, 255, 255, 225);
 												// I, S, T, O, Z, L, J
 	protected static final Color[] COLORS = {null, Color.CYAN, Color.RED, Color.MAGENTA, Color.YELLOW, Color.GREEN, Color.ORANGE, new Color(100, 150, 255), new Color(190, 190, 190)};
-	protected static double sqrconfficient = 2.5;
-	protected static int boxsizeconfficient = 2;
-	protected static int realyconfficient = 265;
+	
 	// 테두리 두께
 	protected static final int borderSize = 1;
 	protected static double boxsizeconfficient = 2.5;
@@ -1272,19 +1105,11 @@ public int totallevel = 10;
 
 	protected int yoffset = SQR_W;
 	protected int xoffset = SQR_W;
-<<<<<<< HEAD
 	public static int boxsize = (int)(SQR_W*boxsizeconfficient); // Tetrimino가 들어가는 박스의 크기
 	protected int blocksize = (int)(SQR_W/blocksizeconfficient); // Tetrimino의 크기
 
 	Dimension dimen = Toolkit.getDefaultToolkit().getScreenSize();
 	protected int real_y = (int)(dimen.getHeight())-heightconfficient;
-=======
-	public static int boxsize = (int)(SQR_W*sqrconfficient); // Tetrimino가 들어가는 박스의 크기
-	protected int blocksize = (int)(SQR_W/boxsizeconfficient); // Tetrimino의 크기
-
-	Dimension dimen = Toolkit.getDefaultToolkit().getScreenSize();
-	protected int real_y = (int)(dimen.getHeight())-realyconfficient;
->>>>>>> MainPkgVChange
 	protected static int field_w;
 	protected static int field_h;
 	protected static int sqr;
@@ -1311,13 +1136,10 @@ public int totallevel = 10;
 			g.fillRect(x, y, field_w, field_h);
 		}
 		
-		int i,j;
+		
 
 		if (!dead)
 		{
-			int iindexstart = 0;
-			int jindexstart = 0;
-			int arrindex = 0;
 			Tetris ghost = new Tetris();
 			copy(ghost.board, board);
 			ghost.tx = tx;
@@ -1330,23 +1152,21 @@ public int totallevel = 10;
 			ghost.ty--;
 			
 			byte[][] arr = ghost.piece[ghost.rotation];
-			for (i = iindexstart; i < size; i++)
+			for (int i = 0; i < size; i++)
 			{
-				for (j = jindexstart; j < size; j++)
+				for (int j = 0; j < size; j++)
 				{
-					if (arr[i][j] == arrindex)
+					if (arr[i][j] == 0)
 						continue;
 	
 					int xpos = i + ghost.tx;
 					int ypos = j + ghost.ty;
-					int xposstart = 0;
-					int yposstart = 0;
 					int Ghostwidthconfficient = 1;
 					int Ghostheightconfficient = 2;
 					int Ghostheightconfficient2 = 4;
 					
 					
-					if (xpos < xposstart || ypos < yposstart)
+					if (xpos < 0 || ypos < 0)
 						continue;
 					if(FIELD_H<=real_y ) {
 						g.setColor(C_GHOST_FILL);
@@ -1371,16 +1191,12 @@ public int totallevel = 10;
 		int BlockWidthfill = 6;
 		int BlockWidthHeightconfficient = 11;
 		int Blockshodowfill = 2;
-		int iindexstart = 0;
-		int jindexstart = 0;
-		int boardindex = 0;
-		
 		//쌓여 있는 블록 그리기
-		for (i = iindexstart; i < W; i++)
+		for (int i = 0; i < W; i++)
 		{
-			for (j = jindexstart; j < H; j++)
+			for (int j = 0; j < H; j++)
 			{
-				if (board[i][j] == boardindex)
+				if (board[i][j] == 0)
 					continue;
 				if(FIELD_H<=real_y ) {
 					g.setColor(COLORS[board[i][j]]);
@@ -1415,22 +1231,19 @@ public int totallevel = 10;
 		int DropBlockWidthHeightconfficient = 11;
 		int DropBlockWHadowconfficient = 1;
 		int DropBlockWShadowconfficient = 2;
-		int txplus = 0;
-		int typlus = 0;
-		
 		//하강 하는 블록 그리기
 		if (!dead)
 		{
 			g.setColor(COLORS[pieceID]);
-			for (i = iindexstart; i < piece[rotation].length; i++)
+			for (int i = 0; i < piece[rotation].length; i++)
 			{
-				for (j = jindexstart; j < piece[rotation][i].length; j++)
+				for (int j = 0; j < piece[rotation][i].length; j++)
 				{
 					if (piece[rotation][i][j] == 0)
 						continue;
-					if (tx + i < txplus || tx + i >= W)
+					if (tx + i < 0 || tx + i >= W)
 						continue;
-					if (ty + j < typlus || ty + j >= H)
+					if (ty + j < 0 || ty + j >= H)
 						continue;
 					if(FIELD_H<=real_y) {
 						g.setColor(COLORS[pieceID]);
@@ -1463,9 +1276,9 @@ public int totallevel = 10;
 		}
 		//격자 그리기
 		g.setColor(C_BORDER);
-		for (i = iindexstart; i < W; i++)
+		for (int i = 0; i < W; i++)
 		{
-			for (j = jindexstart; j < H; j++)
+			for (int j = 0; j < H; j++)
 				if(FIELD_H<=real_y) {
 					g.drawRect(x + i * SQR_W, y + j * SQR_W, SQR_W, SQR_W);
 					sqr = SQR_W;
@@ -1477,7 +1290,7 @@ public int totallevel = 10;
 		
 		final double FLASH_TIME = (long) 500;
 		long time = System.currentTimeMillis();
-		for (i = iindexstart; i < H; i++)
+		for (int i = 0; i < H; i++)
 		{
 			long diff = time - flash[i];
 			if (diff < 0 || diff >= FLASH_TIME )
@@ -1500,67 +1313,47 @@ public int totallevel = 10;
 			int diff = tickCount - spinTick;
 			int BlockSpintConfficient = 1;
 			int ImageWidthHeight = 2;
-<<<<<<< HEAD
 			int Tspinanimationtickscof = 2;
 			int Tspinblocknumber = 4;
 			
 			if (diff >= 0 && diff < TSPIN_ANIMATION_TICKS * 4 && !dead)
 			{
 				int rotation = (spinR + diff / TSPIN_ANIMATION_TICKS < 2 ? (diff / TSPIN_ANIMATION_TICKS) : Tspinanimationtickscof) % Tspinblocknumber;
-=======
-			int diffzero = 0;
-			int Tspinconfficient = 4;
-			int Tspinheight = 2;
-			int rotationzero = 0;
-			int rotationone = 1;
-			int rotationtwo = 2;
-			int rotationthree = 3;
-			
-			if (diff >= diffzero && diff < TSPIN_ANIMATION_TICKS * Tspinconfficient && !dead)
-			{
-				int rotation = (spinR + diff / TSPIN_ANIMATION_TICKS < Tspinheight ? (diff / TSPIN_ANIMATION_TICKS) : Tspinheight) % Tspinconfficient;
->>>>>>> MainPkgVChange
 				BufferedImage img = tspins[rotation];
 				if (img != null)
 				{
 					Composite comp = g.getComposite();
-<<<<<<< HEAD
 					if (diff >= TSPIN_ANIMATION_TICKS * Tspinanimationtickscof)
 					{
 						float alpha = 1.0f - (float)(diff - TSPIN_ANIMATION_TICKS * Tspinanimationtickscof) / (TSPIN_ANIMATION_TICKS * Tspinanimationtickscof);
-=======
-					if (diff >= TSPIN_ANIMATION_TICKS * Tspinheight)
-					{
-						float alpha = 1.0f - (float)(diff - TSPIN_ANIMATION_TICKS * Tspinheight) / (TSPIN_ANIMATION_TICKS * Tspinheight);
->>>>>>> MainPkgVChange
 						g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 						g.setColor(new Color(255, 255, 255, 200));
 						if(FIELD_H<=real_y) {
 							g.fillRect(x + spinX * SQR_W, y + spinY* SQR_W, SQR_W, SQR_W);
 							
-							if (rotation != rotationzero && spinY + rotationone < H)
+							if (rotation != 0 && spinY + 1 < H)
 								g.fillRect(x + spinX * SQR_W, y + (spinY + BlockSpintConfficient) * SQR_W, SQR_W, SQR_W);
 							
-							if (rotation != rotationone && spinX > rotationzero)
+							if (rotation != 1 && spinX > 0)
 								g.fillRect(x + (spinX - BlockSpintConfficient) * SQR_W, y + spinY * SQR_W, SQR_W, SQR_W);
 							
-							if (rotation != rotationtwo && spinY > rotationzero)
+							if (rotation != 2 && spinY > 0)
 								g.fillRect(x + spinX * SQR_W, y + (spinY - BlockSpintConfficient) * SQR_W, SQR_W, SQR_W);
 							
-							if (rotation != rotationthree && spinX + rotationone < W)
+							if (rotation != 3 && spinX + 1 < W)
 								g.fillRect(x + (spinX + BlockSpintConfficient) * SQR_W, y + spinY * SQR_W, SQR_W, SQR_W);
 						}else{
 							g.fillRect(x + spinX * sqr, y + spinY* sqr, sqr, sqr);
-							if (rotation != rotationzero && spinY + rotationone < H)
+							if (rotation != 0 && spinY + 1 < H)
 								g.fillRect(x + spinX * sqr, y + (spinY + BlockSpintConfficient) * sqr, sqr, sqr);
 							
-							if (rotation != rotationone && spinX > rotationzero)
+							if (rotation != 1 && spinX > 0)
 								g.fillRect(x + (spinX - BlockSpintConfficient) * sqr, y + spinY * sqr, sqr, sqr);
 							
-							if (rotation != rotationtwo && spinY > rotationzero)
+							if (rotation != 2 && spinY > 0)
 								g.fillRect(x + spinX * sqr, y + (spinY - BlockSpintConfficient) * sqr, sqr, sqr);
 							
-							if (rotation != rotationthree && spinX + rotationone < W)
+							if (rotation != 3 && spinX + 1 < W)
 								g.fillRect(x + (spinX + BlockSpintConfficient) * sqr, y + spinY * sqr, sqr, sqr);
 						}
 					}
@@ -1574,19 +1367,17 @@ public int totallevel = 10;
 				}
 			}
 		}
-		double boxsizeconfficient = 2.5;
-		int blocksizeconfficient = 2;
-		
+
 		if(FIELD_H<=real_y) {
 			yoffset = SQR_W;
 			xoffset = SQR_W/2;
-			boxsize = (int)(SQR_W*boxsizeconfficient);
-			blocksize = (int)(SQR_W/blocksizeconfficient);
+			boxsize = (int)(SQR_W*2.5);
+			blocksize = (int)(SQR_W/2);
 		}else {
 			 yoffset = sqr;
 			 xoffset = sqr/2;
-			 boxsize = (int)(sqr*boxsizeconfficient);
-			 blocksize = (int)(sqr/blocksizeconfficient);
+			 boxsize = (int)(sqr*2.5);
+			 blocksize = (int)(sqr/2);
 		}
 		
 		// holdBox와 hold글씨 그리기
@@ -1594,7 +1385,6 @@ public int totallevel = 10;
 		double LevelBoxdivid = 4/2.5;
 		int Nextdivid = 2;
 		int WaitBlockdivide = 2;
-		int nostored = -1;
 		g.setColor(Color.WHITE);
 		g.setFont(F_UI);
 		if(FIELD_H<=real_y) {
@@ -1607,13 +1397,13 @@ public int totallevel = 10;
 		}
 		
 		// holdBox안의 테트리스 그리기
-		if (stored != nostored)
+		if (stored != -1)
 			drawTetrimino(g, stored, x - xoffset - boxsize/Holdedivide, y + yoffset + boxsize/Holdedivide, blocksize); // holdBox
 		
 		// levelBox 그리기
 		drawCentered(g, "Level", x - xoffset - boxsize/Holdedivide, (int) (y + boxsize*(LevelBoxdivid) + g.getFont().getSize()));
 		g.drawRect(x - xoffset - boxsize, (int) (y + yoffset + boxsize*(LevelBoxdivid)), boxsize, boxsize);
-		drawCentered(g, getLevel()+"", x - xoffset - boxsize/Holdedivide, (int) (y + yoffset + boxsize*(LevelBoxdivid) + boxsize - (boxsize-g.getFont().getSize())/Holdedivide));
+		drawCentered(g, getLevel()+"", x - xoffset - boxsize/Holdedivide, (int) (y + yoffset + boxsize*(4/2.5) + boxsize - (boxsize-g.getFont().getSize())/Holdedivide));
 		
 		//"NEXT"글씨와 다음 테트리스 미리보기 상자
 		g.setColor(Color.WHITE);
@@ -1625,7 +1415,7 @@ public int totallevel = 10;
 		}
 		
 
-		for (i = iindexstart; i < AHEAD; i++)
+		for (int i = 0; i < AHEAD; i++)
 		{
 			//대기하는 블록 창
 			g.setColor(Color.WHITE);
@@ -1676,7 +1466,6 @@ public int totallevel = 10;
 		
 		// 테트리스 구역에 메세지 쓰기
 		int Messagesizedivide = 2;
-		int countnumberzero = 0;
 		if (dead)
 		{ 
 			g.setColor(C_NOTICE);
@@ -1696,17 +1485,17 @@ public int totallevel = 10;
 				IDFrame sf = new IDFrame(TetrisMarathon.finalScore);
 			}	
 		}
-		else if (countdown_number>countnumberzero && dead==false) {
+		else if (countdown_number>0 && dead==false) {
 			
 			g.setColor(C_NOTICE);
 			g.setFont(F_COUNTDOWN);
 			if(FIELD_H<=real_y) {
 				drawCentered(g, countdown_number+"", x + FIELD_W / Messagesizedivide, y + g.getFont().getSize()/Messagesizedivide + FIELD_H / Messagesizedivide);
 			}else {
-				drawCentered(g, countdown_number+"", x + field_w / Messagesizedivide, y + g.getFont().getSize()/Messagesizedivide + field_h / Messagesizedivide);
+				drawCentered(g, countdown_number+"", x + field_h / Messagesizedivide, y + g.getFont().getSize()/Messagesizedivide + field_h / Messagesizedivide);
 			}
 		}
-		else if (countdown_number==countnumberzero  && dead==false) {
+		else if (countdown_number==0 && dead==false) {
 			
 			g.setFont(F_COUNTDOWN);
 			g.setColor(C_NOTICE);
@@ -1735,12 +1524,7 @@ public int totallevel = 10;
 	}
 	protected static void drawTetrimino(Graphics2D g, int id, int x, int y, int sqrw)
 	{
-		int piecesindex = 0;
-		int i,j;
-		int iindexstart = 0;
-		int jindexstart = 0;
-		int arrindex = 0;
-		byte[][] arr = PIECES[id][piecesindex];
+		byte[][] arr = PIECES[id][0];
 
 		int frow = Integer.MAX_VALUE;
 		int fcol = Integer.MAX_VALUE;
@@ -1748,11 +1532,11 @@ public int totallevel = 10;
 		int lcol = Integer.MIN_VALUE;
 		int size = 4;
 
-		for (i = iindexstart; i < size; i++)
+		for (int i = 0; i < size; i++)
 		{
-			for (j = jindexstart; j < size; j++)
+			for (int j = 0; j < size; j++)
 			{
-				if (arr[i][j] == arrindex)
+				if (arr[i][j] == 0)
 					continue;
 
 				if (i < frow)
@@ -1766,18 +1550,17 @@ public int totallevel = 10;
 					lcol = j;
 			}
 		}
-		int xylendconfficient = 1;
-		int xysqrw = 2;
-		int xlen = lrow - frow + xylendconfficient;
-		int ylen = lcol - fcol + xylendconfficient;
-		x -= xlen * sqrw / xysqrw;
-		y -= ylen * sqrw / xysqrw;
 
-		for (i = iindexstart; i < size; i++)
+		int xlen = lrow - frow + 1;
+		int ylen = lcol - fcol + 1;
+		x -= xlen * sqrw / 2;
+		y -= ylen * sqrw / 2;
+
+		for (int i = 0; i < size; i++)
 		{
-			for (j = jindexstart; j < size; j++)
+			for (int j = 0; j < size; j++)
 			{
-				if (arr[i][j] == arrindex)
+				if (arr[i][j] == 0)
 					continue;
 
 				g.setColor(COLORS[id]);
