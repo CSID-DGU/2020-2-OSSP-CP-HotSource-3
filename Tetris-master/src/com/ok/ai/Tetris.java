@@ -585,26 +585,30 @@ public int level=1;
 											      {rotationzero, rotationzero, rotationzero, rotationminustwo,  rotationone},
 											      {rotationzero, rotationzero, rotationzero, rotationminusone,  rotationtwo}}};
 	
+	int rotateindex = 0;
+	int rotationlength = 1;
 	public void rotate()
 	{
+		int rotateindex = 0;
+		int rotationlength = 1;
 		lastMoveRotate = true;
 		int oldrot = rotation;
 		int oldx = tx;
 		int oldy = ty;
 
-		int[] kicks_x = KICK_X[0][rotation];
-		int[] kicks_y = KICK_Y[0][rotation];
+		int[] kicks_x = KICK_X[rotateindex][rotation];
+		int[] kicks_y = KICK_Y[rotateindex][rotation];
 		
 		if (pieceID == 1)
 		{
-			kicks_x = I_KICK_X[0][rotation];
-			kicks_y = I_KICK_Y[0][rotation];
+			kicks_x = I_KICK_X[rotateindex][rotation];
+			kicks_y = I_KICK_Y[rotateindex][rotation];
 		}
 		
 		rotation++;
 		rotation %= piece.length;
 
-		for (int i = 0; i < kicks_x.length && pieceLegal() != LEGAL; i++)
+		for (i = rotateindex; i < kicks_x.length && pieceLegal() != LEGAL; i++)
 		{
 			tx = oldx;
 			ty = oldy;
@@ -625,19 +629,19 @@ public int level=1;
 		int oldx = tx;
 		int oldy = ty;
 
-		int[] kicks_x = KICK_X[1][rotation];
-		int[] kicks_y = KICK_Y[1][rotation];
+		int[] kicks_x = KICK_X[rotationlength][rotation];
+		int[] kicks_y = KICK_Y[rotationlength][rotation];
 		
-		if (pieceID == 1)
+		if (pieceID == rotationlength)
 		{
-			kicks_x = I_KICK_X[1][rotation];
-			kicks_y = I_KICK_Y[1][rotation];
+			kicks_x = I_KICK_X[rotationlength][rotation];
+			kicks_y = I_KICK_Y[rotationlength][rotation];
 		}
 		
-		rotation += piece.length - 1;
+		rotation += piece.length - rotationlength;
 		rotation %= piece.length;
 
-		for (int i = 0; i < kicks_x.length && pieceLegal() != LEGAL; i++)
+		for ( i = 0; i < kicks_x.length && pieceLegal() != LEGAL; i++)
 		{
 			tx = oldx;
 			ty = oldy;
