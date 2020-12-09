@@ -497,10 +497,10 @@ public int level=1;
 	int Wdivide = 2;
 	int Wminus = 2;
 	int tyint = -2;
-	
+	int PiecdIDend = 0;
 	protected void putGivenPiece(int pieceID)
 	{
-		if (pieceID == 0)
+		if (pieceID == PiecdIDend)
 			return;
 		
 		tx = W / Wdivide - Wminus;
