@@ -1174,17 +1174,19 @@ public int level=1;
 	protected static final Color C_NOTICE = new Color(255, 255, 255, 225);
 												// I, S, T, O, Z, L, J
 	protected static final Color[] COLORS = {null, Color.CYAN, Color.RED, Color.MAGENTA, Color.YELLOW, Color.GREEN, Color.ORANGE, new Color(100, 150, 255), new Color(190, 190, 190)};
-	
+	protected static double sqrconfficient = 2.5;
+	protected static int boxsizeconfficient = 2;
+	protected static int realyconfficient = 265;
 	// 테두리 두께
 	protected static final int borderSize = 1;
 
 	protected int yoffset = SQR_W;
 	protected int xoffset = SQR_W;
-	public static int boxsize = (int)(SQR_W*2.5); // Tetrimino가 들어가는 박스의 크기
-	protected int blocksize = (int)(SQR_W/2); // Tetrimino의 크기
+	public static int boxsize = (int)(SQR_W*sqrconfficient); // Tetrimino가 들어가는 박스의 크기
+	protected int blocksize = (int)(SQR_W/boxsizeconfficient); // Tetrimino의 크기
 
 	Dimension dimen = Toolkit.getDefaultToolkit().getScreenSize();
-	protected int real_y = (int)(dimen.getHeight())-265;
+	protected int real_y = (int)(dimen.getHeight())-realyconfficient;
 	protected static int field_w;
 	protected static int field_h;
 	protected static int sqr;
@@ -1211,10 +1213,13 @@ public int level=1;
 			g.fillRect(x, y, field_w, field_h);
 		}
 		
-		
+		int i,j;
 
 		if (!dead)
 		{
+			int iindexstart = 0;
+			int jindexstart = 0;
+			int arrindex = 0;
 			Tetris ghost = new Tetris();
 			copy(ghost.board, board);
 			ghost.tx = tx;
@@ -1227,21 +1232,23 @@ public int level=1;
 			ghost.ty--;
 			
 			byte[][] arr = ghost.piece[ghost.rotation];
-			for (int i = 0; i < size; i++)
+			for (i = iindexstart; i < size; i++)
 			{
-				for (int j = 0; j < size; j++)
+				for (j = jindexstart; j < size; j++)
 				{
-					if (arr[i][j] == 0)
+					if (arr[i][j] == arrindex)
 						continue;
 	
 					int xpos = i + ghost.tx;
 					int ypos = j + ghost.ty;
+					int xposstart = 0;
+					int yposstart = 0;
 					int Ghostwidthconfficient = 1;
 					int Ghostheightconfficient = 2;
 					int Ghostheightconfficient2 = 4;
 					
 					
-					if (xpos < 0 || ypos < 0)
+					if (xpos < xposstart || ypos < yposstart)
 						continue;
 					if(FIELD_H<=real_y ) {
 						g.setColor(C_GHOST_FILL);
@@ -1266,12 +1273,16 @@ public int level=1;
 		int BlockWidthfill = 6;
 		int BlockWidthHeightconfficient = 11;
 		int Blockshodowfill = 2;
+		int iindexstart = 0;
+		int jindexstart = 0;
+		int boardindex = 0;
+		
 		//쌓여 있는 블록 그리기
-		for (int i = 0; i < W; i++)
+		for (i = iindexstart; i < W; i++)
 		{
-			for (int j = 0; j < H; j++)
+			for (j = jindexstart; j < H; j++)
 			{
-				if (board[i][j] == 0)
+				if (board[i][j] == boardindex)
 					continue;
 				if(FIELD_H<=real_y ) {
 					g.setColor(COLORS[board[i][j]]);
@@ -1309,10 +1320,11 @@ public int level=1;
 		//하강 하는 블록 그리기
 		if (!dead)
 		{
+			
 			g.setColor(COLORS[pieceID]);
-			for (int i = 0; i < piece[rotation].length; i++)
+			for (i = 0; i < piece[rotation].length; i++)
 			{
-				for (int j = 0; j < piece[rotation][i].length; j++)
+				for (j = 0; j < piece[rotation][i].length; j++)
 				{
 					if (piece[rotation][i][j] == 0)
 						continue;
@@ -1351,9 +1363,9 @@ public int level=1;
 		}
 		//격자 그리기
 		g.setColor(C_BORDER);
-		for (int i = 0; i < W; i++)
+		for (i = 0; i < W; i++)
 		{
-			for (int j = 0; j < H; j++)
+			for (j = 0; j < H; j++)
 				if(FIELD_H<=real_y) {
 					g.drawRect(x + i * SQR_W, y + j * SQR_W, SQR_W, SQR_W);
 					sqr = SQR_W;
@@ -1365,7 +1377,7 @@ public int level=1;
 		
 		final double FLASH_TIME = (long) 500;
 		long time = System.currentTimeMillis();
-		for (int i = 0; i < H; i++)
+		for (i = 0; i < H; i++)
 		{
 			long diff = time - flash[i];
 			if (diff < 0 || diff >= FLASH_TIME )
@@ -1487,7 +1499,7 @@ public int level=1;
 		}
 		
 
-		for (int i = 0; i < AHEAD; i++)
+		for (i = 0; i < AHEAD; i++)
 		{
 			//대기하는 블록 창
 			g.setColor(Color.WHITE);
