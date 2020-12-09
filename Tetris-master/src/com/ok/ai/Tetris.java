@@ -981,13 +981,15 @@ public int level=1;
 		int i,r;
 		int Wconfficient = 3;
 		int piececonfficient = 1;
+		int indexstart = -3;
+		int rindexstart = 0;
 		int len = (W+Wconfficient) * piece.length + piececonfficient;
 		Tetris[] ans = new Tetris[len];
 		int pos = 0;
 
-		for (i = -3; i < W; i++)
+		for (i = indexstart; i < W; i++)
 		{
-			for (r = 0; r < piece.length; r++)
+			for (r = rindexstart; r < piece.length; r++)
 			{
 				Tetris t = new Tetris();
 				t.piece = piece;
@@ -1025,64 +1027,80 @@ public int level=1;
 	}
 	public int[] xpos()
 	{
-		int len = (W+3) * piece.length;
+		int i,r;
+		int iindexstart = -3;
+		int rindexstart = 0;
+		int lenconfficient = 3;
+		int len = (W+lenconfficient) * piece.length;
 		int[] ans = new int[len];
 		int pos = 0;
 
-		for (int i = -3; i < W; i++)
+		for (i = iindexstart; i < W; i++)
 		{
-			for (int r = 0; r < piece.length; r++)
+			for (r = rindexstart; r < piece.length; r++)
 				ans[pos++] = i;
 		}
 		return ans;
 	}
 	public int[] rotations()
 	{
-		int len = (W+3) * piece.length;
+		int lenconfficient = 3;
+		int i,r;
+		int iindexstart = -3;
+		int rindexstart = 0;
+		int len = (W+lenconfficient) * piece.length;
 		int[] ans = new int[len];
 		int pos = 0;
 
-		for (int i = -3; i < W; i++)
+		for (i = iindexstart; i < W; i++)
 		{
-			for (int r = 0; r < piece.length; r++)
+			for (r = rindexstart; r < piece.length; r++)
 				ans[pos++] = r;
 		}
 		return ans;
 	}
 	public int evaluate()
 	{
+		int i,j,k;
 		if (dead)
 			return Integer.MIN_VALUE;
 		
 		int ans = 0;
-
 		int totalfree = 2;
-		for (int i = 0; i < W; i++)
+		int iindexstart = 0;
+		int jindexstart = 0;
+		int ansminus = 130;
+		int ansminus2 = 11;
+		int kindexend = 0;
+		int kindexconfficient = 1;
+		int ansmultiple = 55;
+		int ansmultiple2 = 2;
+		for (i = iindexstart; i < W; i++)
 		{
 			int columnfree = 2;
 			
-			for (int j = 0; j < H; j++)
+			for (j = jindexstart; j < H; j++)
 			{
-				if (board[i][j] != 0)
+				if (board[i][j] != iindexstart)
 				{
-					ans -= 11;
+					ans -= ansminus2;
 					
-					for (int k = j+1; k < H && board[i][k] == 0; k++)
-						ans -= 130;
+					for (k = j+kindexconfficient; k < H && board[i][k] == iindexstart; k++)
+						ans -= ansminus;
 				}
 				else
 				{
-					for (int k = j-1; k >= 0 && board[i][k] != 0; k++)
+					for (k = j-kindexconfficient; k >= kindexend && board[i][k] != iindexstart; k++)
 						ans -= 120;
 					
-					if ((i <= 0 || board[i-1][j] != 0) && (i >= W-1 || board[i+1][j] != 0))
+					if ((i <= iindexstart || board[i-kindexconfficient][j] != iindexstart) && (i >= W-kindexconfficient || board[i+1][j] != iindexstart))
 					{
-						if (columnfree > 0)
+						if (columnfree > iindexstart)
 							columnfree--;
-						else if (totalfree > 0)
+						else if (totalfree > iindexstart)
 							totalfree--;
 						else
-							ans -= 55 + j * 2;
+							ans -= ansmultiple + j * ansmultiple2;
 					}
 				}
 			}
