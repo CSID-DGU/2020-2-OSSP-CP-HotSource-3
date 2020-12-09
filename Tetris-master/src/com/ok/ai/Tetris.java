@@ -1108,23 +1108,30 @@ public int level=1;
 
 		int h = height();
 		int h_limit = 15;
-		ans -= h * 10;
+		int ansconfficient = 10;
+		int ansminusconfficient = 1000000;
+		int storeans = 1;
+		ans -= h * ansconfficient ;
 		
 		if (h >= h_limit)
-			ans -= 1000000 * h;
+			ans -= ansminusconfficient * h;
 		
-		if (stored == 1)
+		if (stored == storeans)
 			ans++;
 
 		return ans;
 	}
 	public int height()
 	{
-		for (int j = 0; j < H; j++)
+		int j,i;
+		int iindexstart = 0;
+		int jindexstart = 0;
+		int boardindex = 0;
+		for (j = jindexstart; j < H; j++)
 		{
-			for (int i = 0; i < W; i++)
+			for (i = iindexstart; i < W; i++)
 			{
-				if (board[i][j] != 0)
+				if (board[i][j] != boardindex)
 					return H - j;
 			}
 		}
@@ -1132,16 +1139,21 @@ public int level=1;
 	}
 	public int fallDistance()
 	{
+		int i,j;
+		int iindexstart = 0;
+		int jindexstart = 1;
+		int jindexend = 0;
+		int arrindex = 0;
+		int heightconfficient = 1;
 		byte[][] arr = piece[rotation];
 		int size = 4;
-		
 		int max = 0;
 		mainloop:
-		for (int j = size-1; j >= 0; j--)
+		for (j = size-jindexstart; j >= jindexend; j--)
 		{
-			for (int i = 0; i < size; i++)
+			for (i = iindexstart; i < size; i++)
 			{
-				if (arr[i][j] != 0)
+				if (arr[i][j] != arrindex)
 				{
 					max = j;
 					break mainloop;
@@ -1149,7 +1161,7 @@ public int level=1;
 			}
 		}
 		
-		return H - ty - max - height() - 1;
+		return H - ty - max - height() - heightconfficient;
 	}
 
 	//째횚�횙횈횉 쨩철
