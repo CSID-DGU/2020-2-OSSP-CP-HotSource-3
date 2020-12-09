@@ -494,14 +494,17 @@ public int level=1;
 	{
 		this(null);
 	}
-
+	int Wdivide = 2;
+	int Wminus = 2;
+	int tyint = -2;
+	
 	protected void putGivenPiece(int pieceID)
 	{
 		if (pieceID == 0)
 			return;
 		
-		tx = W / 2 - 2;
-		ty = -2;
+		tx = W / Wdivide - Wminus;
+		ty = tyint;
 		piece = PIECES[pieceID];
 		this.pieceID = pieceID;
 		rotation = 0;
@@ -509,15 +512,18 @@ public int level=1;
 		while (pieceLegal() == COLLISION)
 			ty--;
 	}
+	int i;
+	int index = 1;
+	int aheadminus = 1;
 	protected void putPiece()
 	{
 		lastMoveRotate = false;
 		putGivenPiece(fMoves[0]);
 		hasStored = false;
 
-		for (int i = 1; i < AHEAD; i++)
-			fMoves[i-1] = fMoves[i];
-		fMoves[AHEAD-1] = gen.nextPiece();
+		for ( i = index; i < AHEAD; i++)
+			fMoves[i-aheadminus] = fMoves[i];
+		fMoves[AHEAD-aheadminus] = gen.nextPiece();
 	}
 	public void moveLeft()
 	{
@@ -537,43 +543,47 @@ public int level=1;
 		else
 			resetTicks();
 	}
-	
+	public static int rotationzero = 0;
+	public static int rotationminusone = -1;
+	public static int rotationone = 1;
+	public static int rotationtwo = 2;
+	public static int rotationminustwo = -2;	
 	//KICK_X[direction][rotation][test]
-	private static final int[][][] KICK_X =   {{{0, -1, -1, 0, -1},
-											    {0,  1,  1, 0,  1},
-											    {0,  1,  1, 0,  1},
-											    {0, -1, -1, 0, -1}},
-											   {{0,  1,  1, 0,  1},
-											    {0,  1,  1, 0,  1},
-											    {0, -1, -1, 0, -1},
-											    {0, -1, -1, 0, -1}}};
+	private static final int[][][] KICK_X =   {{{rotationzero, rotationminusone, rotationminusone, rotationzero, rotationminusone},
+											    {rotationzero,  rotationone,  rotationone, rotationzero,  rotationone},
+											    {rotationzero,  rotationone,  rotationone, rotationzero,  rotationone},
+											    {rotationzero, rotationminusone, rotationminusone, rotationzero, rotationminusone}},
+											   {{rotationzero,  rotationone,  rotationone, rotationzero,  rotationone},
+											    {rotationzero,  rotationone,  rotationone, rotationzero,  rotationone},
+											    {rotationzero, rotationminusone, rotationminusone, rotationzero, rotationminusone},
+											    {rotationzero, rotationminusone, rotationminusone, rotationzero, rotationminusone}}};
 
-	private static final int[][][] KICK_Y =   {{{0, 0,  1, -2, -2},
-											    {0, 0, -1,  2,  2},
-											    {0, 0,  1, -2, -2},
-											    {0, 0, -1,  2,  2}},
-											   {{0, 0, -1,  2,  2},
-											    {0, 0,  1, -2, -2},
-											    {0, 0, -1,  2,  2},
-											    {0, 0,  1, -2, -2}}};
+	private static final int[][][] KICK_Y =   {{{rotationzero, rotationzero,  rotationone, rotationminustwo, rotationminustwo},
+											    {rotationzero, rotationzero, rotationminusone,  rotationtwo,  rotationtwo},
+											    {rotationzero, rotationzero,  rotationone, rotationminustwo, rotationminustwo},
+											    {rotationzero, rotationzero, rotationminusone,  rotationtwo,  rotationtwo}},
+											   {{rotationzero, rotationzero, rotationminusone,  rotationtwo,  rotationtwo},
+											    {rotationzero, rotationzero,  rotationone, rotationminustwo, rotationminustwo},
+											    {rotationzero, rotationzero, rotationminusone,  rotationtwo,  rotationtwo},
+											    {rotationzero, rotationzero,  rotationone, rotationminustwo, rotationminustwo}}};
 
-	private static final int[][][] I_KICK_X =   {{{0, -2,  1, -2,  1},
-											      {0, -1,  2, -1,  2},
-											      {0,  2, -1,  2, -1},
-											      {0,  1, -2,  1, -2}},
-											     {{0, -1,  2, -1,  2},
-											      {0,  2, -1,  2, -1},
-											      {0,  1, -2,  1, -2},
-											      {0, -2,  1, -2,  1}}};
+	private static final int[][][] I_KICK_X =   {{{rotationzero, rotationminustwo,  rotationone, rotationminustwo,  rotationone},
+											      {rotationzero, rotationminusone,  rotationtwo, rotationminusone,  rotationtwo},
+											      {rotationzero,  rotationtwo, rotationminusone,  rotationtwo, rotationminusone},
+											      {rotationzero,  rotationone, rotationminustwo,  rotationone, rotationminustwo}},
+											     {{rotationzero, rotationminusone,  rotationtwo, rotationminusone,  rotationtwo},
+											      {rotationzero,  rotationtwo, rotationminusone,  rotationtwo, rotationminusone},
+											      {rotationzero,  rotationone, rotationminustwo,  rotationone, rotationminustwo},
+											      {rotationzero, rotationminustwo,  rotationone, rotationminustwo,  rotationone}}};
 	
-	private static final int[][][] I_KICK_Y =   {{{0, 0, 0, -1,  2},
-											      {0, 0, 0,  2, -1},
-											      {0, 0, 0,  1, -2},
-											      {0, 0, 0, -2,  1}},
-											     {{0, 0, 0,  2, -1},
-											      {0, 0, 0,  1, -2},
-											      {0, 0, 0, -2,  1},
-											      {0, 0, 0, -1,  2}}};
+	private static final int[][][] I_KICK_Y =   {{{rotationzero, rotationzero, rotationzero, rotationminusone,  rotationtwo},
+											      {rotationzero, rotationzero, rotationzero,  rotationtwo, rotationminusone},
+											      {rotationzero, rotationzero, rotationzero,  rotationone, rotationminustwo},
+											      {rotationzero, rotationzero, rotationzero, rotationminustwo,  rotationone}},
+											     {{rotationzero, rotationzero, rotationzero,  rotationtwo, rotationminusone},
+											      {rotationzero, rotationzero, rotationzero,  rotationone, rotationminustwo},
+											      {rotationzero, rotationzero, rotationzero, rotationminustwo,  rotationone},
+											      {rotationzero, rotationzero, rotationzero, rotationminusone,  rotationtwo}}};
 	
 	public void rotate()
 	{
