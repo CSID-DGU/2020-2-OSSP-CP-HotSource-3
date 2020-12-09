@@ -867,20 +867,27 @@ public int level=1;
 	}
 	protected void placePiece()
 	{
+		int i,j;
+		int indexstart = 0;
+		int indexend = 4;
+		int placepiece = -1;
+		int txstart = 1;
+		int tystart = 2;
+		int cornersend = 3;
 		if (dead) return;
 
 		byte[][] arr = piece[rotation];
 
-		for (int i = 0; i < 4; i++)
+		for (i = indexstart; i < indexend ; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (j = indexstart; j < indexend ; j++)
 			{
-				if (arr[i][j] == 0)
+				if (arr[i][j] == indexstart)
 					continue;
 
-				if (ty + j < -1)
+				if (ty + j < placepiece)
 					die();
-				if (tx + i < 0 || ty + j < 0)
+				if (tx + i < indexstart|| ty + j < indexstart)
 					continue;
 				if (tx + i >= W || ty + j >= H)
 					continue;
@@ -888,25 +895,25 @@ public int level=1;
 			}
 		}
 		boolean tspin = false;
-		int x = tx + 1;
-		int y = ty + 2;
+		int x = tx + txstart;
+		int y = ty + tystart;
 		if (pieceID == TPIECE && lastMoveRotate)
 		{
-int corners = 0;
+            int corners = indexstart;
 			
-			if (x <= 0 || y <= 0 || board[x-1][y-1] != Block_NOTEXIST)
+			if (x <=indexstart || y <= indexstart || board[x-txstart][y-txstart] != Block_NOTEXIST)
 				corners++;
 			
-			if (x <= 0 || y >= H-1 || board[x-1][y+1] != Block_NOTEXIST)
+			if (x <= indexstart || y >= H-txstart|| board[x-txstart][y+txstart] != Block_NOTEXIST)
 				corners++;
 			
-			if (x >= W-1 || y <= 0 || board[x+1][y-1] != Block_NOTEXIST)
+			if (x >= W-txstart || y <= indexstart || board[x+txstart][y-txstart] != Block_NOTEXIST)
 				corners++;
 			
-			if (x >= W-1 || y >= H-1 || board[x+1][y+1] != Block_NOTEXIST)
+			if (x >= W-txstart || y >= H-txstart || board[x+txstart][y+txstart] != Block_NOTEXIST)
 				corners++;
 			
-			if (corners >= 3)
+			if (corners >= cornersend )
 				tspin = true;
 		}
 		if (checkClear(tspin, x, y, rotation))
@@ -917,23 +924,26 @@ int corners = 0;
 	}
 	protected int pieceLegal()
 	{
+		int i,j;
+		int indexstart = 0;
+		int indexend = 4;
 		byte[][] arr = piece[rotation];
 		int err = LEGAL;
 
-		for (int i = 0; i < 4; i++)
+		for (i = indexstart; i < indexend; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (j = indexstart; j < indexend; j++)
 			{
 				if (arr[i][j] == 0)
 					continue;
 
-				if (tx + i < 0 || tx + i >= W)
+				if (tx + i < indexstart || tx + i >= W)
 					return OUT_OF_BOUNDS;
 				else if (ty + j >= H)
 					err = Math.max(err, TOO_LOW);
-				else if (ty + j < 0)
+				else if (ty + j < indexstart)
 					continue;
-				else if (board[tx+i][ty+j] != 0)
+				else if (board[tx+i][ty+j] != indexstart)
 					err = Math.max(err, COLLISION);
 			}
 		}
