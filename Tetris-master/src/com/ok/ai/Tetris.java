@@ -716,10 +716,11 @@ public int level=1;
 	}
 	public boolean store()
 	{
+		int store = -1;
 		if (hasStored)
 			return false;
 
-		if (stored == -1)
+		if (stored == store)
 		{
 			stored = pieceID;
 			putPiece();
@@ -773,6 +774,8 @@ public int level=1;
 	}
 	protected void countdown() {
 		countdown_number = getCountDownNumber();
+		int countdownconfficient = 1;
+		
 			
 		// 게임멈추기 
 		paused = true; // stop game
@@ -783,7 +786,7 @@ public int level=1;
 			public void run() {
 				paused = false; // game start!
 			}};
-		paused_timer.schedule(paused_task, countdown_delay*(getCountDownNumber()+1)); //run after 4s
+		paused_timer.schedule(paused_task, countdown_delay*(getCountDownNumber()+countdownconfficient)); //run after 4s
 		
 		
 		// 카운트 다운
@@ -809,36 +812,43 @@ public int level=1;
 	}
 	public void tSpinEffect(int x, int y, int rotation)
 	{
+		int rotaionconfficient = 2;
+		int rotationdivide = 4;
+		
 		spinX = x;
 		spinY = y;
-		spinR = (rotation + 2) % 4;
+		spinR = (rotation + rotaionconfficient) % rotationdivide;
 		spinTick = tickCount;
 	}
 	protected boolean checkClear(boolean tspin, int x, int y, int rotation)
 	{
 		boolean ans = false;
 		int lines = 0;
+		int row;
+		int indexstart = 0;
+		int indexend = 8;
+		int i,j;
 		
-		for (int row = 0; row < H; row++)
+		for (row = indexstart; row < H; row++)
 		{
 			boolean containsColored = false;
 			boolean foundEmpty = false;
-			for (int i = 0; i < W; i++)
+			for ( i = indexstart; i < W; i++)
 			{
-				if (board[i][row] == 0)
+				if (board[i][row] == indexstart)
 				{
 					foundEmpty = true;
 					break;
 				}
-				else if (board[i][row] != 8)
+				else if (board[i][row] != indexend)
 					containsColored = true;
 			}
 			if (foundEmpty || !containsColored)
 				continue;
 
-			for (int i = 0; i < W; i++)
+			for (i = 0; i < W; i++)
 			{
-				for (int j = row; j >= 1; j--)
+				for (j = row; j >= 1; j--)
 					board[i][j] = board[i][j-1];
 				board[i][0] = 0;
 			}
