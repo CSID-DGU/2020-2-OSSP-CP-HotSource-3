@@ -1317,20 +1317,22 @@ public int level=1;
 		int DropBlockWidthHeightconfficient = 11;
 		int DropBlockWHadowconfficient = 1;
 		int DropBlockWShadowconfficient = 2;
+		int txplus = 0;
+		int typlus = 0;
+		
 		//하강 하는 블록 그리기
 		if (!dead)
 		{
-			
 			g.setColor(COLORS[pieceID]);
-			for (i = 0; i < piece[rotation].length; i++)
+			for (i = iindexstart; i < piece[rotation].length; i++)
 			{
-				for (j = 0; j < piece[rotation][i].length; j++)
+				for (j = jindexstart; j < piece[rotation][i].length; j++)
 				{
 					if (piece[rotation][i][j] == 0)
 						continue;
-					if (tx + i < 0 || tx + i >= W)
+					if (tx + i < txplus || tx + i >= W)
 						continue;
-					if (ty + j < 0 || ty + j >= H)
+					if (ty + j < typlus || ty + j >= H)
 						continue;
 					if(FIELD_H<=real_y) {
 						g.setColor(COLORS[pieceID]);
@@ -1363,9 +1365,9 @@ public int level=1;
 		}
 		//격자 그리기
 		g.setColor(C_BORDER);
-		for (i = 0; i < W; i++)
+		for (i = iindexstart; i < W; i++)
 		{
-			for (j = 0; j < H; j++)
+			for (j = jindexstart; j < H; j++)
 				if(FIELD_H<=real_y) {
 					g.drawRect(x + i * SQR_W, y + j * SQR_W, SQR_W, SQR_W);
 					sqr = SQR_W;
@@ -1377,7 +1379,7 @@ public int level=1;
 		
 		final double FLASH_TIME = (long) 500;
 		long time = System.currentTimeMillis();
-		for (i = 0; i < H; i++)
+		for (i = iindexstart; i < H; i++)
 		{
 			long diff = time - flash[i];
 			if (diff < 0 || diff >= FLASH_TIME )
@@ -1400,44 +1402,52 @@ public int level=1;
 			int diff = tickCount - spinTick;
 			int BlockSpintConfficient = 1;
 			int ImageWidthHeight = 2;
-			if (diff >= 0 && diff < TSPIN_ANIMATION_TICKS * 4 && !dead)
+			int diffzero = 0;
+			int Tspinconfficient = 4;
+			int Tspinheight = 2;
+			int rotationzero = 0;
+			int rotationone = 1;
+			int rotationtwo = 2;
+			int rotationthree = 3;
+			
+			if (diff >= diffzero && diff < TSPIN_ANIMATION_TICKS * Tspinconfficient && !dead)
 			{
-				int rotation = (spinR + diff / TSPIN_ANIMATION_TICKS < 2 ? (diff / TSPIN_ANIMATION_TICKS) : 2) % 4;
+				int rotation = (spinR + diff / TSPIN_ANIMATION_TICKS < Tspinheight ? (diff / TSPIN_ANIMATION_TICKS) : Tspinheight) % Tspinconfficient;
 				BufferedImage img = tspins[rotation];
 				if (img != null)
 				{
 					Composite comp = g.getComposite();
-					if (diff >= TSPIN_ANIMATION_TICKS * 2)
+					if (diff >= TSPIN_ANIMATION_TICKS * Tspinheight)
 					{
-						float alpha = 1.0f - (float)(diff - TSPIN_ANIMATION_TICKS * 2) / (TSPIN_ANIMATION_TICKS * 2);
+						float alpha = 1.0f - (float)(diff - TSPIN_ANIMATION_TICKS * Tspinheight) / (TSPIN_ANIMATION_TICKS * Tspinheight);
 						g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 						g.setColor(new Color(255, 255, 255, 200));
 						if(FIELD_H<=real_y) {
 							g.fillRect(x + spinX * SQR_W, y + spinY* SQR_W, SQR_W, SQR_W);
 							
-							if (rotation != 0 && spinY + 1 < H)
+							if (rotation != rotationzero && spinY + rotationone < H)
 								g.fillRect(x + spinX * SQR_W, y + (spinY + BlockSpintConfficient) * SQR_W, SQR_W, SQR_W);
 							
-							if (rotation != 1 && spinX > 0)
+							if (rotation != rotationone && spinX > rotationzero)
 								g.fillRect(x + (spinX - BlockSpintConfficient) * SQR_W, y + spinY * SQR_W, SQR_W, SQR_W);
 							
-							if (rotation != 2 && spinY > 0)
+							if (rotation != rotationtwo && spinY > rotationzero)
 								g.fillRect(x + spinX * SQR_W, y + (spinY - BlockSpintConfficient) * SQR_W, SQR_W, SQR_W);
 							
-							if (rotation != 3 && spinX + 1 < W)
+							if (rotation != rotationthree && spinX + rotationone < W)
 								g.fillRect(x + (spinX + BlockSpintConfficient) * SQR_W, y + spinY * SQR_W, SQR_W, SQR_W);
 						}else{
 							g.fillRect(x + spinX * sqr, y + spinY* sqr, sqr, sqr);
-							if (rotation != 0 && spinY + 1 < H)
+							if (rotation != rotationzero && spinY + rotationone < H)
 								g.fillRect(x + spinX * sqr, y + (spinY + BlockSpintConfficient) * sqr, sqr, sqr);
 							
-							if (rotation != 1 && spinX > 0)
+							if (rotation != rotationone && spinX > rotationzero)
 								g.fillRect(x + (spinX - BlockSpintConfficient) * sqr, y + spinY * sqr, sqr, sqr);
 							
-							if (rotation != 2 && spinY > 0)
+							if (rotation != rotationtwo && spinY > rotationzero)
 								g.fillRect(x + spinX * sqr, y + (spinY - BlockSpintConfficient) * sqr, sqr, sqr);
 							
-							if (rotation != 3 && spinX + 1 < W)
+							if (rotation != rotationthree && spinX + rotationone < W)
 								g.fillRect(x + (spinX + BlockSpintConfficient) * sqr, y + spinY * sqr, sqr, sqr);
 						}
 					}
@@ -1451,17 +1461,19 @@ public int level=1;
 				}
 			}
 		}
-
+		double boxsizeconfficient = 2.5;
+		int blocksizeconfficient = 2;
+		
 		if(FIELD_H<=real_y) {
 			yoffset = SQR_W;
 			xoffset = SQR_W/2;
-			boxsize = (int)(SQR_W*2.5);
-			blocksize = (int)(SQR_W/2);
+			boxsize = (int)(SQR_W*boxsizeconfficient);
+			blocksize = (int)(SQR_W/blocksizeconfficient);
 		}else {
 			 yoffset = sqr;
 			 xoffset = sqr/2;
-			 boxsize = (int)(sqr*2.5);
-			 blocksize = (int)(sqr/2);
+			 boxsize = (int)(sqr*boxsizeconfficient);
+			 blocksize = (int)(sqr/blocksizeconfficient);
 		}
 		
 		// holdBox와 hold글씨 그리기
@@ -1469,6 +1481,7 @@ public int level=1;
 		double LevelBoxdivid = 4/2.5;
 		int Nextdivid = 2;
 		int WaitBlockdivide = 2;
+		int nostored = -1;
 		g.setColor(Color.WHITE);
 		g.setFont(F_UI);
 		if(FIELD_H<=real_y) {
@@ -1481,13 +1494,13 @@ public int level=1;
 		}
 		
 		// holdBox안의 테트리스 그리기
-		if (stored != -1)
+		if (stored != nostored)
 			drawTetrimino(g, stored, x - xoffset - boxsize/Holdedivide, y + yoffset + boxsize/Holdedivide, blocksize); // holdBox
 		
 		// levelBox 그리기
 		drawCentered(g, "Level", x - xoffset - boxsize/Holdedivide, (int) (y + boxsize*(LevelBoxdivid) + g.getFont().getSize()));
 		g.drawRect(x - xoffset - boxsize, (int) (y + yoffset + boxsize*(LevelBoxdivid)), boxsize, boxsize);
-		drawCentered(g, getLevel()+"", x - xoffset - boxsize/Holdedivide, (int) (y + yoffset + boxsize*(4/2.5) + boxsize - (boxsize-g.getFont().getSize())/Holdedivide));
+		drawCentered(g, getLevel()+"", x - xoffset - boxsize/Holdedivide, (int) (y + yoffset + boxsize*(LevelBoxdivid) + boxsize - (boxsize-g.getFont().getSize())/Holdedivide));
 		
 		//"NEXT"글씨와 다음 테트리스 미리보기 상자
 		g.setColor(Color.WHITE);
@@ -1499,7 +1512,7 @@ public int level=1;
 		}
 		
 
-		for (i = 0; i < AHEAD; i++)
+		for (i = iindexstart; i < AHEAD; i++)
 		{
 			//대기하는 블록 창
 			g.setColor(Color.WHITE);
@@ -1550,6 +1563,7 @@ public int level=1;
 		
 		// 테트리스 구역에 메세지 쓰기
 		int Messagesizedivide = 2;
+		int countnumberzero = 0;
 		if (dead)
 		{ 
 			g.setColor(C_NOTICE);
@@ -1569,17 +1583,17 @@ public int level=1;
 				IDFrame sf = new IDFrame(TetrisMarathon.finalScore);
 			}	
 		}
-		else if (countdown_number>0 && dead==false) {
+		else if (countdown_number>countnumberzero && dead==false) {
 			
 			g.setColor(C_NOTICE);
 			g.setFont(F_COUNTDOWN);
 			if(FIELD_H<=real_y) {
 				drawCentered(g, countdown_number+"", x + FIELD_W / Messagesizedivide, y + g.getFont().getSize()/Messagesizedivide + FIELD_H / Messagesizedivide);
 			}else {
-				drawCentered(g, countdown_number+"", x + field_h / Messagesizedivide, y + g.getFont().getSize()/Messagesizedivide + field_h / Messagesizedivide);
+				drawCentered(g, countdown_number+"", x + field_w / Messagesizedivide, y + g.getFont().getSize()/Messagesizedivide + field_h / Messagesizedivide);
 			}
 		}
-		else if (countdown_number==0 && dead==false) {
+		else if (countdown_number==countnumberzero  && dead==false) {
 			
 			g.setFont(F_COUNTDOWN);
 			g.setColor(C_NOTICE);
@@ -1608,7 +1622,12 @@ public int level=1;
 	}
 	protected static void drawTetrimino(Graphics2D g, int id, int x, int y, int sqrw)
 	{
-		byte[][] arr = PIECES[id][0];
+		int piecesindex = 0;
+		int i,j;
+		int iindexstart = 0;
+		int jindexstart = 0;
+		int arrindex = 0;
+		byte[][] arr = PIECES[id][piecesindex];
 
 		int frow = Integer.MAX_VALUE;
 		int fcol = Integer.MAX_VALUE;
@@ -1616,11 +1635,11 @@ public int level=1;
 		int lcol = Integer.MIN_VALUE;
 		int size = 4;
 
-		for (int i = 0; i < size; i++)
+		for (i = iindexstart; i < size; i++)
 		{
-			for (int j = 0; j < size; j++)
+			for (j = jindexstart; j < size; j++)
 			{
-				if (arr[i][j] == 0)
+				if (arr[i][j] == arrindex)
 					continue;
 
 				if (i < frow)
@@ -1634,17 +1653,18 @@ public int level=1;
 					lcol = j;
 			}
 		}
+		int xylendconfficient = 1;
+		int xysqrw = 2;
+		int xlen = lrow - frow + xylendconfficient;
+		int ylen = lcol - fcol + xylendconfficient;
+		x -= xlen * sqrw / xysqrw;
+		y -= ylen * sqrw / xysqrw;
 
-		int xlen = lrow - frow + 1;
-		int ylen = lcol - fcol + 1;
-		x -= xlen * sqrw / 2;
-		y -= ylen * sqrw / 2;
-
-		for (int i = 0; i < size; i++)
+		for (i = iindexstart; i < size; i++)
 		{
-			for (int j = 0; j < size; j++)
+			for (j = jindexstart; j < size; j++)
 			{
-				if (arr[i][j] == 0)
+				if (arr[i][j] == arrindex)
 					continue;
 
 				g.setColor(COLORS[id]);
