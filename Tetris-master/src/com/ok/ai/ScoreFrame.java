@@ -54,6 +54,7 @@ public class ScoreFrame extends JFrame{
 	
 	int jlabelborder = 0;
 	int scorealpha = 1;
+	public int iindexstart = 0;
 	
 	
 	public ScoreFrame(String name,int sc) {
@@ -95,7 +96,7 @@ public class ScoreFrame extends JFrame{
 			}
 		
 		
-		for (int i = 0;i<rank.size();i++) {
+		for (int i = iindexstart;i<rank.size();i++) {
 			jlabel_user = new JLabel(String.format("%2d등! ID : %-7s, SCORE : %-7d", (i+scorealpha), rank.get(i).getID(), rank.get(i).getScore()));
 			jlabel_user.setAlignmentX(Component.CENTER_ALIGNMENT);
 			jlabel_user.setHorizontalAlignment(SwingConstants.CENTER);
@@ -138,7 +139,7 @@ public class ScoreFrame extends JFrame{
 			verticalBox.add(jlabel_user);
 			}
 		
-		for (int i = 0;i<rank.size();i++) {
+		for (int i = iindexstart;i<rank.size();i++) {
 			jlabel_user = new JLabel(String.format("%2d등! ID : %-7s, SCORE : %-7d", (i+scorealpha), rank.get(i).getID(), rank.get(i).getScore()));
 			jlabel_user.setAlignmentX(Component.CENTER_ALIGNMENT);
 			jlabel_user.setHorizontalAlignment(SwingConstants.CENTER);
