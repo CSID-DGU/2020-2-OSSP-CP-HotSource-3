@@ -19,12 +19,16 @@ public class DBInsert extends MyDB{
             pstmt = conn.prepareStatement(sql);
 
             // 4. data binding
-            pstmt.setString(1, name);
-            pstmt.setInt(2, score);
+            int firstindex = 1;
+            int secondindex = 2;
+            
+            pstmt.setString(firstindex, name);
+            pstmt.setInt(secondindex, score);
+            
 
             // 5. executeUpdate
             int count = pstmt.executeUpdate();
-            if( count == 0 ){
+            if( count == secondindex ){
                 System.out.println("데이터 입력 실패");
             }
             else{

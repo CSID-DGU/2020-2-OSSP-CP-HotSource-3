@@ -808,11 +808,13 @@ public class Tetris
 		TimerTask count_task = new TimerTask() {
 			@Override
 			public void run() {
-				if (countdown_number>=0 && dead==false) {
+				int none = 0;
+				int stop = -1;
+				if (countdown_number>=none && dead==false) {
 					countdown_number--;
 				}
 				else {
-					countdown_number = -1; // stop countdown
+					countdown_number = stop; // stop countdown
 					count_timer.cancel();
 				}
 			}};
@@ -849,22 +851,22 @@ public class Tetris
 			boolean foundEmpty = false;
 			for ( i = indexstart; i < W; i++)
 			{
-				if (board[i][row] == indexstart)
+				if (board[i][row] == Block_NOTEXIST)
 				{
 					foundEmpty = true;
 					break;
 				}
-				else if (board[i][row] != indexend)
+				else if (board[i][row] != Block_NOTEXIST)
 					containsColored = true;
 			}
 			if (foundEmpty || !containsColored)
 				continue;
 
-			for (i = 0; i < W; i++)
+			for (i = indexstart; i < W; i++)
 			{
 				for (j = row; j >= 1; j--)
 					board[i][j] = board[i][j-1];
-				board[i][0] = 0;
+				board[i][indexstart] = Block_NOTEXIST;
 			}
 			linesCleared++;
 			lines++;
@@ -1085,6 +1087,7 @@ public class Tetris
 		int jindexstart = 0;
 		int ansminus = 130;
 		int ansminus2 = 11;
+		int ansminus3  =120;
 		int kindexend = 0;
 		int kindexconfficient = 1;
 		int ansmultiple = 55;
@@ -1095,19 +1098,19 @@ public class Tetris
 			
 			for (j = jindexstart; j < H; j++)
 			{
-				if (board[i][j] != iindexstart)
+				if (board[i][j] != Block_NOTEXIST)
 				{
 					ans -= ansminus2;
 					
-					for (k = j+kindexconfficient; k < H && board[i][k] == iindexstart; k++)
+					for (k = j+kindexconfficient; k < H && board[i][k] == Block_NOTEXIST; k++)
 						ans -= ansminus;
 				}
 				else
 				{
-					for (k = j-kindexconfficient; k >= kindexend && board[i][k] != iindexstart; k++)
-						ans -= 120;
+					for (k = j-kindexconfficient; k >= kindexend && board[i][k] != Block_NOTEXIST; k++)
+						ans -= ansminus3;
 					
-					if ((i <= iindexstart || board[i-kindexconfficient][j] != iindexstart) && (i >= W-kindexconfficient || board[i+1][j] != iindexstart))
+					if ((i <= iindexstart || board[i-kindexconfficient][j] != Block_NOTEXIST) && (i >= W-kindexconfficient || board[i+1][j] != Block_NOTEXIST))
 					{
 						if (columnfree > iindexstart)
 							columnfree--;
@@ -1145,7 +1148,7 @@ public class Tetris
 		{
 			for (i = iindexstart; i < W; i++)
 			{
-				if (board[i][j] != boardindex)
+				if (board[i][j] != Block_NOTEXIST)
 					return H - j;
 			}
 		}
@@ -1180,14 +1183,23 @@ public class Tetris
 
 	//째횚�횙횈횉 쨩철
 	protected static final Color C_BACKGROUND = Color.BLACK; //게임창 배경색 설정
-	protected static final Color C_BORDER = new Color(63, 63, 63);
-	protected static final Color C_SHADOW = new Color(0, 0, 0, 63);
-	protected static final Color C_GHOST = new Color(180, 180, 180);
-	protected static final Color C_GHOST_FILL = new Color(0, 0, 0, 63);
-	protected static final Color C_PIECE_HIGHLIGHT = new Color(0, 0, 0, 50);
-	protected static final Color C_NOTICE = new Color(255, 255, 255, 225);
+	static int color1 = 0;
+	static int color2 = 50;
+	static int color3 = 63;
+	static int color4 = 100;
+	static int color5 = 150;
+	static int color6 = 190;
+	static int color7 = 180;
+	static int color8 = 255;
+	
+	protected static final Color C_BORDER = new Color(color3, color3, color3);
+	protected static final Color C_SHADOW = new Color(color1, color1, color1, color3);
+	protected static final Color C_GHOST = new Color(color7, color7, color7);
+	protected static final Color C_GHOST_FILL = new Color(color1, color1, color1, color3);
+	protected static final Color C_PIECE_HIGHLIGHT = new Color(color1, color1, color1, color2);
+	protected static final Color C_NOTICE = new Color(color8, color8, color8, 225);
 												// I, S, T, O, Z, L, J
-	protected static final Color[] COLORS = {null, Color.CYAN, Color.RED, Color.MAGENTA, Color.YELLOW, Color.GREEN, Color.ORANGE, new Color(100, 150, 255), new Color(190, 190, 190)};
+	protected static final Color[] COLORS = {null, Color.CYAN, Color.RED, Color.MAGENTA, Color.YELLOW, Color.GREEN, Color.ORANGE, new Color(color4, color5, color8), new Color(color6, color6, color6)};
 	protected static double sqrconfficient = 2.5;
 	protected static int boxsizeconfficient = 2;
 	protected static int realyconfficient = 265;
@@ -1296,7 +1308,7 @@ public class Tetris
 		{
 			for (j = jindexstart; j < H; j++)
 			{
-				if (board[i][j] == boardindex)
+				if (board[i][j] == Block_NOTEXIST)
 					continue;
 				if(FIELD_H<=real_y ) {
 					g.setColor(COLORS[board[i][j]]);
@@ -1333,6 +1345,7 @@ public class Tetris
 		int DropBlockWShadowconfficient = 2;
 		int txplus = 0;
 		int typlus = 0;
+		int none = 0;
 		
 		//하강 하는 블록 그리기
 		if (!dead)
@@ -1342,7 +1355,7 @@ public class Tetris
 			{
 				for (j = jindexstart; j < piece[rotation][i].length; j++)
 				{
-					if (piece[rotation][i][j] == 0)
+					if (piece[rotation][i][j] == none )
 						continue;
 					if (tx + i < txplus || tx + i >= W)
 						continue;
@@ -1433,9 +1446,10 @@ public class Tetris
 					Composite comp = g.getComposite();
 					if (diff >= TSPIN_ANIMATION_TICKS * Tspinheight)
 					{
+						int color9 = 200;
 						float alpha = 1.0f - (float)(diff - TSPIN_ANIMATION_TICKS * Tspinheight) / (TSPIN_ANIMATION_TICKS * Tspinheight);
 						g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-						g.setColor(new Color(255, 255, 255, 200));
+						g.setColor(new Color(color8, color8, color8, color9));
 						if(FIELD_H<=real_y) {
 							g.fillRect(x + spinX * SQR_W, y + spinY* SQR_W, SQR_W, SQR_W);
 							
@@ -1480,12 +1494,12 @@ public class Tetris
 		
 		if(FIELD_H<=real_y) {
 			yoffset = SQR_W;
-			xoffset = SQR_W/2;
+			xoffset = SQR_W/blocksizeconfficient;
 			boxsize = (int)(SQR_W*boxsizeconfficient);
 			blocksize = (int)(SQR_W/blocksizeconfficient);
 		}else {
 			 yoffset = sqr;
-			 xoffset = sqr/2;
+			 xoffset = sqr/blocksizeconfficient;
 			 boxsize = (int)(sqr*boxsizeconfficient);
 			 blocksize = (int)(sqr/blocksizeconfficient);
 		}

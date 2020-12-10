@@ -21,11 +21,13 @@ public class BagGen implements PieceGenerator
 	private void refreshBag()
 	{
 		bagPos = 0;
+		int alpha = 1;
+		int start = 0;
 		
-		for (int i = 0; i < LEN; i++)
-			bag[i] = i + 1;
+		for (int i = start; i < LEN; i++)
+			bag[i] = i + alpha;
 		
-		for (int i = 0; i < LEN; i++)
+		for (int i = start; i < LEN; i++)
 		{
 			int ind = rng.nextInt(LEN - i) + i;
 			int swap = bag[ind];

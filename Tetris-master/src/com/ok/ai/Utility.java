@@ -17,6 +17,10 @@ public class Utility
 {
 	private Utility() {} // game image and icon setting 
 	
+	static int arg1 = 0;
+	static int arg2 = 0;
+	static int start = 0;
+	
 	public static Image iconToImage(Icon icon)
 	{
 		if (icon instanceof ImageIcon)
@@ -33,7 +37,7 @@ public class Utility
 			GraphicsConfiguration gc = gd.getDefaultConfiguration();
 			BufferedImage image = gc.createCompatibleImage(w, h);
 			Graphics2D g = image.createGraphics();
-			icon.paintIcon(null, g, 0, 0);
+			icon.paintIcon(null, g, arg1, arg2);
 			g.dispose();
 			return image;
 		}
@@ -53,9 +57,9 @@ public class Utility
 		int height = img.getHeight();
 		BufferedImage ans = new BufferedImage(height, width , img.getType() );
 	
-		for( int x = 0; x < width; x++ )
+		for( int x = start; x < width; x++ )
 		{
-			for( int y = 0; y < height; y++ )
+			for( int y = start; y < height; y++ )
 				ans.setRGB(height - y - 1, x, img.getRGB(x, y));
 		}
 		return ans;

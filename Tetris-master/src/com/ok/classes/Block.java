@@ -15,6 +15,7 @@ public class Block implements Serializable{
 	private Color color;
 	private Color ghostColor;	
 	private boolean ghost;
+	private int Coef = 2;
 	
 	
 	/**
@@ -45,9 +46,9 @@ public class Block implements Serializable{
 		g.drawLine((fixGridX+posGridX)*size +BOARD_X, (fixGridY+posGridY)*size+height + BOARD_Y, (fixGridX+posGridX)*size+width + BOARD_X, (fixGridY+posGridY)*size + BOARD_Y);
 		if(ghost)g.setColor(ghostColor);
 		else g.setColor(color);
-		g.fillRect((fixGridX+posGridX)*size+gap + BOARD_X, (fixGridY+posGridY)*size+gap + BOARD_Y, width-gap*2, height-gap*2);
+		g.fillRect((fixGridX+posGridX)*size+gap + BOARD_X, (fixGridY+posGridY)*size+gap + BOARD_Y, width-gap*Coef, height-gap*Coef);
 		g.setColor(Color.WHITE);
-		g.drawRect((fixGridX+posGridX)*size+gap + BOARD_X, (fixGridY+posGridY)*size+gap + BOARD_Y, width-gap*2, height-gap*2);
+		g.drawRect((fixGridX+posGridX)*size+gap + BOARD_X, (fixGridY+posGridY)*size+gap + BOARD_Y, width-gap*Coef, height-gap*Coef);
 	}
 	
 	public void drawEnemyBlock(Graphics g, int x, int y){
@@ -58,9 +59,9 @@ public class Block implements Serializable{
 		g.drawLine(x*size, y*size, x*size+width, y*size+height);
 		g.drawLine(x*size, y*size+height, x*size+width, y*size);
 		g.setColor(color);
-		g.fillRect(x*size+gap, y*size+gap, width-gap*2, height-gap*2);
+		g.fillRect(x*size+gap, y*size+gap, width-gap*Coef, height-gap*Coef);
 		g.setColor(Color.WHITE);
-		g.drawRect(x*size+gap, y*size+gap, width-gap*2, height-gap*2);
+		g.drawRect(x*size+gap, y*size+gap, width-gap*Coef, height-gap*Coef);
 	}
 	
 	/**

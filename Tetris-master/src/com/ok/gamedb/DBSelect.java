@@ -24,14 +24,17 @@ public class DBSelect extends MyDB {
 			 
 			// 4. executeQuery
 			rs = stmt.executeQuery(sql);
-			 
+			
+			int firstindex = 1;
+            int secondindex = 2;
+       			 
 			// 5. get data    
 			String id = "";
 			int score = 0;
 			String data = "";
 			while(rs.next()) {
-				id = rs.getString(1);
-				score = rs.getInt(2);
+				id = rs.getString(firstindex);
+				score = rs.getInt(secondindex);
 				data += id + " " + score+"\n";
 				//System.out.println(id + " " + score); 
 			}

@@ -66,9 +66,12 @@ public class GameTypeDialog implements ActionListener
 
 		choice = def;
 		
+		int okButtonLocationCoefficient = 4;
+		int cancelButtonLocationCoefficient = 2;
+		
 		okButton = new JButton(okString);
 		okButton.setSize(okButton.getPreferredSize());
-		okButton.setLocation(dialog_width*1/4, dialog_height-okButton.getHeight()-dialog_margin);
+		okButton.setLocation(dialog_width/okButtonLocationCoefficient, dialog_height-okButton.getHeight()-dialog_margin);
 		okButton.addActionListener(this);
 		okButton.setVisible(true);
 		dialog.getRootPane().setDefaultButton(okButton);
@@ -76,7 +79,7 @@ public class GameTypeDialog implements ActionListener
 		
 		cancelButton = new JButton(cancelString);
 		cancelButton.setSize(cancelButton.getPreferredSize());
-		cancelButton.setLocation(dialog_width*2/4, dialog_height-cancelButton.getHeight()-dialog_margin);
+		cancelButton.setLocation(dialog_width/cancelButtonLocationCoefficient, dialog_height-cancelButton.getHeight()-dialog_margin);
 		cancelButton.addActionListener(this);
 		cancelButton.setVisible(true);
 		pane.add(cancelButton);
@@ -89,6 +92,8 @@ public class GameTypeDialog implements ActionListener
 	
 	public void actionPerformed(ActionEvent e)
 	{
+		int cancel = 0;
+		
 		Object source = e.getSource();
 		
 		if (source == radioBtn_marathon)
@@ -102,7 +107,7 @@ public class GameTypeDialog implements ActionListener
 		
 		if (source == cancelButton)
 		{
-			choice = 0;
+			choice = cancel;
 			dialog.setVisible(false);
 		}
 	}

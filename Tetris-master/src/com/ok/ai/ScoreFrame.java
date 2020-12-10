@@ -31,18 +31,30 @@ public class ScoreFrame extends JFrame{
 	private static String jframe_string = "기록";
 	private static int margin_small = 10;
 	private static int margin_big = 30;
-	int jframe_w = (int) (Main.SCREEN_WIDTH*0.6);
-	int jframe_h = (int) (Main.SCREEN_HEIGHT*0.8);
-	int jframe_x = (Main.SCREEN_WIDTH-jframe_w)/2; // plot center of window
-	int jframe_y = (Main.SCREEN_HEIGHT-jframe_h)/2;
+	double ScreenWidthCoefficient = 0.6;
+	double ScreenHeightCoefficient = 0.8;
+	int jframe_xCoefficient = 2;
+	int jframe_yCoefficient = 2;
+	
+	int jframe_w = (int) (Main.SCREEN_WIDTH*ScreenWidthCoefficient);
+	int jframe_h = (int) (Main.SCREEN_HEIGHT*ScreenHeightCoefficient);
+	int jframe_x = (Main.SCREEN_WIDTH-jframe_w)/jframe_xCoefficient; // plot center of window
+	int jframe_y = (Main.SCREEN_HEIGHT-jframe_h)/jframe_yCoefficient;
 	
 	// score file
 	Scanner file;
 	String scorefilepath = MyDB.scorefilepath;
 	
+	int fontHeadCoefficient = 20;
+	int fontbodyCoefficient = 30;
+	
 	// font
-	Font font_head = new Font(Utility.getFontString(), Font.BOLD, jframe_w/20);
-	Font font_body = new Font(Utility.getFontString(), Font.BOLD, jframe_w/30);
+	Font font_head = new Font(Utility.getFontString(), Font.BOLD, jframe_w/fontHeadCoefficient);
+	Font font_body = new Font(Utility.getFontString(), Font.BOLD, jframe_w/fontbodyCoefficient);
+	
+	int jlabelborder = 0;
+	int scorealpha = 1;
+	
 	
 	public ScoreFrame(String name,int sc) {
 		super(jframe_string);
@@ -59,10 +71,12 @@ public class ScoreFrame extends JFrame{
 		ArrayList<UserList> rank = read_score(); // read from score.txt
 		
 		// plotting jframe
+		
+		
 		JLabel jlabel_title = new JLabel(String.format("ID : %-7s  MY SCORE : %-7d", id, sc));
 		jlabel_title.setHorizontalAlignment(SwingConstants.CENTER);
 		jlabel_title.setForeground(Color.yellow);
-		jlabel_title.setBorder(new EmptyBorder(margin_big, 0, 0, 0));
+		jlabel_title.setBorder(new EmptyBorder(margin_big, jlabelborder, jlabelborder, jlabelborder));
 		jlabel_title.setFont(font_head);
 		getContentPane().add(jlabel_title, BorderLayout.NORTH);
 		
@@ -75,17 +89,18 @@ public class ScoreFrame extends JFrame{
 			jlabel_user.setAlignmentX(Component.CENTER_ALIGNMENT);
 			jlabel_user.setHorizontalAlignment(SwingConstants.CENTER);
 			jlabel_user.setForeground(Color.white);
-			jlabel_user.setBorder(new EmptyBorder(margin_small, 0, 0, 0));
+			jlabel_user.setBorder(new EmptyBorder(margin_small, jlabelborder, jlabelborder, jlabelborder));
 			jlabel_user.setFont(font_body);
 			verticalBox.add(jlabel_user);
 			}
 		
+		
 		for (int i = 0;i<rank.size();i++) {
-			jlabel_user = new JLabel(String.format("%2d등! ID : %-7s, SCORE : %-7d", (i+1), rank.get(i).getID(), rank.get(i).getScore()));
+			jlabel_user = new JLabel(String.format("%2d등! ID : %-7s, SCORE : %-7d", (i+scorealpha), rank.get(i).getID(), rank.get(i).getScore()));
 			jlabel_user.setAlignmentX(Component.CENTER_ALIGNMENT);
 			jlabel_user.setHorizontalAlignment(SwingConstants.CENTER);
 			jlabel_user.setForeground(Color.white);
-			jlabel_user.setBorder(new EmptyBorder(margin_small, 0, 0, 0));
+			jlabel_user.setBorder(new EmptyBorder(margin_small, jlabelborder, jlabelborder, jlabelborder));
 			jlabel_user.setFont(font_body);
 			verticalBox.add(jlabel_user);
 		}
@@ -105,7 +120,7 @@ public class ScoreFrame extends JFrame{
 		JLabel jlabel_title = new JLabel(String.format("%20s%4s%20s","","점수확인",""));
 		jlabel_title.setHorizontalAlignment(SwingConstants.CENTER);
 		jlabel_title.setForeground(Color.yellow);
-		jlabel_title.setBorder(new EmptyBorder(margin_big, 0, 0, 0));
+		jlabel_title.setBorder(new EmptyBorder(margin_big, jlabelborder, jlabelborder, jlabelborder));
 		jlabel_title.setFont(font_head);
 		getContentPane().add(jlabel_title, BorderLayout.NORTH);
 		
@@ -118,17 +133,17 @@ public class ScoreFrame extends JFrame{
 			jlabel_user.setAlignmentX(Component.CENTER_ALIGNMENT);
 			jlabel_user.setHorizontalAlignment(SwingConstants.CENTER);
 			jlabel_user.setForeground(Color.white);
-			jlabel_user.setBorder(new EmptyBorder(margin_small, 0, 0, 0));
+			jlabel_user.setBorder(new EmptyBorder(margin_small, jlabelborder, jlabelborder, jlabelborder));
 			jlabel_user.setFont(font_body);
 			verticalBox.add(jlabel_user);
 			}
 		
 		for (int i = 0;i<rank.size();i++) {
-			jlabel_user = new JLabel(String.format("%2d등! ID : %-7s, SCORE : %-7d", (i+1), rank.get(i).getID(), rank.get(i).getScore()));
+			jlabel_user = new JLabel(String.format("%2d등! ID : %-7s, SCORE : %-7d", (i+scorealpha), rank.get(i).getID(), rank.get(i).getScore()));
 			jlabel_user.setAlignmentX(Component.CENTER_ALIGNMENT);
 			jlabel_user.setHorizontalAlignment(SwingConstants.CENTER);
 			jlabel_user.setForeground(Color.white);
-			jlabel_user.setBorder(new EmptyBorder(margin_small, 0, 0, 0));
+			jlabel_user.setBorder(new EmptyBorder(margin_small, jlabelborder, jlabelborder, jlabelborder));
 			jlabel_user.setFont(font_body);
 			verticalBox.add(jlabel_user);
 		}

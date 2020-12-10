@@ -16,7 +16,15 @@ public class TetrisMarathon extends Tetris {
 	public int score = 0;
 	public static int finalScore;
 
-	public static final int[] VALUES = { 0, 100, 175, 350, 700, 1000 };
+	static int zerocombo = 0;
+	static int onecombo = 100;
+	static int twocombo = 175;
+	static int threecombo = 350;
+	static int fourcombo = 700;
+	static int fivecombo = 1000;
+	private static int dummy;
+	
+	public static final int[] VALUES = { zerocombo, onecombo, twocombo, threecombo, fourcombo, fivecombo };
 
 	TetrisMarathon() {
 	}
@@ -28,17 +36,21 @@ public class TetrisMarathon extends Tetris {
 
 	// HARD 紐⑤뱶瑜� �쐞�븳 �깮�꽦�옄
 	TetrisMarathon(PieceGenerator gen, int n) {
-		super(gen, 3, n);
+		super(gen, dummy, n);
 		countdown(); // start count down
 	}
 
 	private static final int maxfirmDropScore = 20;
 	private static final int difffirmDropScore = 4;
+	private static final int minty = 1;
+	private static final int maxty = 5;
+	private static final int start = 0;
+	
 
 	public void firmDrop() {
-		if (1 <= ty && ty < 5) {
+		if (minty <= ty && ty < maxty) {
 			score += (maxfirmDropScore - (ty * difffirmDropScore));
-		} else if (0 >= ty) {
+		} else if (start >= ty) {
 			score += maxfirmDropScore;
 		}
 		int oldy = ty;
@@ -47,20 +59,33 @@ public class TetrisMarathon extends Tetris {
 		ty--;
 		if (oldy != ty) {
 			lastMoveRotate = false;
-			delays = 0;
+			delays = start;
 		}
 
 	}
 
 	private static final int defaultlevel = 1;
-	private static final int[] scoreThreshold = { 0, 550, 1400, 2850, 5200, 8750, 13800, 20650, 29600, 40950, 55000 };
+	private static final int score1r = 0;
+	private static final int score2r = 550;
+	private static final int score3r = 1400;
+	private static final int score4r = 2850;
+	private static final int score5r = 5200;
+	private static final int score6r = 8750;
+	private static final int score7r = 13800;
+	private static final int score8r = 20650;
+	private static final int score9r = 29600;
+	private static final int score10r = 40950;
+	private static final int score11r = 55000;
+	private static final int comboalpha = 1;
+	
+	private static final int[] scoreThreshold = { score1r, score2r, score3r, score4r, score5r, score6r, score7r, score8r, score9r, score10r, score11r };
 	private static final int multiThreshold = 2;
 
 	public void onLinesCleared(int cleared) {
-		score += VALUES[cleared] * (combo + 1);
+		score += VALUES[cleared] * (combo + comboalpha);
 		if (cleared > multiThreshold)
 			combo++;
-		for (int i = 0; i < scoreThreshold.length; i++) {
+		for (int i = start; i < scoreThreshold.length; i++) {
 			if (score >= scoreThreshold[i]) {
 				setLevel(defaultlevel + i);
 			} else {
@@ -108,13 +133,13 @@ public class TetrisMarathon extends Tetris {
 			//g.drawString("Level: " + getLevel(), x + DSP_W * levelCoefficient , y - DSP_W - SQR_W / levelCoefficient  + scoreycofficient);
 			g.drawString("" + linesCleared + " lines", x + DSP_W * linesCoefficient, y - DSP_W - SQR_W / linesCoefficient + DSP_W * linesCoefficient / linescofficient + liney);
 			g.drawString(getTimeString(), x + comboYCoefficient, y - DSP_W - SQR_W / timeYCoefficient + DSP_W * timeYCoefficient / linescofficient + liney);
-			if (combo > 0)
+			if (combo > zerocombo)
 				g.drawString("combo x" + (combo + 1), x + (int) (DSP_W * comboXCoefficient), y);
 		} else {
 			//g.drawString("Level: " + getLevel(), x + dsp * levelCoefficient, y - dsp - sqr /levelCoefficient+ scoreycofficient2);
 			g.drawString("" + linesCleared + " lines", x + dsp * linesCoefficient, y - dsp - sqr / linesCoefficient + dsp * linesCoefficient / linescofficient + liney);
 			g.drawString(getTimeString(), x + comboYCoefficient, y - dsp - sqr / timeYCoefficient + dsp * timeYCoefficient / linescofficient + liney);
-			if (combo > 0)
+			if (combo > zerocombo)
 				g.drawString("combo x" + (combo + 1), x + (int) (dsp * comboXCoefficient), y + dsp / comboYCoefficient);
 		}
 
@@ -132,12 +157,14 @@ public class TetrisMarathon extends Tetris {
 	}
 
 	public Tetris[] children() {
-		int len = (W + 3) * piece.length + 1;
+		int len_w_alpha = 3;
+		int len_w_alpha1 = 1;
+		int len = (W + len_w_alpha) * piece.length + len_w_alpha1;
 		Tetris[] ans = new Tetris[len];
 		int pos = 0;
 
-		for (int i = -3; i < W; i++) {
-			for (int r = 0; r < piece.length; r++) {
+		for (int i = -len_w_alpha; i < W; i++) {
+			for (int r = start; r < piece.length; r++) {
 				TetrisMarathon t = new TetrisMarathon();
 				t.piece = piece;
 				t.ty = -4;

@@ -3,7 +3,7 @@ package com.ok.classes;
 import java.awt.Color;
 import java.awt.Graphics;
 
-//Å×Æ®¸®½º ºí·°
+//ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 public abstract class TetrisBlock {
 	/* TetrisBlock Type*/
 	public static final int TYPE_CENTERUP = 0 ;
@@ -15,70 +15,71 @@ public abstract class TetrisBlock {
 	public static final int TYPE_RIGHTUP = 6 ;
 	
 	/* Rotation Index */
-	public static final int ROTATION_0 = 0;			//¿ø·¡ ¸ð¾çÀÇ   0µµ È¸Àü
-	public static final int ROTATION_90 = 1;		//¿ø·¡ ¸ð¾çÀÇ  90µµ È¸Àü
-	public static final int ROTATION_180 = 2;		//¿ø·¡ ¸ð¾çÀÇ 180µµ È¸Àü
-	public static final int ROTATION_270 = 3;		//¿ø·¡ ¸ð¾çÀÇ 270µµ È¸Àü
+	public static final int ROTATION_0 = 0;			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½   0ï¿½ï¿½ È¸ï¿½ï¿½
+	public static final int ROTATION_90 = 1;		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½  90ï¿½ï¿½ È¸ï¿½ï¿½
+	public static final int ROTATION_180 = 2;		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 180ï¿½ï¿½ È¸ï¿½ï¿½
+	public static final int ROTATION_270 = 3;		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 270ï¿½ï¿½ È¸ï¿½ï¿½
 	
 	/* Rotation Type */
-	public static final int ROTATION_LEFT = 1;		//½Ã°è¹æÇâÈ¸Àü
-	public static final int ROTATION_RIGHT = -1;	//¹Ý½Ã°è¹æÇâÈ¸Àü
+	public static final int ROTATION_LEFT = 1;		//ï¿½Ã°ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½
+	public static final int ROTATION_RIGHT = -1;	//ï¿½Ý½Ã°ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½
 	
-	/* ±×¿Ü ÇÊµå */
-	protected int type;								//ºí·°¸ð¾ç;
-	protected Block[] colBlock= new Block[4];		//¸ð¾çÀ» ³ªÅ¸³»´Â 4°³ºí·°
-	protected int rotation_index;					//ºí·°È¸Àü ¸ð¾ç
-	protected int posX,posY;						//¸ð¾çÀÇ ÁÂÇ¥
-	protected Color color;							//ºí·Ï»ö»ó
+	/* ï¿½×¿ï¿½ ï¿½Êµï¿½ */
+	protected int type;								//ï¿½ï¿½ï¿½ï¿½ï¿½;
+	protected Block[] colBlock= new Block[4];		//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ 4ï¿½ï¿½ï¿½ï¿½
+	protected int rotation_index;					//ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½
+	protected int posX,posY;						//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
+	protected Color color;							//ï¿½ï¿½Ï»ï¿½ï¿½ï¿½
 	
-	
-	
+	int start = 0;
+	int block_x = 0;
+	int block_y = 0;
 	
 	public TetrisBlock(int x, int y, Color color, Color ghostColor) {
 		this.color = color;
-		for(int i=0 ; i<colBlock.length ; i++){
-			colBlock[i] = new Block(0,0,color,ghostColor);
+		for(int i=start ; i<colBlock.length ; i++){
+			colBlock[i] = new Block(block_x,block_y ,color,ghostColor);
 		}
-		this.rotation(ROTATION_0); //±âº» È¸Àü¸ð¾ç : 0µµ
+		this.rotation(ROTATION_0); //ï¿½âº» È¸ï¿½ï¿½ï¿½ï¿½ï¿½ : 0ï¿½ï¿½
 		this.setPosX(x);
 		this.setPosY(y);
 	}
 	
 	
 	/**
-	 * Å×Æ®¸®½º ºí·°¸ð¾çÀ» È¸ÀüÇÑ´Ù. 
-	 * @param rotation_index : È¸Àü¸ð¾ç
+	 * ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½Ñ´ï¿½. 
+	 * @param rotation_index : È¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * ROTATION_0, ROTATION_90, ROTATION_180, ROTATION_270
 	 */
 	public abstract void rotation(int rotation_index);
 	
 	
 	/**
-	 * Å×Æ®¸®½º ºí·°¸ð¾çÀ» ¿ÞÂÊÀ¸·Î ÀÌµ¿½ÃÅ²´Ù.
-	 * @param addX : ÀÌµ¿¾ç
-	 * 0ÀÌ»óÀÇ °ªÀ» ³Ö¾î¾ß ÇÑ´Ù.
+	 * ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½Å²ï¿½ï¿½.
+	 * @param addX : ï¿½Ìµï¿½ï¿½ï¿½
+	 * 0ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	 */
 	public void moveLeft(int addX) {this.setPosX(this.getPosX()-addX);}
 	
 	
 	/**
-	 * Å×Æ®¸®½º ºí·°¸ð¾çÀ» ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿½ÃÅ²´Ù.
-	 * @param addX : ÀÌµ¿¾ç
-	 * 0ÀÌ»óÀÇ °ªÀ» ³Ö¾î¾ß ÇÑ´Ù.
+	 * ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½Å²ï¿½ï¿½.
+	 * @param addX : ï¿½Ìµï¿½ï¿½ï¿½
+	 * 0ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	 */
 	public void moveRight(int addX) {this.setPosX(this.getPosX()+addX);}
 	
 	
 	/**
-	 * Å×Æ®¸®½º ºí·°¸ð¾çÀ» ¾Æ·¡·Î ÀÌµ¿½ÃÅ²´Ù.
-	 * @param addY : ÀÌµ¿¾ç
-	 * 0ÀÌ»óÀÇ °ªÀ» ³Ö¾î¾ß ÇÑ´Ù.
+	 * ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½Å²ï¿½ï¿½.
+	 * @param addY : ï¿½Ìµï¿½ï¿½ï¿½
+	 * 0ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	 */
 	public void moveDown(int addY) {this.setPosY(this.getPosY()+addY);}
 	
 	
 	/**
-	 * Å×Æ®¸®½º ºí·°À» Graphics¸¦ ÀÌ¿ëÇÏ¿© ±×¸°´Ù.
+	 * ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Graphicsï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï¿ï¿½ ï¿½×¸ï¿½ï¿½ï¿½.
 	 * @param g
 	 */
 	public void drawBlock(Graphics g){
