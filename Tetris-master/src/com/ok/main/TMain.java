@@ -22,69 +22,70 @@ public class TMain extends JFrame {
 	public static int SCREEN_WIDTH = Main.SCREEN_WIDTH;
 	public static int SCREEN_HEIGHT = Main.SCREEN_HEIGHT;
 
-	//private Tetris uc;
-	//private TSetting setkey;
 	private TetrisRenderer ai;
 	private int key_size = 11;
 	
-	// ���� ���۸��� ���� ȭ�鿡 �̹����� ��� ���� Instance���̴�.
+	
 	private Image screenImage;
 	private Graphics screenGraphic;
 	int image_x = 0;
 	int image_y = 0;
+	int startWidthdivide = 5;
+	int startHeightdivide = 7;
+	int startbuttonWidthdivide = 2;
+	int startbuttoneHeightdicide = 4;
+	int startbuttonconfficient = 13;
+	int settingbuttonWidthconfficient = 5;
+	int settingbuttonHeightdivide = 7;
+	int settingbuttonWidthdivide = 2;
+	int settingbuttoneHeightdicide = 6;
+	int settingbuttonconfficient = 13;
+	int exitbuttonWidthconfficient = 5;
+	int exitbuttonHeightdivide = 7;
+	int exitbuttonWidthdivide = 2;
+	int exitbuttoneHeightdicide = 8;
+	int exitbuttonconfficient = 13;
+	int rankingbuttonWidthconfficient = 5;
+	int rankingbuttonHeightdivide = 7;
+	int rankingbuttonWidthdivide = 2;
+	int rankingbuttoneHeightdicide = 10;
+	int rankingbuttonconfficient = 13;
 	
 	// start button 
 	private ImageIcon startBasicImage = new ImageIcon(Main.class.getResource("../images/Start.png"));
 	private ImageIcon startEnteredImage = new ImageIcon(Main.class.getResource("../images/StartRed.png"));
 	private JButton startBtn;
-	int startBtn_w = SCREEN_WIDTH/5;
-	int startBtn_h = SCREEN_HEIGHT/7;
-	int startBtn_x = (SCREEN_WIDTH-startBtn_w)/2;
-	int startBtn_y = (int) (SCREEN_HEIGHT*4/13);
+	int startBtn_w = SCREEN_WIDTH/startWidthdivide;
+	int startBtn_h = SCREEN_HEIGHT/startHeightdivide;
+	int startBtn_x = (SCREEN_WIDTH-startBtn_w)/startbuttonWidthdivide;
+	int startBtn_y = (int) (SCREEN_HEIGHT*startbuttoneHeightdicide/startbuttonconfficient);
 	
 	// Setting button
 	private ImageIcon settingBasicImage = new ImageIcon(Main.class.getResource("../images/Setting.png"));
 	private ImageIcon settingEnteredImage = new ImageIcon(Main.class.getResource("../images/SettingRed.png"));
 	private JButton settingBtn;
-	int settingBtn_w = SCREEN_WIDTH/5;
-	int settingBtn_h = SCREEN_HEIGHT/7;
-	int settingBtn_x = (SCREEN_WIDTH-settingBtn_w)/2;
-	int settingBtn_y = (int) (SCREEN_HEIGHT*6/13);
+	int settingBtn_w = SCREEN_WIDTH/settingbuttonWidthconfficient;
+	int settingBtn_h = SCREEN_HEIGHT/settingbuttonHeightdivide;
+	int settingBtn_x = (SCREEN_WIDTH-settingBtn_w)/settingbuttonWidthdivide;
+	int settingBtn_y = (int) (SCREEN_HEIGHT*settingbuttoneHeightdicide/settingbuttonconfficient);
 	
 	// Exit button
 	private ImageIcon exitBasicImage = new ImageIcon(Main.class.getResource("../images/Exit.png"));
 	private ImageIcon exitEnteredImage = new ImageIcon(Main.class.getResource("../images/ExitRed.png"));
 	private JButton exitBtn;
-	int exitBtn_w = SCREEN_WIDTH/5;
-	int exitBtn_h = SCREEN_HEIGHT/7;
-	int exitBtn_x = (SCREEN_WIDTH-exitBtn_w)/2;
-	int exitBtn_y = (int) (SCREEN_HEIGHT*8/13);
+	int exitBtn_w = SCREEN_WIDTH/exitbuttonWidthconfficient;
+	int exitBtn_h = SCREEN_HEIGHT/exitbuttonHeightdivide;
+	int exitBtn_x = (SCREEN_WIDTH-exitBtn_w)/exitbuttonWidthdivide;
+	int exitBtn_y = (int) (SCREEN_HEIGHT*exitbuttoneHeightdicide/exitbuttonconfficient);
 	
 	// Ranking button
 	private ImageIcon rankingBasicImage = new ImageIcon(Main.class.getResource("../images/Ranking.png"));
 	private ImageIcon rankingEnteredImage = new ImageIcon(Main.class.getResource("../images/RankingRed.png"));
 	private JButton rankBtn;
-	int rankBtn_w = SCREEN_WIDTH/5;
-	int rankBtn_h = SCREEN_HEIGHT/7;
-	int rankBtn_x = (SCREEN_WIDTH-rankBtn_w)/2;
-	int rankBtn_y = (int) (SCREEN_HEIGHT*10/13);
-	
-	/*
-	// menuBar
-	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("../images/menuBar.png")));
-	int menuBar_x = 0;
-	int menuBar_y = 0;
-	int menuBar_w = SCREEN_WIDTH;
-	int menuBar_h = 30;
-
-	// �޴� �� ���� exit button ���� ��ü ����
-	private ImageIcon exitButtonBasicImage = new ImageIcon(Main.class.getResource("../images/exitButtonBasic.png"));
-	private ImageIcon exitButtonEnteredImage = new ImageIcon(Main.class.getResource("../images/exitButtonEntered.png"));
-	private JButton exitButton = new JButton(exitButtonBasicImage);
-	int exitButton_w = 30;
-	int exitButton_h = 30;
-	int exitButton_x = SCREEN_WIDTH-exitButton_w*3;
-	int exitButton_y = 0;*/
+	int rankBtn_w = SCREEN_WIDTH/rankingbuttonWidthconfficient;
+	int rankBtn_h = SCREEN_HEIGHT/rankingbuttonHeightdivide;
+	int rankBtn_x = (SCREEN_WIDTH-rankBtn_w)/rankingbuttonWidthdivide;
+	int rankBtn_y = (int) (SCREEN_HEIGHT*rankingbuttoneHeightdicide/rankingbuttonconfficient);
 	
 	// MainScreen
 	private ImageIcon background = new ImageIcon(Main.class.getResource("../images/IntroBackground.png"));
@@ -102,7 +103,6 @@ public class TMain extends JFrame {
 	
 	public int[] key_setting = new int[key_size];
 	
-	// ���콺 �̺�Ʈ�� Ȱ���ϱ� ���� ���콺 x, y ��ǥ
 	private int mouseX, mouseY;
 	
 	private BGM bgm_sound = new BGM();
@@ -114,94 +114,88 @@ public class TMain extends JFrame {
 	}
 	
 	public TMain() {
-		//bgm_sound.play();
+		bgm_sound.play();//배경음악 시작
 		setUndecorated(false); // true: delete menubar
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-		setResizable(true); // ȭ�� ũ�� ���� �Ұ���
-		setLocationRelativeTo(null); // ȭ�� ���߾ӿ� �߰� ��.
+		setResizable(true); 
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setBackground(Color.black);
-		setLayout(null); // ȭ�鿡 ��ġ�Ǵ� ��ư�̳� label�� �� �ڸ� �״�� ���� ��.
+		setLayout(null);
 		
 		key_setting = SettingsDialog.DEFAULTS;
-
-		// Menu bar exit ��ư ���� ó��
+        
+		//시작버튼
 		startBtn = new JButton(startBasicImage);
 		startBtn.setBounds(startBtn_x, startBtn_y, startBtn_w, startBtn_h);
 		startBtn.setBorderPainted(false);
 		startBtn.setContentAreaFilled(false);
 		startBtn.setFocusPainted(false);
-		// exit Button �̺�Ʈ ó��
 		startBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				startBtn.setIcon(startEnteredImage); // ���콺�� exit ��ư�� �ö󰡸� �̹����� �ٲ���.
-				startBtn.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ���콺�� �ö󰡸� �հ��� ������ιٲ�
+				startBtn.setIcon(startEnteredImage); 
+				startBtn.setCursor(new Cursor(Cursor.HAND_CURSOR)); 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				startBtn.setIcon(startBasicImage);
-				startBtn.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); // ���콺�� ���� �ٽ� ����Ʈ ������� �ٲ�
+				startBtn.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); 
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// �̱� ��� ���� �̺�Ʈó�� �κ�
 				bgm_sound.stop();
 				normalModeScreen();
 			}
 		});
 		add(startBtn);
 
-		// Setting ��ư ���� ó��
+		//키 설정 버튼
 		settingBtn = new JButton(settingBasicImage);
 		settingBtn.setBounds(settingBtn_x, settingBtn_y, settingBtn_w, settingBtn_h);
 		settingBtn.setBorderPainted(false);
 		settingBtn.setContentAreaFilled(false);
 		settingBtn.setFocusPainted(false);
-		// Setting Button �̺�Ʈ ó��
 		settingBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				settingBtn.setIcon(settingEnteredImage); // ���콺�� Setting ��ư�� �ö󰡸� �̹����� �ٲ���.
-				settingBtn.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ���콺�� �ö󰡸� �հ��� ������ιٲ�
+				settingBtn.setIcon(settingEnteredImage); 
+				settingBtn.setCursor(new Cursor(Cursor.HAND_CURSOR)); 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				settingBtn.setIcon(settingBasicImage);
-				settingBtn.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); // ���콺�� ���� �ٽ� ����Ʈ ������� �ٲ�
+				settingBtn.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); 
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// Settingâ ȭ������ �Ѿ��
 				SettingsDialog.showDialog(TMain.this, key_setting);
-				//setkey = new TSetting(TMain.this);
 			}
 		});
 		add(settingBtn);
 
-		// Menu bar exit ��ư ���� ó��
+		//나가기 버튼
 		exitBtn = new JButton(exitBasicImage);
 		exitBtn.setBounds(exitBtn_x, exitBtn_y, exitBtn_w, exitBtn_h);
 		exitBtn.setBorderPainted(false);
 		exitBtn.setContentAreaFilled(false);
 		exitBtn.setFocusPainted(false);
-		// exit Button �̺�Ʈ ó��
 		exitBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				exitBtn.setIcon(exitEnteredImage); // ���콺�� exit ��ư�� �ö󰡸� �̹����� �ٲ���.
-				exitBtn.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ���콺�� �ö󰡸� �հ��� ������ιٲ�
+				exitBtn.setIcon(exitEnteredImage);
+				exitBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				exitBtn.setIcon(exitBasicImage);
-				exitBtn.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); // ���콺�� ���� �ٽ� ����Ʈ ������� �ٲ�
+				exitBtn.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); 
 			}
 
 			@Override
@@ -211,24 +205,23 @@ public class TMain extends JFrame {
 		});
 		add(exitBtn);
 		
-		//(rankBtn)
+		//랭킹버튼
 		rankBtn = new JButton(rankingBasicImage);
 		rankBtn.setBounds(rankBtn_x, rankBtn_y, rankBtn_w, rankBtn_h);
 		rankBtn.setBorderPainted(false);
 		rankBtn.setContentAreaFilled(false);
 		rankBtn.setFocusPainted(false);
-		// exit Button �̺�Ʈ ó��
 		rankBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				rankBtn.setIcon(rankingEnteredImage); // ���콺�� exit ��ư�� �ö󰡸� �̹����� �ٲ���.
-				rankBtn.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ���콺�� �ö󰡸� �հ��� ������ιٲ�
+				rankBtn.setIcon(rankingEnteredImage); 
+				rankBtn.setCursor(new Cursor(Cursor.HAND_CURSOR)); 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				rankBtn.setIcon(rankingBasicImage);
-				rankBtn.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); // ���콺�� ���� �ٽ� ����Ʈ ������� �ٲ�
+				rankBtn.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); 
 			}
 
 			@Override
@@ -238,50 +231,6 @@ public class TMain extends JFrame {
 		});
 		add(rankBtn);
 		
-		/*
-		// Menu bar exit ��ư ���� ó��
-		exitButton.setBounds(exitButton_x, exitButton_y, exitButton_w, exitButton_h);
-		exitButton.setBorderPainted(false);
-		exitButton.setContentAreaFilled(false);
-		exitButton.setFocusPainted(false);
-		// exit Button �̺�Ʈ ó��
-		exitButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				exitButton.setIcon(exitButtonEnteredImage); // ���콺�� exit ��ư�� �ö󰡸� �̹����� �ٲ���.
-				exitButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // ���콺�� �ö󰡸� �հ��� ������ιٲ�
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				exitButton.setIcon(exitButtonBasicImage);
-				exitButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); // ���콺�� ���� �ٽ� ����Ʈ ������� �ٲ�
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				System.exit(0);
-			}
-		});
-		add(exitButton);
-
-		// �޴��� �̺�Ʈ
-		menuBar.setBounds(menuBar_x, menuBar_y, menuBar_w, menuBar_h);
-		menuBar.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) { // ���콺 Ŭ�� �� x,y ��ǥ�� ����.
-				mouseX = e.getX();
-				mouseY = e.getY();
-			}
-		});
-		menuBar.addMouseMotionListener(new MouseMotionAdapter() { // �޴��ٸ� �巡�� �Ҷ� ȭ���� ������� �ϴ� �̺�Ʈ
-			public void mouseDragged(MouseEvent e) {
-				int x = e.getXOnScreen();
-				int y = e.getYOnScreen();
-				setLocation(x - mouseX, y - mouseY); // JFrame�� ��ġ�� �ٲ���
-			}
-		});
-		add(menuBar);*/
-		
 		// Main Screen
 		MainScreen = new JLabel(background);
 		MainScreen.setBounds(MainScreen_x, MainScreen_y, MainScreen_w, MainScreen_h);
@@ -290,30 +239,23 @@ public class TMain extends JFrame {
 	}
 
 	public void paint(Graphics g) {
-		// 1280X720��ŭ�� �̹����� ��������� screenImage�� �־���.
+		// 1280X720 screenImage
 		paintComponents(g);
 		this.revalidate();
 		this.repaint();
 		g.drawImage(screenImage, image_x, image_y, null);
-		//Toolkit.getDefaultToolkit().sync();
 	}
 
-	// ��׶��� �̹����� �׷��ش�.
+	
 	public void screenDraw(Graphics g) {
-		//g.drawImage(MainScreen, 0, 0, null); // drawImage�� �߰��� ���� �ƴ϶� �ܼ��� ȭ�鿡 �̹����� ����� �� ���� �Լ��̴�.
-		if(isNormalModeScrren == true)
-		{
-			//g.clearRect(0, 0, Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
-		}
-		paintComponents(g); // JLabel, ��ư ���� Main Frame�� �߰��� �͵��� �׷� �ִ� ������ ��.
+		paintComponents(g);
 		this.revalidate();
-		this.repaint(); // paint �Լ��� �ٽ� �ҷ����� �Լ�. �� �� ������������ ���� �׷��ִ� ������ ��.
+		this.repaint();
 	}
 	
 	public void normalModeScreen() {
 		dispose();
 		ai = null;
 		ai = new TetrisRenderer();
-		//uc = new Tetris(1, key_setting);
 	}
 }
