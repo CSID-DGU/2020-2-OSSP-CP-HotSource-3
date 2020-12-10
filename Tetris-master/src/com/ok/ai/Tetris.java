@@ -1543,14 +1543,16 @@ public class Tetris
 		g.setColor (Color.WHITE);
 		int Buttondivide = 2;
 		int HomeButtonbox = 3;
+		int Boeardconfficient = 10;
 		if(FIELD_H<real_y) {
-			g.drawRect(x, y-DSP_W-yoffset/Buttondivide , SQR_W*10, DSP_W);
+			g.drawRect(x, y-DSP_W-yoffset/Buttondivide , SQR_W*Boeardconfficient, DSP_W);
 		}
-		g.drawRect(x, y-dsp-yoffset/Buttondivide , sqr*10, dsp);
+		g.drawRect(x, y-dsp-yoffset/Buttondivide , sqr*Boeardconfficient, dsp);
 		
 		//버튼 그리기
+		int Aheadplus = 1;
 		int right_x = FIELD_H<=real_y ? x + FIELD_W + xoffset : x +field_w + xoffset;
-		int right_y = (int) (y + boxsize*(AHEAD+1));
+		int right_y = (int) (y + boxsize*(AHEAD+Aheadplus));
 		
 		g.setColor (Color.WHITE);
 		drawCentered(g, "Control", right_x + boxsize/Buttondivide , right_y-yoffset/Buttondivide );
