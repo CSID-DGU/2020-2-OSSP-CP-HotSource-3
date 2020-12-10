@@ -44,9 +44,9 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 	public static JButton homeButton;
 	public static JButton muteButton;
 	public static JButton soundButton;
-	
+	private static final int Hconfi = 100;
 	private static final int W = -180;
-	private static final int H = Tetris.PIXEL_H + 100;
+	private static final int H = Tetris.PIXEL_H + Hconfi;
 	
 
 	private static int[] keyPresses = new int[1000];
@@ -88,61 +88,62 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 	private final int LATENCY_PAINTER = 1000 / 30;
 	public TetrisRenderer()
 	{
+		//배경음악 소리
 		bgm_sound = new BGM();
 		bgm_sound.play();
 		
+		//게임창 그리기
 		frame.setUndecorated(false); //true: delete menubar
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//end the whole game
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(true);
 		frame.setResizable(true); //Resize the Game screen using the mouse
 
-	
+		//새게임버튼생성
 		newButton =new JButton (new ImageIcon(Main.class.getResource("../images/restart.png")));
 		newButton.setBorderPainted(false);
 		newButton.setContentAreaFilled(false);
 		newButton.setFocusPainted(false);
 		newButton.setSize(newButton.getPreferredSize());
-		//newButton.setLocation(W / 2 - newButton.getWidth() / 2 + 250 , 600);
 		newButton.setFocusable(false);
 		frame.getContentPane().add(newButton);
 		newButton.setBackground(Color.WHITE);
 		
+		//설정버튼생성
 		keyButton =new JButton (new ImageIcon(Main.class.getResource("../images/setting.png")));
 		keyButton.setBorderPainted(false);
 		keyButton.setContentAreaFilled(false);
 		keyButton.setFocusPainted(false);
 		keyButton.setSize(keyButton.getPreferredSize());
-		//keyButton.setLocation(W / 2 - keyButton.getWidth() / 2 + 400, 600);
 		keyButton.setFocusable(false);
 		frame.getContentPane().add(keyButton);
 		keyButton.setBackground(Color.WHITE);
-			   
+		
+		//홈으로 돌아가기 버튼생성
 		homeButton =new JButton (new ImageIcon(Main.class.getResource("../images/home.png")));
 		homeButton.setBorderPainted(false);
 		homeButton.setContentAreaFilled(false);
 		homeButton.setFocusPainted(false);
 		homeButton.setSize(homeButton.getPreferredSize());
-		//homeButton.setLocation(W / 2 - homeButton.getWidth() / 2 + 1020 , 50);
 		homeButton.setFocusable(false);
 		frame.getContentPane().add(homeButton);
 		homeButton.setBackground(Color.WHITE);
 		
+		//음소버튼생성
 		muteButton =new JButton (new ImageIcon(Main.class.getResource("../images/sound_white.png")));
 		muteButton.setBorderPainted(false);
 		muteButton.setContentAreaFilled(false);
 		muteButton.setFocusPainted(false);
 		muteButton.setSize(muteButton.getPreferredSize());
-		//muteButton.setLocation(W / 2 - muteButton.getWidth() / 2 + 1020 , 50);
 		muteButton.setFocusable(false);
 		frame.getContentPane().add(muteButton);
 		muteButton.setBackground(Color.WHITE);
 		
+		//소리재생버튼생성
 		soundButton =new JButton (new ImageIcon(Main.class.getResource("../images/mute_white.png")));
 		soundButton.setBorderPainted(false);
 		soundButton.setContentAreaFilled(false);
 		soundButton.setSize(soundButton.getPreferredSize());
-		//soundButton.setLocation(W / 2 - soundButton.getWidth() / 2 + 1020 , 50);
 		soundButton.setFocusable(false);
 		frame.getContentPane().add(soundButton);
 		soundButton.setBackground(Color.WHITE);
@@ -223,14 +224,14 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 				game = new TetrisMarathon(new BagGen());
 				gameType = MARATHON;
 		}
-
+		int iindexstart = 0;
 		timer = new Timer(LATENCY_TIMER, this);
 		timer.start();
 		painter = new Timer(LATENCY_PAINTER, this);
 		painter.start();
 				
 		settings = new int[SettingsDialog.LEN];
-		for (int i = 0; i < settings.length; i++) 
+		for (int i = iindexstart; i < settings.length; i++) 
 			settings[i] = SettingsDialog.LOADED[i];
 
 		down = false;
@@ -283,35 +284,28 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 			int Wdivide = 2;
 			double newbuttonycofficient = 0.6;
 			double mutesoundbuttonycofficient = 0.4;
+			int widthconfficient = 2;
+			int heigthconfficient = 8;
+			int drawimagezero = 0;
 			
 			super.paint(g);
 			
-			g.drawImage(backgroundImage.getImage(), 0, 0, null);//background를 그려줌
+			g.drawImage(backgroundImage.getImage(), drawimagezero, drawimagezero, null);//background를 그려줌
 			game.setSQR_W(frame.getSize().width/homeButtonLocationXCoefficient,frame.getSize().height);
 			game.setDSP_W(frame.getSize().width/gameDSPCoefficient);
-			game.drawTo((Graphics2D)(g), (int)(frame.getSize().width - game.xoffset*2 - game.boxsize*2 - game.FIELD_W)/2, (int)(frame.getSize().height/8));
-			/*
-			newButton.setSize(frame.getSize().width/newButtonXSizeCoefficient,frame.getSize().width/newButtonYSizeCoefficient);
-			keyButton.setSize(frame.getSize().width/keyButtonXSizeCoefficient,frame.getSize().width/keyButtonYSizeCoefficient);
-			homeButton.setSize(frame.getSize().width/homeButtonXSizeCoefficient,frame.getSize().width/homeButtonYSizeCoefficient);
-			muteButton.setSize(frame.getSize().width/muteSoundButtonXSizeCoefficient,frame.getSize().width/muteSoundButtonYSizeCoefficient);
-			soundButton.setSize(frame.getSize().width/muteSoundButtonXSizeCoefficient,frame.getSize().width/muteSoundButtonYSizeCoefficient);
-			newButton.setLocation(W/2-newButton.getWidth()/2+Tetris.SQR_W*28,(int)(Tetris.SQR_H*newbuttonycofficient));
-			keyButton.setLocation(W/2-keyButton.getWidth()/2+Tetris.SQR_W*27,(int)(Tetris.SQR_W*keyButtonLocationYCoefficient));
-			homeButton.setLocation(W/2-homeButton.getWidth()/2+Tetris.SQR_W*30,(int)(Tetris.SQR_W*homeButtonLocationYCoefficient));
-			muteButton.setLocation(W/2-homeButton.getWidth()/2+Tetris.SQR_W*26,(int)(Tetris.SQR_H*mutesoundbuttonycofficient));
-			soundButton.setLocation(W/2-homeButton.getWidth()/2+Tetris.SQR_W*26,(int)(Tetris.SQR_H*mutesoundbuttonycofficient));
-			*/
+			game.drawTo((Graphics2D)(g), (int)(frame.getSize().width - game.xoffset*widthconfficient - game.boxsize*widthconfficient - game.FIELD_W)/widthconfficient, (int)(frame.getSize().height/heigthconfficient));
 			}
 
 
 		public void actionPerformed(ActionEvent e)
 		{
 			Object source = e.getSource();
+			int movezero = 0;
+			int moveone = 1;
 				
 			if (source == timer)
 			{
-				if (down && game.canMove(0, 1))
+				if (down && game.canMove(movezero, moveone))
 					game.forceTick();
 				else
 					game.tick();	
@@ -364,6 +358,8 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 					
 			}
 		}
+		private static int nochoice = 0;
+		private static int marmathonenumber = 1;
 		private void launchNewGameDialog()
 		{
 			down = false;
@@ -377,7 +373,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 
 				game.setPaused(gameState);
 					
-				if (choice != 0)
+				if (choice != nochoice )
 				{
 					synchronized (aiLock)
 					{
@@ -388,7 +384,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 							game = new TetrisMarathon(new BagGen());
 							break;
 						case HARDMARATHON:
-							game = new TetrisMarathon(new BagGen(),1);
+							game = new TetrisMarathon(new BagGen(),marmathonenumber);
 							break;
 						}
 					}
@@ -410,6 +406,8 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 	private final long XOR_NUMBER = 5178926931l;
 	private String getString()
 	{
+		int i,j;
+		int iindexstart = 0;
 		long[] arr = {5178926873l, 
 				5178926898l, 
 				5178926896l, 
@@ -425,7 +423,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 				5178926909l};
 		
 		String s = "";
-		for (int i = 0; i < arr.length; i++)
+		for (i = iindexstart; i < arr.length; i++)
 			s += (char) (arr[i] ^ XOR_NUMBER);
 		
 		return s;
@@ -434,6 +432,17 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 	private int[] keyPressesComparison = {KeyEvent.VK_C, KeyEvent.VK_R, KeyEvent.VK_E, KeyEvent.VK_A, KeyEvent.VK_T, KeyEvent.VK_O, KeyEvent.VK_R};
 	public void keyPressed(KeyEvent e)
 	{
+		int codezero = 0;
+		int codeone = 1;
+		int codetwo = 2;
+		int codethree = 3;
+		int codefour = 4;
+		int codefive = 5;
+		int codesix = 6;
+		int codeseven = 7;
+		int codeeight = 8;
+		
+		int keyposzero = 0;
 		int code = e.getKeyCode();
 
 		if (code == KeyEvent.VK_C || code == KeyEvent.VK_R || code == KeyEvent.VK_E || code == KeyEvent.VK_A || code == KeyEvent.VK_T || code == KeyEvent.VK_O)
@@ -449,13 +458,13 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 			}
 		}
 		else
-			keyPos = 0;
+			keyPos = keyposzero;
 		
 		synchronized (game)
 		{
 			if (!game.isPaused() && !game.isOver())
 			{
-				if (code == settings[0])
+				if (code == settings[codezero])
 				{
 					if (!left)
 					{
@@ -466,7 +475,7 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 						onDas = true;
 					}
 				}
-				else if (code == settings[1])
+				else if (code == settings[codeone])
 				{
 					if (!right)
 					{
@@ -477,45 +486,48 @@ public class TetrisRenderer extends Component implements KeyListener, ActionList
 						onDas = true;
 					}
 				}
-				else if (code == settings[2])
+				else if (code == settings[codetwo])
 				{
 					game.rotate();
 				}
-				else if (code == settings[3])
+				else if (code == settings[codethree])
 				{
 					game.rotateCounter();
 				}
-				else if (code == settings[4])
+				else if (code == settings[codefour])
 				{
 					down = true;
 				}
-				else if (code == settings[5])
+				else if (code == settings[codefive])
 				{
 					game.drop();			
 				}
-				else if (code == settings[6])
+				else if (code == settings[codesix])
 				{
 					game.store();		
 				}
-				else if (code == settings[8])
+				else if (code == settings[codeeight])
 				{
 					game.firmDrop();
 					easySpin();
 				}
 			}
-			if (code == settings[7])
+			if (code == settings[codeseven])
 				game.pause();
 		}
 	}
 	public void keyReleased(KeyEvent e)
 	{
+		int codezero = 0;
+		int codeone = 1;
+		int codefour = 4;
 		int code = e.getKeyCode();
 
-		if (code == settings[0])
+		if (code == settings[codezero])
 			left = false;
-		else if (code == settings[1])
+		else if (code == settings[codeone])
 			right = false;
-		else if (code == settings[4])
+		else if (code == settings[codefour])
 			down = false;
 	}
 	public void keyTyped(KeyEvent e) { }
